@@ -1,146 +1,330 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-lang="pt">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CHÊDA · Patrícia Chêda · Digital Press Kit</title>
+  <title>Patrícia Chêda · Digital Press Kit</title>
   <meta name="theme-color" content="#0E0B0A">
-  <meta name="description" content="Digital press kit — Patrícia Chêda. Techno, tech house e noise. Sets, fotos de imprensa, rider e booking.">
-  <meta property="og:title" content="CHÊDA · Patrícia Chêda · Digital Press Kit">
-  <meta property="og:description" content="Som que invoca: techno, tech house e noise. Booking direto — Floripa, SC.">
-  <meta property="og:image" content="assets/portrait.jpg">
+  <meta name="description" content="Digital press kit — Patrícia Chêda. Techno, tech house, noise. Florianópolis, BR.">
+  <meta property="og:title" content="Patrícia Chêda · Digital Press Kit">
+  <meta property="og:description" content="Manifesto artístico em forma de pista. Techno · tech house · noise. Floripa, SC.">
+  <meta property="og:image" content="assets/portrait-ritual.jpg">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/site.css">
 </head>
 <body>
 
-<!-- 1 — HERO -->
-<section id="s1" aria-label="Hero">
-  <div class="hero-frame">
-    <div class="hero-photo" role="img" aria-label="Patrícia Chêda — retrato editorial"></div>
-    <div class="hero-grain" aria-hidden="true"></div>
-    <div class="hero-vignette" aria-hidden="true"></div>
+<!-- ═══════════ LANGUAGE TOGGLE ═══════════ -->
+<nav class="lang-toggle" aria-label="Language">
+  <button class="lang-btn on" data-lang="pt" aria-pressed="true">PT</button>
+  <button class="lang-btn"    data-lang="en" aria-pressed="false">EN</button>
+</nav>
 
-    <header class="hero-nav">
-      <div class="brand">
-        <div class="panther-mark" aria-label="Marca CHÊDA"></div>
-        <span class="wordmark">CHÊDA</span>
-      </div>
-      <nav aria-label="Navegação principal">
-        <a href="#s2">bio</a>
-        <a href="#s3">sets</a>
-        <a href="#s4">fotos</a>
-        <a href="#s5">rider</a>
-        <a href="#s6">booking</a>
-      </nav>
-    </header>
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero" aria-label="Hero">
+  <div class="hero-photo" role="img" aria-label="Patrícia Chêda — retrato editorial"></div>
+  <div class="hero-grain" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
 
-    <div class="hero-text">
-      <span class="eyebrow">Digital Press Kit · 2026</span>
-      <h1>
-        CHÊDA
-        <em>Patrícia Chêda · selectora</em>
-      </h1>
-      <p>Floripa · techno · tech house · noise — DJ sets para pista, festival e after-hours. Booking direto, sem intermediário.</p>
-      <div class="hero-cta">
-        <a class="btn-outline" href="mailto:pat@chdx.fm?subject=Booking%20CHÊDA">booking &amp; contato</a>
-        <a class="link-underline" href="#s2">ler bio ↓</a>
-      </div>
+  <header class="hero-nav">
+    <div class="brand">
+      <div class="panther-mark" aria-hidden="true"></div>
+      <span class="wordmark">Chêda</span>
     </div>
-  </div>
-</section>
+    <nav class="site-nav" aria-label="Navegação">
+      <a href="#bio">bio</a>
+      <a href="#photos"><span data-i18n="nav.photos">fotos</span></a>
+      <a href="#mixes">mixes</a>
+      <a href="#contact"><span data-i18n="nav.contact">contato</span></a>
+    </nav>
+  </header>
 
-<!-- 2 — BIO / MANIFESTO -->
-<section id="s2" data-rhythm="on" aria-label="Bio">
-  <div class="manifesto-inner">
-    <span class="eyebrow">BIO</span>
-    <blockquote>
-      "Eu não procuro batida certa. Procuro o momento em que a pista para de fingir. CHÊDA é isso — oferenda sonora pra quem veio dançar, não pra quem veio posar."
-      <cite>— Patrícia Chêda, 2026</cite>
-    </blockquote>
-    <p class="bio-body">
-      Patrícia Chêda é DJ e selectora radicada em Florianópolis. Atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas de ruído, groove e tensão que crescem sem pressa. Cada set é um ritual, não uma playlist. Toca em clubes, festivais e after-hours no Sul e Sudeste do Brasil, com residências pontuais em Floripa.
+  <div class="hero-text">
+    <span class="eyebrow" data-i18n="hero.eyebrow">Digital Press Kit · 2026</span>
+    <h1>
+      Chêda
+      <em class="hero-serif">Patrícia Chêda</em>
+    </h1>
+    <p class="hero-lead" data-i18n="hero.lead">
+      Manifesto artístico em forma de pista — techno, tech house, noise.
+      Florianópolis, Brasil.
     </p>
+    <a class="btn-outline" href="#contact" data-i18n="hero.cta">booking &amp; contato</a>
   </div>
 </section>
 
-<!-- 3 — SETS -->
-<section id="s3" data-rhythm="on" aria-label="Sets">
-  <span class="eyebrow">SETS · LISTEN</span>
-  <h2>Ouça</h2>
-  <div class="masonry">
-    <article class="set">
-      <div class="num">01</div>
-      <div class="title">Ritual Noturno</div>
-      <div class="meta"><span>live · 58 min · techno</span><span class="play">▶ play</span></div>
-    </article>
-    <article class="set">
-      <div class="num">02</div>
-      <div class="title">Som que Invoca</div>
-      <div class="meta"><span>studio · 62 min · hypnotic</span><span class="play">▶ play</span></div>
-    </article>
-    <article class="set">
-      <div class="num">03</div>
-      <div class="title">Pista Aberta</div>
-      <div class="meta"><span>club · 74 min · peak time</span><span class="play">▶ play</span></div>
-    </article>
-  </div>
-</section>
+<!-- ═══════════ BIO / MANIFESTO ═══════════ -->
+<section id="bio" data-rhythm="on" aria-label="Bio">
+  <div class="bio-inner">
+    <span class="eyebrow" data-i18n="bio.eyebrow">Bio · Manifesto</span>
 
-<!-- 4 — FOTOS -->
-<section id="s4" data-rhythm="on" aria-label="Fotos de imprensa">
-  <span class="eyebrow">FOTOS · PRESS</span>
-  <h2>Imprensa</h2>
-  <div class="fotos-grid">
-    <div class="crop"><img src="assets/foto-editorial.jpg" alt="CHÊDA — editorial em madeira, coleira"></div>
-    <div class="crop"><img src="assets/foto-lattice.jpg" alt="CHÊDA — quimono de tigres, óculos escuros, gradil vazado"></div>
-    <div class="crop"><img src="assets/foto-steps.jpg" alt="CHÊDA — sentada, escadaria colonial"></div>
-    <div class="crop"><img src="assets/foto-yellow.jpg" alt="CHÊDA — parede amarela, casual"></div>
-    <div class="crop"><img src="assets/portrait-ritual.jpg" alt="CHÊDA — editorial P&B, warpaint"></div>
-    <div class="crop"><img src="assets/portrait-poster.jpg" alt="CHÊDA — editorial P&B, retrato"></div>
-  </div>
-  <p class="fotos-meta">Alta resolução disponível sob demanda — <a class="link-underline" href="mailto:pat@chdx.fm?subject=Fotos%20de%20imprensa">pedir arquivo</a>.</p>
-</section>
+    <blockquote lang="pt" data-lang-block="pt">
+      "Uma apresentação que transforma <em>música em movimento</em> e movimento em unidade. No meu projeto de DJ, ofereço mais do que música: um encontro de vibrações, uma troca de energia. O que sentimos juntos não é apenas ritmo — é pulsação. Aqui, cada batida ecoa o pulsar da própria vida."
+      <cite>— Patrícia Chêda</cite>
+    </blockquote>
 
-<!-- 5 — RIDER -->
-<section id="s5" aria-label="Rider técnico">
-  <span class="eyebrow">RIDER · TECH</span>
-  <h2>Rider</h2>
-  <div class="rider-grid">
-    <div>
-      <h3>Setup</h3>
-      <ul>
-        <li>2× Pioneer CDJ-3000 (ou superior)</li>
-        <li>1× Pioneer DJM-900NXS2 / A9</li>
-        <li>Monitores em cabine, retorno independente</li>
-        <li>Cabo RCA e USB reserva</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Hospitalidade</h3>
-      <ul>
-        <li>Água sem gás na cabine</li>
-        <li>Hospedagem para 1 pessoa se fora de Floripa</li>
-        <li>Transporte aeroporto → hotel → venue</li>
-        <li>Contato: <a href="mailto:pat@chdx.fm">pat@chdx.fm</a></li>
-      </ul>
+    <blockquote lang="en" data-lang-block="en" hidden>
+      "A performance that turns <em>music into movement</em>, and movement into unity. In my DJ project I offer more than music: a meeting of vibrations, an exchange of energy. What we feel together isn't just rhythm — it's pulsation. Every beat here echoes the pulse of life itself."
+      <cite>— Patrícia Chêda</cite>
+    </blockquote>
+
+    <div class="bio-two-col">
+      <div class="bio-col" lang="pt" data-lang-block="pt">
+        <span class="col-tag">PT</span>
+        <p>
+          Patrícia Chêda é DJ e selectora radicada em Florianópolis. Constrói sets densos e hipnóticos entre techno, tech house e noise — ruído, groove e tensão em camadas que crescem sem pressa. Sem playlist fixa: leitura de pista em tempo real. <em>Som que invoca — cada set é um ritual, não uma playlist.</em>
+        </p>
+        <p>
+          Toca em clubes, festivais e after-hours no Sul e Sudeste do Brasil, com residências pontuais em Floripa. Booking direto.
+        </p>
+      </div>
+
+      <div class="bio-col" lang="en" data-lang-block="en" hidden>
+        <span class="col-tag">EN</span>
+        <p>
+          Patrícia Chêda is a DJ and selector based in Florianópolis, Brazil. She builds dense, hypnotic sets across techno, tech house and noise — friction, groove and tension in slow-growing layers. No fixed playlist: real-time floor reading. <em>Sound that summons — every set is a ritual, not a playlist.</em>
+        </p>
+        <p>
+          Playing clubs, festivals and after-hours across southern and southeastern Brazil, with occasional residencies in Floripa. Direct booking.
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 6 — BOOKING -->
-<section id="s6" aria-label="Booking">
-  <div class="panther-mark" aria-hidden="true"></div>
-  <h2>Booking</h2>
-  <p class="sub">Direto, sem agência.</p>
-  <a class="btn-outline" href="mailto:pat@chdx.fm?subject=Booking%20CHÊDA">pat@chdx.fm</a>
-  <div><a class="cta-hint" href="/print/ritual.html">ver press kit A4 →</a></div>
+<!-- ═══════════ PRESS PHOTOS ═══════════ -->
+<section id="photos" data-rhythm="on" aria-label="Press photos">
+  <span class="eyebrow"><span data-i18n="photos.eyebrow">Fotos · Press</span></span>
+  <h2 data-i18n="photos.title">Fotos de imprensa</h2>
+
+  <div class="photos-grid">
+    <figure class="ph"><img src="assets/portrait-ritual.jpg" alt="Patrícia Chêda — editorial P&amp;B, warpaint"></figure>
+    <figure class="ph"><img src="assets/portrait-poster.jpg" alt="Patrícia Chêda — retrato editorial"></figure>
+    <figure class="ph"><img src="assets/foto-editorial.jpg"  alt="Patrícia Chêda — editorial em madeira"></figure>
+    <figure class="ph"><img src="assets/foto-lattice.jpg"    alt="Patrícia Chêda — quimono, óculos"></figure>
+    <figure class="ph"><img src="assets/foto-steps.jpg"      alt="Patrícia Chêda — escadaria colonial"></figure>
+    <figure class="ph"><img src="assets/foto-yellow.jpg"     alt="Patrícia Chêda — parede amarela"></figure>
+  </div>
+
+  <p class="photos-note">
+    <span data-i18n="photos.note">Alta resolução sob demanda</span> ·
+    <a class="link-underline" href="mailto:patriciavchedach@gmail.com?subject=Fotos%20de%20imprensa%20%C2%B7%20Ch%C3%AAda">
+      <span data-i18n="photos.request">pedir arquivo</span>
+    </a>
+  </p>
 </section>
 
-<footer>© 2026 CHÊDA · Patrícia Chêda · Florianópolis</footer>
+<!-- ═══════════ MIXES / LISTEN ═══════════ -->
+<section id="mixes" data-rhythm="on" aria-label="Mixes">
+  <span class="eyebrow"><span data-i18n="mixes.eyebrow">Mixes · Listen</span></span>
+  <h2 data-i18n="mixes.title">Ouça</h2>
+
+  <div class="mixes-grid">
+    <article class="mix">
+      <div class="mix-num">01</div>
+      <div class="mix-body">
+        <h3>Ritual Noturno</h3>
+        <p class="mix-meta">live set · 58 min · techno</p>
+      </div>
+      <a class="mix-play" href="#contact" aria-label="Ouvir Ritual Noturno" data-i18n="mixes.listen">▶ ouvir</a>
+    </article>
+
+    <article class="mix">
+      <div class="mix-num">02</div>
+      <div class="mix-body">
+        <h3>Som que Invoca</h3>
+        <p class="mix-meta">studio mix · 62 min · hypnotic</p>
+      </div>
+      <a class="mix-play" href="#contact" aria-label="Ouvir Som que Invoca" data-i18n="mixes.listen">▶ ouvir</a>
+    </article>
+
+    <article class="mix">
+      <div class="mix-num">03</div>
+      <div class="mix-body">
+        <h3>Pista Aberta</h3>
+        <p class="mix-meta">club rec · 74 min · peak time</p>
+      </div>
+      <a class="mix-play" href="#contact" aria-label="Ouvir Pista Aberta" data-i18n="mixes.listen">▶ ouvir</a>
+    </article>
+  </div>
+
+  <!-- SoundCloud slot — mesma estrutura do /print/spread.html, drop-in quando URL chegar -->
+  <div class="sc-slot">
+    <div class="sc-meta">
+      <span data-i18n="mixes.featured">SoundCloud · Featured Set</span>
+      <span class="listen">▶ Listen</span>
+    </div>
+    <div class="sc-frame">
+      <!-- Cole o iframe SoundCloud aqui quando tiver a URL:
+      <iframe scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=TRACK_URL&auto_play=false&hide_related=true&show_comments=false&show_user=true&visual=true&color=%23B5221A"></iframe>
+      -->
+      <div class="sc-placeholder">
+        <div class="icon">♪</div>
+        <div class="label" data-i18n="mixes.embed">SoundCloud embed</div>
+        <div class="hint" data-i18n="mixes.waiting">reservado para o set em destaque — aguardando URL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT & SOCIALS ═══════════ -->
+<section id="contact" aria-label="Contact">
+  <span class="eyebrow"><span data-i18n="contact.eyebrow">Contact · Socials</span></span>
+  <h2 data-i18n="contact.title">Contato &amp; redes</h2>
+
+  <div class="contact-grid">
+    <div class="contact-cell">
+      <div class="contact-key" data-i18n="contact.booking">Booking &amp; contato</div>
+      <a class="contact-value" href="mailto:patriciavchedach@gmail.com?subject=Booking%20%C2%B7%20Ch%C3%AAda">
+        patriciavchedach@gmail.com
+      </a>
+    </div>
+
+    <div class="contact-cell">
+      <div class="contact-key" data-i18n="contact.instagram">Instagram</div>
+      <a class="contact-value" href="https://www.instagram.com/patriciacheda_/" target="_blank" rel="noopener">
+        @patriciacheda_
+      </a>
+    </div>
+
+    <div class="contact-cell">
+      <div class="contact-key" data-i18n="contact.based">Localização</div>
+      <div class="contact-value">Florianópolis · SC · Brasil</div>
+    </div>
+
+    <div class="contact-cell">
+      <div class="contact-key" data-i18n="contact.press">Press kit A4</div>
+      <a class="contact-value" href="/print/spread.html">/print/spread.html</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ DECIDE FOR ME ═══════════ -->
+<section id="decide" aria-label="Decide for me">
+  <div class="decide-inner">
+    <span class="eyebrow" data-i18n="decide.eyebrow">Decide for me</span>
+    <h2 data-i18n="decide.title">Não sabe por onde começar?</h2>
+    <p class="decide-lead" data-i18n="decide.lead">
+      A gente decide por você. Um botão, um caminho — o próximo passo já pronto.
+    </p>
+
+    <div class="decide-actions">
+      <button class="decide-btn" data-decide="mix" data-i18n="decide.mix">
+        Toca um mix pra mim
+      </button>
+      <button class="decide-btn" data-decide="booking" data-i18n="decide.booking">
+        Quero fazer booking
+      </button>
+      <button class="decide-btn" data-decide="press" data-i18n="decide.press">
+        Sou imprensa
+      </button>
+      <button class="decide-btn" data-decide="lurk" data-i18n="decide.lurk">
+        Só quero olhar as fotos
+      </button>
+    </div>
+
+    <div class="decide-result" id="decide-result" aria-live="polite" hidden></div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Chêda · Patrícia Chêda · Florianópolis, SC</span>
+  <a class="link-underline" href="https://www.instagram.com/patriciacheda_/" target="_blank" rel="noopener">@patriciacheda_</a>
+</footer>
+
+<script>
+/* ──────────────────────────────────────────
+   i18n toggle
+   ────────────────────────────────────────── */
+const i18n = {
+  'nav.photos':      { pt: 'fotos',              en: 'photos'         },
+  'nav.contact':     { pt: 'contato',            en: 'contact'        },
+  'hero.eyebrow':    { pt: 'Digital Press Kit · 2026', en: 'Digital Press Kit · 2026' },
+  'hero.lead':       { pt: 'Manifesto artístico em forma de pista — techno, tech house, noise. Florianópolis, Brasil.',
+                       en: 'An artistic manifesto shaped like a dancefloor — techno, tech house, noise. Florianópolis, Brazil.' },
+  'hero.cta':        { pt: 'booking & contato',  en: 'booking & contact' },
+  'bio.eyebrow':     { pt: 'Bio · Manifesto',    en: 'Bio · Manifesto' },
+  'photos.eyebrow':  { pt: 'Fotos · Press',      en: 'Photos · Press' },
+  'photos.title':    { pt: 'Fotos de imprensa',  en: 'Press photos' },
+  'photos.note':     { pt: 'Alta resolução sob demanda', en: 'Hi-res on request' },
+  'photos.request':  { pt: 'pedir arquivo',      en: 'request files' },
+  'mixes.eyebrow':   { pt: 'Mixes · Listen',     en: 'Mixes · Listen' },
+  'mixes.title':     { pt: 'Ouça',               en: 'Listen' },
+  'mixes.listen':    { pt: '▶ ouvir',            en: '▶ listen' },
+  'mixes.featured':  { pt: 'SoundCloud · Set em destaque', en: 'SoundCloud · Featured set' },
+  'mixes.embed':     { pt: 'SoundCloud embed',   en: 'SoundCloud embed' },
+  'mixes.waiting':   { pt: 'reservado para o set em destaque — aguardando URL',
+                       en: 'reserved for the featured set — waiting on the URL' },
+  'contact.eyebrow': { pt: 'Contato · Redes',    en: 'Contact · Socials' },
+  'contact.title':   { pt: 'Contato & redes',    en: 'Contact & socials' },
+  'contact.booking': { pt: 'Booking & contato',  en: 'Booking & contact' },
+  'contact.instagram':{pt: 'Instagram',          en: 'Instagram' },
+  'contact.based':   { pt: 'Localização',        en: 'Based in' },
+  'contact.press':   { pt: 'Press kit A4',       en: 'A4 press kit' },
+  'decide.eyebrow':  { pt: 'Decide for me',      en: 'Decide for me' },
+  'decide.title':    { pt: 'Não sabe por onde começar?', en: "Don't know where to start?" },
+  'decide.lead':     { pt: 'A gente decide por você. Um botão, um caminho — o próximo passo já pronto.',
+                       en: "We'll decide for you. One button, one path — your next step, ready." },
+  'decide.mix':      { pt: 'Toca um mix pra mim', en: 'Play me a mix' },
+  'decide.booking':  { pt: 'Quero fazer booking', en: 'I want to book' },
+  'decide.press':    { pt: 'Sou imprensa',        en: "I'm press" },
+  'decide.lurk':     { pt: 'Só quero olhar as fotos', en: 'Just here for the photos' }
+};
+
+function setLang(lang){
+  document.documentElement.dataset.lang = lang;
+  document.documentElement.lang = lang === 'en' ? 'en' : 'pt-BR';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    if(i18n[k] && i18n[k][lang]) el.textContent = i18n[k][lang];
+  });
+  // Show/hide language-scoped blocks (bio blockquote + bio columns)
+  document.querySelectorAll('[data-lang-block]').forEach(el => {
+    el.hidden = el.dataset.langBlock !== lang;
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    const on = b.dataset.lang === lang;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on);
+  });
+}
+document.querySelectorAll('.lang-btn').forEach(b => {
+  b.addEventListener('click', () => setLang(b.dataset.lang));
+});
+
+/* ──────────────────────────────────────────
+   Decide-for-me
+   Rolls or picks a section for the visitor.
+   ────────────────────────────────────────── */
+const decideMap = {
+  mix:     { pt: '→ Rolando o próximo set em destaque…', en: '→ Rolling the featured set…',  target: '#mixes' },
+  booking: { pt: '→ Booking direto. Abrindo email…',      en: '→ Direct booking. Opening mail…', target: 'mailto:patriciavchedach@gmail.com?subject=Booking%20%C2%B7%20Ch%C3%AAda' },
+  press:   { pt: '→ Fotos + press kit A4.',               en: '→ Photos + A4 press kit.',        target: '#photos' },
+  lurk:    { pt: '→ Só as fotos, então.',                 en: '→ Just the photos, then.',        target: '#photos' }
+};
+
+document.querySelectorAll('.decide-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.decide;
+    const lang = document.documentElement.dataset.lang || 'pt';
+    const item = decideMap[key];
+    const res = document.getElementById('decide-result');
+    res.hidden = false;
+    res.textContent = item[lang];
+    setTimeout(() => {
+      if(item.target.startsWith('mailto:')) location.href = item.target;
+      else document.querySelector(item.target)?.scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 600);
+  });
+});
+
+/* Boot */
+setLang('pt');
+</script>
 
 </body>
 </html>

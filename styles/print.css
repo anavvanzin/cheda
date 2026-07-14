@@ -77,7 +77,7 @@ body{ overflow-x:hidden; }
   border:1px solid var(--gold);
 }
 .ritual-header .wordmark{
-  font-family:var(--display-font); font-weight:700;
+  font-family:var(--display-font); font-weight:500;
   font-size:16px; letter-spacing:.32em; color:var(--paper);
 }
 .ritual-header .kicker{
@@ -124,8 +124,8 @@ body{ overflow-x:hidden; }
   text-align:center; z-index:20;
 }
 .ritual-name{
-  font-family:var(--display-font); font-weight:700;
-  font-size:96px; letter-spacing:.16em;
+  font-family:var(--display-font); font-weight:500;
+  font-size:96px; letter-spacing:.04em;
   color:var(--paper); line-height:1;
   display:inline-block;
 }
@@ -156,12 +156,12 @@ body{ overflow-x:hidden; }
 .set-card:nth-child(odd){ transform:rotate(var(--tA)); }
 .set-card:nth-child(even){ transform:rotate(var(--tB)); }
 .set-card .num{
-  font-family:var(--display-font); font-weight:700;
+  font-family:var(--display-font); font-weight:500;
   font-size:22px; color:var(--blood); line-height:1;
 }
 .set-card .name{
-  font-family:var(--display-font); font-weight:600;
-  font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  font-family:var(--display-font); font-weight:500;
+  font-size:11px; letter-spacing:.04em; text-transform:uppercase;
   color:var(--paper); margin-top:6px;
 }
 .set-card .meta{
@@ -188,7 +188,7 @@ body{ overflow-x:hidden; }
   transform-origin:left center;
 }
 .tw-word{
-  font-family:var(--display-font); font-weight:700;
+  font-family:var(--display-font); font-weight:500;
   padding:0 .04em; letter-spacing:.02em;
 }
 /* Cascade: 1 solid paper → 2 solid blood → 3 stroke paper → 4 stroke blood → 5 ghost paper → 6 whisper */
@@ -270,8 +270,8 @@ body{ overflow-x:hidden; }
 }
 
 .poster-logo{
-  font-family:var(--display-font); font-weight:700;
-  font-size:60px; letter-spacing:.14em;
+  font-family:var(--display-font); font-weight:500;
+  font-size:60px; letter-spacing:.05em;
   color:var(--paper); line-height:.9;
 }
 .poster-serif{
@@ -302,10 +302,10 @@ body{ overflow-x:hidden; }
   display:grid; grid-template-columns:auto 1fr auto;
   align-items:baseline; gap:12px;
   font-family:var(--display-font); font-size:11px;
-  letter-spacing:.14em; text-transform:uppercase;
+  letter-spacing:.05em; text-transform:uppercase;
 }
-.sl-num{ font-weight:700; font-size:15px; color:var(--blood); }
-.sl-name{ color:var(--paper); font-weight:600; }
+.sl-num{ font-weight:600; font-size:15px; color:var(--blood); }
+.sl-name{ color:var(--paper); font-weight:500; }
 .sl-meta{ color:var(--mute); font-weight:400; letter-spacing:.12em; }
 
 /* Foot mark on poster */
