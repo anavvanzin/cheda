@@ -100,13 +100,22 @@ Locais canônicos: `styles/tokens.css` (import em todos os CSS).
 
 ### Logo
 
-Arquivos em `assets/`:
+**Logotype CHÊDA** (sans, oficial). Arquivos em `assets/`:
 - `logo-cheda-black.png` — CHÊDA preto sobre branco (original enviado pela artista)
 - `logo-cheda-white.png` — inversão em cores sólidas
 - `logo-cheda-black-alpha.png` — CHÊDA preto sobre transparente
-- `logo-cheda-white-alpha.png` — CHÊDA **branco sobre transparente** ← este é o usado no site (fundo dark)
+- `logo-cheda-white-alpha.png` — CHÊDA **branco sobre transparente** ← usado no header (fundo dark)
 
 Dimensões nativas: 246×65px. Sempre carregar com `width="246" height="65"` no `<img>` pra evitar layout shift, e escalar via `height:22px; width:auto` no CSS.
+
+**Assinatura blackletter Patricia Chêda** (nova, adicionada 14 jul 2026). Arquivos em `assets/`:
+- `logo-patricia-blackletter-black.png` — letras `--ink` sobre transparente (fundo claro)
+- `logo-patricia-blackletter-white.png` — letras `--cream` sobre transparente (fundo escuro)
+- `logo-patricia-blackletter-cream.png` — letras `--paper` sobre transparente (fundo escuro, alternativa levemente mais quente) ← usado no `<footer class="site-footer">`
+
+Dimensões nativas: 993×224px, aspect-ratio ~4.4:1. Sempre carregar com `width="993" height="224"` no `<img>` e escalar via `max-width` no container pai.
+
+**Uso**: o CHÊDA sans identifica marca/produto no header e A4 press. O blackletter Patricia Chêda é a **assinatura pessoal** — vive **só no rodapé da landing** (`/`), não entra nos A4 de imprensa. Função retorica: assinar o site como um objeto pessoal, não corporativo.
 
 ---
 
@@ -334,7 +343,41 @@ Se você é uma sessão AI nova entrando neste projeto, cole este bloco no iníc
 
 ## Changelog
 
-### 14 jul 2026 — Cleanup pass
+### 14 jul 2026 (tarde) — Cursor customizado + blackletter + reorg poster
+
+Segunda passada do dia, sobre a landing:
+
+1. **Cursor customizado de três camadas concêntricas** — baseado num artifact de referência (`CHDX-Cursor-1`, a thumbnail SVG serviu como spec). Arquivo novo: `styles/cursor.css` + script inline no fim do body do `index.html`.
+   - Anel externo (`.cursor-ring`): 52px de repouso, fill `rgba(23,18,16,.6)` blur 2px, border `rgba(233,224,206,.3)`. Segue o mouse com **lerp = .18/frame** (delay perceptivo suave).
+   - Disco médio (`.cursor-disc`): 20px, `--blood` sólido, box-shadow blood glow. Segue **1:1** com o cursor.
+   - Dot central (`.cursor-dot`): 4.8px, `--cream`. Segue 1:1.
+   - **Estado hover** (`body[data-cursor-hover="true"]`): anel cresce para 88px, border clareia para `rgba(233,224,206,.6)`, background vira `rgba(181,34,26,.08)`. Disco escala 1.15x. Delegated pointerover/out em `a, button, .route, .mix, .set-card, .brand-logo, [data-cursor-target]`.
+   - **Estado hidden** (`body[data-cursor-hidden="true"]`): opacidade zero em 150ms. Ativado quando o mouse cruza uma borda de `iframe` (o browser força o cursor nativo dentro do frame; escondemos o custom para não duplicar visualmente) ou sai da janela.
+   - **Gates**:
+     - `@media (hover:hover) and (pointer:fine)` — cursor só renderiza em desktop com mouse. Mobile e touch usam cursor do sistema (que é nada).
+     - `@media (prefers-reduced-motion: reduce)` — anel externo perde o crescimento no hover; motion path suavizado se mantido é aceitável.
+     - JS gate: `matchMedia('(hover:hover) and (pointer:fine)').matches` no boot; senão o script retorna sem instalar listeners.
+   - **Cursor não é aplicado nos layouts A4 de imprensa** (`print/ritual.html`, `print/poster.html`, `print/morph.html`). O `cursor.css` só é linkado no `index.html`.
+
+2. **Assinatura blackletter Patricia Chêda no rodapé** — novo asset em três versoes alpha (black/white/cream) convertido de um JPG anexo usando threshold por luminância. Consome `--cream` em `logo-patricia-blackletter-cream.png` (a que está no ar). Colocada num `<footer class="site-footer">` novo, span full-width, grid `1fr auto`:
+   - Esquerda: booking/email + instagram + localização em Montserrat 500 (`--gold`, letter-spacing .42em, uppercase).
+   - Direita: assinatura blackletter, `max-width: min(360px, 42vw)`, opacity .85, drop-shadow suave.
+   - Mobile: grid colapsa em 1 coluna, assinatura desce e reduz para `max-width: 220-280px`.
+
+3. **Poster grid refatorado de 1-coluna com elementos flutuantes para 2-colunas explícitas**:
+   - Antes: `.type-wall` como background absoluto do `<section>` inteiro, e `.content-card` + `.sc-slot` flutuando com `justify-self: start/end`. Hierarquia ambigua, competição visual.
+   - Depois: grid `minmax(0, 560px) 1fr`. `.poster-left` (col 1) empilha `.content-card` → `.sc-slot` num flow único. `.poster-right` (col 2) hospeda a `.type-wall` como decoração absolute com bleed rightward via `right: calc(-1 * clamp(20px, 4vw, 60px))`.
+   - Eye path: **bio → sound → assinatura** (no footer abaixo). Linear, sem elementos ambiguos.
+   - Type-wall `.tw-word` reduzido de `clamp(80px,14vw,150px)` para `clamp(60px,10vw,110px)` — antes ocupava o poster inteiro; agora é só a coluna direita.
+   - Mobile (< 960px): grid colapsa em 1 coluna, `.poster-right` desce e recebe `min-height: 220px` com `margin-top: -12px` (leve overlap intencional). Type-wall vira decoração de fundo com `opacity: .55`.
+   - **`.poster-foot`** legado do modelo antigo (com o logo sans branco pequeno e o texto "Booking") virou `display: none`. Sua função foi absorvida pelo `<footer class="site-footer">`.
+
+**Anti-padrões catalogados neste ciclo**:
+- Cursor customizado sem gate por `matchMedia` no JS causa flicker em toque (o CSS esconde, mas o JS ainda instala listeners e faz o RAF loop rodar em vazio, gastando bateria)
+- Cursor customizado sobre `iframe` cross-origin sem `pointerenter`/`pointerleave` hide-toggle cria duplo-cursor visual na borda — dentro do iframe o browser força o nativo, e o custom continua renderizando por fora
+- Elementos flutuando com `justify-self` no grid 1-col criam a ilusão de "design de composição" mas viram um puzzle de peso visual que compete em vez de guiar o olho — duas colunas explícitas + um flow linéar por coluna resolvem sem perder o caráter compositivo
+
+### 14 jul 2026 (manhã) — Cleanup pass
 
 Mudanças substantivas do dia, em ordem cronológica:
 
