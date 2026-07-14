@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/cursor.css">
   <style>
   /*
     Continuous scrollable page. One column. Three sections stacked:
@@ -313,29 +314,47 @@
   }
 
   /* ═══════════ POSTER ═══════════
-     Simplified. From top to bottom:
-       · type-wall (background)
-       · SoundCloud embed (16:9, prominent, sits in the upper-right well)
-       · content-card (bottom-left, unchanged)
-       · foot mark
+     Two-column grid:
+       LEFT  — content-card (bio) then SoundCloud embed, stacked as one flow
+       RIGHT — type-wall decoration bleeding rightward off canvas
+     Eye path: bio → sound → signature (footer below).
   */
   .poster{ position:relative; overflow:hidden;
-    /* Intrinsic height — content decides. Generous but bounded padding. */
-    padding:clamp(48px,7vw,96px) clamp(20px,4vw,60px) clamp(72px,8vw,112px);
+    padding:clamp(48px,7vw,96px) clamp(20px,4vw,60px) clamp(80px,10vw,120px);
     background:var(--ink);
     display:grid;
-    grid-template-columns: 1fr;
-    gap: clamp(20px,3vw,36px);
+    grid-template-columns: minmax(0, 560px) 1fr;
+    column-gap: clamp(24px,4vw,60px);
+    row-gap: clamp(20px,3vw,32px);
+    align-items: start;
+  }
+  /* Poster left column — content + sound, single flow */
+  .poster-left{
+    position:relative; z-index:20;
+    display:flex; flex-direction:column;
+    gap: clamp(20px,3vw,32px);
+    grid-column: 1;
+  }
+  /* Poster right column — space reserved for type-wall bleed */
+  .poster-right{
+    position:relative; z-index:2;
+    grid-column: 2;
+    min-height: clamp(360px, 50vh, 560px);
   }
 
-  .type-wall{ position:absolute; inset:0;
+  /* Type wall lives in .poster-right, absolutely positioned so it can
+     bleed rightward off canvas without pushing the layout. */
+  .type-wall{
+    position:absolute;
+    top:0; bottom:0; left:0; right:calc(-1 * clamp(20px,4vw,60px));
     display:flex; flex-direction:column; justify-content:space-around;
-    overflow:hidden; pointer-events:none; z-index:1; }
+    overflow:visible; pointer-events:none; z-index:1;
+  }
   .tw-row{ display:flex; align-items:center; white-space:nowrap;
     user-select:none; line-height:.86; transform-origin:left center; }
   .tw-word{ font-family:var(--display-font); font-weight:500;
     padding:0 .04em; letter-spacing:.02em;
-    font-size:clamp(80px,14vw,150px); }
+    font-size:clamp(60px,10vw,110px); }
   .tw-row:nth-child(1){ transform:rotate(var(--tB)); }
   .tw-row:nth-child(1) .tw-word{ color:var(--paper); }
   .tw-row:nth-child(2){ padding-left:6%; transform:rotate(var(--tA)); }
@@ -354,11 +373,9 @@
     -webkit-text-stroke:.5px var(--paper); opacity:.08; }
 
   /* ═════════ SOUNDCLOUD SLOT ═════════
-     Deliberate, prominent, reserved space. Sits on the right,
-     type-wall visible behind it. Waits for the actual embed URL. */
+     Now anchored inside .poster-left, flowing under the content card. */
   .sc-slot{ position:relative; z-index:12;
-    justify-self:end; margin-right:clamp(0px,4vw,40px);
-    width:min(560px, 78vw);
+    width:100%;
     background:rgba(14,11,10,.94);
     border:1px solid rgba(199,154,75,.35);
     box-shadow:
@@ -415,8 +432,7 @@
 
   /* ═════════ CONTENT CARD ═════════ */
   .content-card{ position:relative; z-index:20;
-    justify-self:start; margin-left:clamp(0px,4vw,20px);
-    width:min(560px, 82vw);
+    width:100%;
     padding:clamp(20px,3vw,32px);
     background:rgba(14,11,10,.92);
     border:1px solid rgba(199,154,75,.35);
@@ -446,15 +462,41 @@
   .sl-name{ color:var(--paper); font-weight:500; }
   .sl-meta{ color:var(--mute); font-weight:400; letter-spacing:.12em; }
 
-  .poster-foot{ position:absolute; z-index:25;
-    bottom:clamp(16px,2.5vh,28px); left:5%; right:5%;
-    display:flex; justify-content:space-between; align-items:center; }
-  .poster-foot .brand-logo{
-    height:18px; width:auto; display:block;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,.4));
+  /* ═════════ SITE FOOTER ═════════
+     Sits below the poster grid, spans full width, holds:
+     LEFT   — booking kicker + email
+     RIGHT  — Patricia Chêda blackletter signature (soft, cream, low opacity)
+  */
+  .site-footer{
+    position:relative;
+    background:var(--ink);
+    padding: clamp(48px,6vw,80px) clamp(24px,5vw,80px) clamp(32px,4vw,48px);
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items: end; gap: clamp(24px,4vw,40px);
+    border-top: 1px solid rgba(199,154,75,.12);
   }
-  .poster-foot .kicker{ font-family:var(--display-font); font-weight:500;
-    font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+  .site-footer .foot-info{
+    display:flex; flex-direction:column; gap:6px;
+    font-family:var(--display-font); font-weight:500;
+    font-size:10px; letter-spacing:.42em; text-transform:uppercase;
+    color:var(--gold);
+  }
+  .site-footer .foot-info a{ color:var(--cream); text-decoration:none;
+    border-bottom:1px solid transparent; padding-bottom:2px;
+    transition: border-color .2s ease; }
+  .site-footer .foot-info a:hover{ border-bottom-color: var(--blood); }
+  .site-footer .foot-signature{
+    max-width: min(360px, 42vw);
+    opacity: .85;
+  }
+  .site-footer .foot-signature img{
+    display:block; width:100%; height:auto;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
+  }
+
+  /* Old .poster-foot no longer used — kept as no-op to avoid legacy CSS hits */
+  .poster-foot{ display:none; }
 
   /* ═══════════ RITUAL PORTRAIT (embedded, not shared) ═══════════
      In the compressed spread landing, the shared portrait created too
@@ -493,21 +535,26 @@
 
   /* ═══════════ RESPONSIVE ═══════════ */
   @media (max-width:960px){
-    .poster{ padding-block:clamp(40px,7vw,72px); }
-    .sc-slot, .content-card{ justify-self:center; margin-inline:auto; }
-    .sc-slot{ width:calc(100% - 20px); }
-    .content-card{ width:calc(100% - 20px); }
+    /* Poster colapsa em 1 coluna. Type-wall vira decoração de fundo
+       do container inteiro, poster-left ocupa full width. */
+    .poster{
+      grid-template-columns: 1fr;
+      padding-block: clamp(40px,7vw,72px);
+    }
+    .poster-right{ grid-column: 1; min-height: 220px; margin-top: -12px; }
+    .type-wall{ right:0; opacity:.55; }
+    .tw-word{ font-size: clamp(58px, 14vw, 100px); }
+    .site-footer{ grid-template-columns: 1fr; text-align:left; }
+    .site-footer .foot-signature{ max-width: 280px; }
   }
   @media (max-width:720px){
     .spread{ grid-template-rows:
       min(560px, 80vh)
       min(240px, 28vh)
       auto; }
-    .sets-row{ grid-template-columns:1fr 1fr; gap:6px; bottom:4%; }
-    .set-card:nth-child(3){ grid-column:1 / span 2; }
     .portrait-shared{ width:min(190px, 40vw); top: calc(min(560px, 80vh) * 0.42); }
     .r-title{ bottom:20%; }
-    .tw-word{ font-size:clamp(56px,17vw,100px); }
+    .tw-word{ font-size: clamp(52px, 14vw, 88px); }
   }
   @media (max-width:480px){
     .spread{ grid-template-rows:
@@ -516,14 +563,18 @@
       auto; }
     .r-header .kicker{ display:none; }
     .r-title{ bottom:18%; }
-    .sets-row{ display:flex; flex-direction:column; gap:6px; bottom:3%; }
-    .set-card:nth-child(3){ grid-column:auto; }
     .portrait-shared{ width:min(160px, 42vw); top: calc(min(520px, 78vh) * 0.40); }
     .seam-word .word{ font-size:clamp(56px, 18vw, 120px); }
+    .site-footer .foot-signature{ max-width: 220px; }
   }
   </style>
 </head>
 <body>
+
+<!-- Custom cursor layers — hidden on touch/coarse via cursor.css -->
+<div class="cursor-layer cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-layer cursor-disc" id="cursor-disc" aria-hidden="true"></div>
+<div class="cursor-layer cursor-dot"  id="cursor-dot"  aria-hidden="true"></div>
 
 <nav class="switcher" aria-label="Layouts">
   <a href="/print/ritual">3a</a>
@@ -588,50 +639,59 @@
 
   <!-- 3b POSTER + SOUNDCLOUD SLOT -->
   <section class="poster" aria-label="3b Poster">
-    <div class="type-wall" aria-hidden="true">
-      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+    <!-- LEFT column: content card + SoundCloud, single flow -->
+    <div class="poster-left">
+      <div class="content-card">
+        <div class="poster-logo">
+          CHÊDA
+          <em class="poster-serif">Patrícia Chêda</em>
+        </div>
+        <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
+        <div class="card-divider"></div>
+        <p class="bio-text">
+          Patrícia Chêda &mdash; DJ e selectora &mdash; atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.
+        </p>
+      </div>
+
+      <div class="sc-slot" id="soundcloud">
+        <div class="sc-meta">
+          <span>SoundCloud · Featured Set</span>
+          <span class="listen">▶ Listen</span>
+        </div>
+        <div class="sc-frame" id="sc-frame">
+          <iframe scrolling="no" frameborder="no" allow="autoplay"
+            title="Chêda — SoundCloud"
+            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/patriciacheda&color=%23B5221A&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
+        </div>
+      </div>
     </div>
 
-    <!--
-      ═══ SOUNDCLOUD EMBED SLOT ═══
-      Drop the actual iframe inside .sc-frame when the URL arrives.
-      Placeholder auto-hides when iframe is present (via CSS :has()).
-    -->
-    <div class="sc-slot" id="soundcloud">
-      <div class="sc-meta">
-        <span>SoundCloud · Featured Set</span>
-        <span class="listen">▶ Listen</span>
+    <!-- RIGHT column: type wall decoration -->
+    <div class="poster-right">
+      <div class="type-wall" aria-hidden="true">
+        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
       </div>
-      <div class="sc-frame" id="sc-frame">
-        <iframe scrolling="no" frameborder="no" allow="autoplay"
-          title="Chêda — SoundCloud"
-          src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/patriciacheda&color=%23B5221A&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <div class="poster-logo">
-        CHÊDA
-        <em class="poster-serif">Patrícia Chêda</em>
-      </div>
-      <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
-      <div class="card-divider"></div>
-      <p class="bio-text">
-        Patrícia Chêda &mdash; DJ e selectora &mdash; atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.
-      </p>
-      <!-- track list removed — SoundCloud embed above serves as the actual playable set -->
-    </div>
-
-    <div class="poster-foot">
-      <img class="brand-logo" src="assets/logo-cheda-white-alpha.png" alt="CHÊDA" width="246" height="65">
-      <span class="kicker">Booking · patriciavchedach@gmail.com · 2026</span>
     </div>
   </section>
+
+  <!-- ═══ SITE FOOTER (blackletter signature) ═══ -->
+  <footer class="site-footer">
+    <div class="foot-info">
+      <span>Booking · <a href="mailto:patriciavchedach@gmail.com?subject=Booking%20·%20Chêda">patriciavchedach@gmail.com</a></span>
+      <span>Instagram · <a href="https://www.instagram.com/patriciacheda_/" target="_blank" rel="noopener">@patriciacheda_</a></span>
+      <span>Florianópolis · SC · Brasil · 2026</span>
+    </div>
+    <div class="foot-signature">
+      <img src="assets/logo-patricia-blackletter-cream.png"
+           alt="Patricia Chêda"
+           width="993" height="224">
+    </div>
+  </footer>
 
   <!-- SHARED PORTRAIT -->
   <div class="portrait-shared" aria-hidden="true">
@@ -667,6 +727,71 @@
     s.style.transform='translate(-50%,-50%) rotate('+(angle+90)+'deg)';
     ring.appendChild(s);
   });
+})();
+</script>
+
+<script>
+/* ─────────────────────────────────────────────
+   Custom cursor — 3 concentric layers, ring lerps behind
+   ───────────────────────────────────────────── */
+(function(){
+  // Skip entirely on touch/coarse pointer environments
+  const supports = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if(!supports) return;
+
+  const ring = document.getElementById('cursor-ring');
+  const disc = document.getElementById('cursor-disc');
+  const dot  = document.getElementById('cursor-dot');
+  const body = document.body;
+  if(!ring || !disc || !dot) return;
+
+  // Target position (real mouse), and lerped ring position
+  let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+  let rx = tx, ry = ty;
+  let rafId = null;
+
+  const LERP = 0.18;   // catch-up factor per frame; higher = tighter
+
+  function tick(){
+    rx += (tx - rx) * LERP;
+    ry += (ty - ry) * LERP;
+    ring.style.transform = 'translate3d(' + (rx - ring.offsetWidth/2) + 'px,' + (ry - ring.offsetHeight/2) + 'px, 0)';
+    disc.style.transform = 'translate3d(' + (tx - disc.offsetWidth/2) + 'px,' + (ty - disc.offsetHeight/2) + 'px, 0)';
+    dot.style.transform  = 'translate3d(' + (tx - dot.offsetWidth/2)  + 'px,' + (ty - dot.offsetHeight/2)  + 'px, 0)';
+    rafId = requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    tx = e.clientX; ty = e.clientY;
+    body.removeAttribute('data-cursor-hidden');
+  }, { passive: true });
+
+  window.addEventListener('mouseleave', () => {
+    body.setAttribute('data-cursor-hidden','true');
+  });
+
+  // Hover state via delegated pointerover/pointerout
+  const HOVER_SEL = 'a, button, .route, .mix, .set-card, .brand-logo, [data-cursor-target]';
+  document.addEventListener('pointerover', (e) => {
+    if(e.target.closest && e.target.closest(HOVER_SEL)){
+      body.setAttribute('data-cursor-hover','true');
+    }
+  });
+  document.addEventListener('pointerout', (e) => {
+    if(e.target.closest && e.target.closest(HOVER_SEL)){
+      body.removeAttribute('data-cursor-hover');
+    }
+  });
+
+  // Hide over iframes — browser forces native cursor inside cross-origin frames anyway,
+  // but hiding our layers avoids the visual double cursor at the border.
+  document.querySelectorAll('iframe').forEach(f => {
+    f.addEventListener('pointerenter', () => body.setAttribute('data-cursor-hidden','true'));
+    f.addEventListener('pointerleave', () => body.removeAttribute('data-cursor-hidden'));
+  });
+
+  // Boot the animation loop
+  tick();
 })();
 </script>
 
