@@ -1,7 +1,7 @@
 @import url("./tokens.css");
 
 /* ============================================================
-   CHDX — site skin. Sections share the rhythm-line spine.
+   CHÊDA — site skin. Sections share the rhythm-line spine.
    ============================================================ */
 
 section{ position:relative; padding:var(--section-pad) var(--bleed-pad); }
