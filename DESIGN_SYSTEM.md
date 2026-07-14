@@ -25,7 +25,7 @@ Techno, tech house, noise. Sets densos e hipnóticos, sem playlist fixa.
 
 **Deploy**:
 - Repo: `github.com/anavvanzin/cheda` (privado)
-- Vercel: `cheda-six.vercel.app` (público — sem SSO protection)
+- Vercel: `cheda-six.vercel.app` (público, sem SSO protection desde 14 jul 2026)
 - Domínio custom: **PENDENTE** — usuária mencionou `cheda.press`, `cheda.fm` ou similar
 
 ---
@@ -301,7 +301,6 @@ Quando a usuária voltar, esses são os fios soltos:
 - **Domínio custom** — ela mencionou `cheda.press` ou `cheda.fm` mas não confirmou. Passo: pedir a decisão, comprar/atachar via Vercel, atualizar DNS.
 - **Set list real** — placeholders foram removidos. Aguardando títulos/durações/links reais de mixes específicos pra reintroduzir a estrutura `.sets-row` + `.sets-list` (CSS já existe no `print.css`).
 - **Foto adicional** — usuária mencionou upload `photos-1784006617332.jpg` que nunca chegou; se aparecer, provavelmente é candidata a hero portrait.
-- **A4s de impressão desatualizados** — `print/ritual.html` e `print/poster.html` ainda contêm os placeholders "Ritual Noturno / Som que Invoca / Pista Aberta". Espelhar a remoção que foi feita na landing.
 - **Instagram embed opcional** — se a usuária quiser mostrar feed dela ao lado do SoundCloud, dá pra plugar um Instagram basic display embed no mesmo padrão do `.sc-slot`.
 - **PDF export dos A4** — as três páginas em `/print/` foram desenhadas exatamente em proporção A4 (794×1123px). Podem ser exportadas via headless Chromium a PDF impressoresídio.
 
@@ -329,4 +328,28 @@ Se você é uma sessão AI nova entrando neste projeto, cole este bloco no iníc
 
 ---
 
-*Documento vivo — atualizar quando novos padrões emergirem. Última grande decisão: SoundCloud embed do perfil ao invés de track específica, remoção dos setlists inventados, deleção do `/print/spread` duplicado (14 jul 2026).*
+*Documento vivo — atualizar quando novos padrões emergirem.*
+
+---
+
+## Changelog
+
+### 14 jul 2026 — Cleanup pass
+
+Mudanças substantivas do dia, em ordem cronológica:
+
+1. **Landing enxuta** — revertida do overload (bio+manifesto+fotos+mixes+contact+decide empilhados) para uma única tela hero com CHÊDA gigante + retrato + 3 rotas. Rejeitado. Depois evoluída para o modelo atual: spread contínuo com Ritual → VHS seam → Poster.
+2. **Spread promovido a landing** (`/`) — antes vivia em `/print/spread`; o arquivo canonicónico virou `index.html` na raiz. Altura reduzida ~25% (3.0 telas → 2.2 telas em desktop) via caps de `min(720px, 82vh)` no ritual e `min(340px, 36vh)` no seam.
+3. **Logo oficial CHÊDA** — substitui o `panther-mark` circular genérico pelo logotipo real da artista. Arquivo original (`CHEDA_logo_branca.jpg`) tinha bug (todos pixels brancos opacos), foi regenerado a partir do preto original com alpha correto. Novos assets: `logo-cheda-{black,white}{,-alpha}.png`.
+4. **SoundCloud embed** — iframe do `w.soundcloud.com/player` apontando para `soundcloud.com/patriciacheda` (perfil inteiro, não faixa específica), color `#B5221A`, `visual=true`. Substitui o placeholder que aguardava URL.
+5. **Setlists inventados removidos** — os placeholders `Ritual Noturno / Som que Invoca / Pista Aberta` (com durações fake `58 min / 62 min / 74 min`) foram removidos de todos os quatro layouts: `index.html`, `print/ritual.html`, `print/poster.html`, `print/morph.html`. Também as duas orbit captions inventadas (`Som que Invoca`, `Ritual · não Playlist`). A frase filosófica `som que invoca · cada set é um ritual` fica preservada no subtítulo — é manifesto, não título de faixa. O CSS de `.sets-row` e `.sets-list` continua nos stylesheets para reintroduzir quando títulos reais chegarem.
+6. **`/print/spread` deletado** — arquivo removido, redirects 308 `/print/spread{,.html} → /` configurados em `vercel.json`, switchers dos outros A4 atualizados para apontar `spread` → `/`.
+7. **Vercel deployment protection desativada** — SSO Protection removida via API PATCH. Site publicamente acessível sem auth wall.
+8. **Email consolidado** — substituiu todo `pat@chdx.fm` (que era fake) por `patriciavchedach@gmail.com` (real) em `print/poster.html`, `print/morph.html`, index.
+9. **DESIGN_SYSTEM.md criado** — este documento, agora atualizado.
+
+**Anti-padrões catalogados neste ciclo**:
+- Vercel deployment protection deixada ligada por default (site aparece público no CLI mas está gated para tudo que não seja o proj owner)
+- Alpha channel invertido em PNG (branco opaco onde deveria ser transparente) — verificar contagem `alpha=0 vs alpha=255` após qualquer conversão
+- Placeholder "profissional-parecendo" (setlists com durações plausíveis) é pior que placeholder óbvio, porque parece verdade e passa pela revisão sem questionamento
+
