@@ -117,6 +117,42 @@ Dimensões nativas: 993×224px, aspect-ratio ~4.4:1. Sempre carregar com `width=
 
 **Uso**: o CHÊDA sans identifica marca/produto no header e A4 press. O blackletter Patricia Chêda é a **assinatura pessoal** — vive **só no rodapé da landing** (`/`), não entra nos A4 de imprensa. Função retorica: assinar o site como um objeto pessoal, não corporativo.
 
+### Favicon & social preview (adicionado 14 jul 2026)
+
+**Emblema do site**: o **P blackletter** isolado da assinatura Patricia Chêda. Escolhido em vez do CHÊDA sans porque a inicial gótica carrega o caráter autônomo do site (o sans já vive em todo lugar da landing; a inicial cria uma marca menor só pra aba/link preview).
+
+Técnica de recorte: escaneia a assinatura completa por luminância, detecta o topo/base da faixa vertical do P (incluindo o descensor característico do gótico), e encontra a coluna horizontal de fim testando a **meia altura da letra** (evita cortar prematuramente no descensor fino). Resultado: um P completo com o pequeno losango interno preservado.
+
+Composição: letras `--cream` sobre fundo sólido `--ink`, padding de 12% (8% pros tamanhos pequenos, pra letra respirar sem virar borrão em 16px).
+
+Arquivos em `assets/favicon/`:
+
+| Arquivo | Uso |
+|---|---|
+| `favicon.ico` | Multi-resolução 16/32/48 — abas de Chrome/Firefox/Edge/Safari |
+| `icon-32.png` | Backup PNG pra browsers modernos, 32×32 |
+| `icon-64.png` | Bookmark manager em alguns navegadores |
+| `icon-180.png` | `apple-touch-icon` — iOS "Adicionar à tela inicial" |
+| `icon-192.png` | Android home screen |
+| `icon-512.png` | PWA icon, Android splash screen |
+| `icon-512-transparent.png` | Reserva pra masks/SVG-fallback |
+| `og-image.jpg` | 1200×630 — preview em WhatsApp, Twitter, Discord, Slack |
+| `site.webmanifest` | Manifest PWA (nome, theme-color, icones) |
+
+**OG image**: usa a **assinatura blackletter inteira** "Patricia Chêda" centrada em `--cream` sobre `--ink`, com uma linha de tags em `--gold` (DJ · Techno · Tech House · Noise · Florianópolis) e o email de booking em cream soft abaixo. Função: quando alguém colar o link em qualquer app, a preview já comunica identidade + oferta + contato sem clicar.
+
+**Meta tags wiradas** no `<head>` do `index.html`:
+- `<link rel="icon">` para `favicon.ico` + PNG 32 + PNG 192
+- `<link rel="apple-touch-icon">` para o 180
+- `<link rel="manifest">` para `site.webmanifest`
+- `<meta name="theme-color" content="#0E0B0A">` — barra de endereço mobile fica ink
+- Open Graph completo: `og:type`, `og:site_name`, `og:title`, `og:description`, `og:url`, `og:image` (+ width/height), `og:locale`
+- Twitter Card: `twitter:card=summary_large_image`, `twitter:title`, `twitter:description`, `twitter:image`
+
+Os três layouts A4 (`print/ritual`, `print/poster`, `print/morph`) recebem só o favicon básico e `theme-color` — sem OG/Twitter porque são páginas internas que não são compartilhadas isoladas.
+
+**Regra**: browsers cacheiam favicons agressivamente. Após trocar o ícone em produção, testar em janela anônima ou hard reload (Ctrl+Shift+R) — senão o ícone antigo continua aparecendo por dias.
+
 ---
 
 ## 3 · Arquitetura do site
@@ -342,6 +378,29 @@ Se você é uma sessão AI nova entrando neste projeto, cole este bloco no iníc
 ---
 
 ## Changelog
+
+### 14 jul 2026 (fim da tarde) — Favicon + OG image
+
+1. **P blackletter como emblema do site** — recortado programaticamente da assinatura `logo-patricia-blackletter-cream.png` via detecção de luminância + col-scan da meia altura (evita corte prematuro no descensor). Preserva o losango interno característico do P gótico. Composto em quadrado `--cream` sobre `--ink` com 12% de padding (8% em tamanhos < 64px).
+2. **Suite completa em `assets/favicon/`**:
+   - `favicon.ico` multi-res (16/32/48)
+   - `icon-32/64/180/192/512.png`
+   - `icon-512-transparent.png` (reserva pra masks)
+   - `og-image.jpg` 1200×630 com a assinatura blackletter completa + tags gold + email de booking
+   - `site.webmanifest` (PWA)
+3. **Wire no `<head>` do `index.html`**:
+   - `<link rel="icon">` (ico + PNG 32 + PNG 192)
+   - `<link rel="apple-touch-icon">` (180)
+   - `<link rel="manifest">`
+   - `<meta name="theme-color" content="#0E0B0A">`
+   - Open Graph completo (og:type, site_name, title, description, url, image + w/h, locale)
+   - Twitter Card `summary_large_image`
+4. **Print layouts A4** (`ritual`, `poster`, `morph`) recebem favicon básico + theme-color, sem OG/Twitter (não são URLs compartilhadas isoladas).
+
+**Anti-padrões catalogados neste ciclo**:
+- Detectar fim horizontal de uma letra scaneando **toda** a altura da faixa vertical falha em blackletter porque o descensor é fino e vai muito além do corpo — dispara falso positivo no meio do descensor da letra seguinte. Solução: scanear só a **meia altura do corpo principal** (`y_top + 0.15*h` até `y_top + 0.55*h`), onde só aparecem hastes sólidas.
+- Assumir que browsers pegam automaticamente `favicon.ico` da raiz é mito — sem `<link rel="icon">` explícito, o comportamento varia entre engines (Safari especialmente exigente). Sempre declarar explícito.
+- Testar favicon novo com hard reload no mesmo browser em que você desenvolveu falha porque o cache persiste. Testar sempre em **janela anônima** ou browser diferente.
 
 ### 14 jul 2026 (tarde) — Cursor customizado + blackletter + reorg poster
 
