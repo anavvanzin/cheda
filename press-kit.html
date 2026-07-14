@@ -14,9 +14,22 @@
   <meta name="twitter:title" content="CHDX · Patrícia Chêda · Press Kit A4">
   <meta name="twitter:description" content="DJ e selectora de techno denso e hipnótico — Florianópolis, BR. Som que invoca.">
   <meta name="twitter:image" content="assets/portrait-ritual.jpg">
+  <link rel="icon" href="assets/panther-mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Patrícia Chêda",
+    "alternateName": "CHDX",
+    "jobTitle": "DJ · Selectora",
+    "email": "mailto:pat@chdx.fm",
+    "address": { "@type": "PostalAddress", "addressLocality": "Florianópolis", "addressRegion": "SC", "addressCountry": "BR" },
+    "knowsAbout": ["techno", "tech house", "noise"]
+  }
+  </script>
   <style>
     /* Palette mirrors styles/tokens.css so this page stands alone for print. */
     :root{
@@ -92,6 +105,11 @@
     .setrow .m{font:11px 'Hanken Grotesk',sans-serif;color:var(--dim);}
 
     @media (max-width:520px){ .sheet-cap .desc{display:none;} }
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important;animation:none !important;}
+      html{scroll-behavior:auto;}
+    }
+    .btn:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
 
     /* ---- print: true A4, one sheet per page ---- */
     @page{size:A4;margin:0;}
@@ -117,13 +135,18 @@
     </div>
   </header>
 
-  <div class="sheets">
+  <noscript>
+    <!-- Without JS the sheets can't downscale; let them scroll instead of clipping. -->
+    <style>.frame{overflow-x:auto;}</style>
+  </noscript>
+
+  <main class="sheets">
 
     <!-- ============================================================
          A — RITUAL  (concentric red rings + duotone portrait)
          ============================================================ -->
     <div class="sheet-cap"><span class="tag">A</span><span class="desc">Ritual — anéis concêntricos, retrato em duotone vermelho</span></div>
-    <div class="frame">
+    <section class="frame" aria-label="Folha A — Ritual">
       <div class="sheet">
         <div class="ring" style="top:-206px;width:1500px;height:1500px;border:1px solid rgba(181,34,26,.18);"></div>
         <div class="ring" style="top:-46px;width:1180px;height:1180px;border:1px solid rgba(181,34,26,.28);"></div>
@@ -160,8 +183,8 @@
           <div>
             <div class="biglabel" style="color:var(--accent);margin-bottom:6px;">Press photos</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-              <img src="assets/foto-editorial.jpg" alt="Press · editorial" style="width:100%;height:96px;object-fit:cover;object-position:50% 22%;display:block;filter:grayscale(1) contrast(1.12);">
-              <img src="assets/portrait-ritual.jpg" alt="Press · retrato" style="width:100%;height:96px;object-fit:cover;object-position:50% 28%;display:block;filter:grayscale(1) contrast(1.15);">
+              <img loading="lazy" decoding="async" src="assets/foto-editorial.jpg" alt="Press · editorial" style="width:100%;height:96px;object-fit:cover;object-position:50% 22%;display:block;filter:grayscale(1) contrast(1.12);">
+              <img loading="lazy" decoding="async" src="assets/portrait-ritual.jpg" alt="Press · retrato" style="width:100%;height:96px;object-fit:cover;object-position:50% 28%;display:block;filter:grayscale(1) contrast(1.15);">
             </div>
             <div style="font:11px 'Hanken Grotesk',sans-serif;color:var(--dim);margin-top:6px;">hi-res em pedido · on request</div>
           </div>
@@ -172,15 +195,15 @@
           <span class="fmeta">Florianópolis · SC · Brasil</span>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- ============================================================
          B — POSTER  (type wall + b&w plate + gold ink notes)
          ============================================================ -->
     <div class="sheet-cap"><span class="tag">B</span><span class="desc">Poster — muro tipográfico, placa p&amp;b, notas em ouro</span></div>
-    <div class="frame">
+    <section class="frame" aria-label="Folha B — Poster">
       <div class="sheet">
-        <div style="position:absolute;top:-10px;left:0;right:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;padding:30px 0 26px;">
+        <div aria-hidden="true" style="position:absolute;top:-10px;left:0;right:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;padding:30px 0 26px;">
           <div style="font:700 172px/0.8 'Oswald',sans-serif;letter-spacing:-.01em;color:var(--cream);text-transform:uppercase;white-space:nowrap;margin-left:24px;">CHDX</div>
           <div style="font:700 172px/0.8 'Oswald',sans-serif;letter-spacing:-.01em;color:transparent;-webkit-text-stroke:2px var(--accent);text-transform:uppercase;white-space:nowrap;margin-left:24px;">CHDX</div>
           <div style="font:700 172px/0.8 'Oswald',sans-serif;letter-spacing:-.01em;color:var(--accent);text-transform:uppercase;white-space:nowrap;margin-left:24px;">CHDX</div>
@@ -190,7 +213,7 @@
         </div>
 
         <div style="position:absolute;top:112px;right:44px;width:300px;height:392px;background:var(--bg);padding:9px;box-shadow:14px 14px 0 var(--accent);transform:rotate(1.4deg);">
-          <img src="assets/portrait-poster.jpg" alt="Patrícia Chêda" style="width:100%;height:100%;object-fit:cover;object-position:50% 16%;display:block;filter:grayscale(1) contrast(1.12);">
+          <img loading="lazy" decoding="async" src="assets/portrait-poster.jpg" alt="Patrícia Chêda" style="width:100%;height:100%;object-fit:cover;object-position:50% 16%;display:block;filter:grayscale(1) contrast(1.12);">
           <div style="position:absolute;bottom:-30px;right:2px;font:italic 600 19px 'Cormorant Garamond',serif;color:var(--gold);transform:rotate(-1.4deg);">a selectora</div>
         </div>
         <div style="position:absolute;top:64px;right:44px;font:500 13px 'Oswald',sans-serif;letter-spacing:.42em;color:var(--muted);text-transform:uppercase;">DJ · SELECTORA · TECHNO</div>
@@ -202,8 +225,8 @@
               <p style="font:13px/1.6 'Hanken Grotesk',sans-serif;color:var(--body);margin:0 0 12px;"><span class="biglabel" style="color:var(--accent);display:block;margin-bottom:6px;">PT</span>Patrícia Chêda é DJ e selectora radicada em Florianópolis. Sets de techno densos e hipnóticos — ruído, groove e tensão em camadas que crescem sem pressa.</p>
               <p lang="en" style="font:13px/1.6 'Hanken Grotesk',sans-serif;color:var(--muted);margin:0 0 14px;"><span class="biglabel" style="color:var(--dim);display:block;margin-bottom:6px;">EN</span>DJ and selector based in Florianópolis, Brazil. Dense, hypnotic techno — every set a ritual, not a playlist.</p>
               <div style="display:flex;gap:8px;">
-                <img src="assets/portrait-ritual.jpg" alt="Press · retrato" style="width:86px;height:64px;object-fit:cover;object-position:50% 26%;display:block;filter:grayscale(1) contrast(1.15);">
-                <img src="assets/foto-editorial.jpg" alt="Press · editorial" style="width:86px;height:64px;object-fit:cover;object-position:50% 22%;display:block;filter:grayscale(1) contrast(1.12);">
+                <img loading="lazy" decoding="async" src="assets/portrait-ritual.jpg" alt="Press · retrato" style="width:86px;height:64px;object-fit:cover;object-position:50% 26%;display:block;filter:grayscale(1) contrast(1.15);">
+                <img loading="lazy" decoding="async" src="assets/foto-editorial.jpg" alt="Press · editorial" style="width:86px;height:64px;object-fit:cover;object-position:50% 22%;display:block;filter:grayscale(1) contrast(1.12);">
                 <div style="width:86px;height:64px;border:1px solid var(--hair2);display:flex;align-items:center;justify-content:center;font:10px monospace;color:var(--dim);">+ hi-res</div>
               </div>
             </div>
@@ -222,9 +245,9 @@
           <span class="fmeta">Florianópolis · SC · Brasil</span>
         </div>
       </div>
-    </div>
+    </section>
 
-  </div>
+  </main>
 
   <script>
     // Scale each A4 sheet to fit its column on screen; print uses true A4.
