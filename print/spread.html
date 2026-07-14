@@ -44,7 +44,15 @@
     background-size:3px 3px; mix-blend-mode:overlay; opacity:.24; }
 
   .spread{ position:relative; width:100%; display:grid;
-    grid-template-rows: 100vh 62vh auto;
+    /*
+      Ritual: capped so tall screens don't sprout vertical whitespace
+      Seam:   VHS transition is a passage, not a room — keep it lean
+      Poster: intrinsic; content decides the height
+    */
+    grid-template-rows:
+      min(720px, 82vh)
+      min(340px, 36vh)
+      auto;
   }
 
   /* ═══════════ RITUAL ═══════════ */
@@ -313,13 +321,12 @@
        · foot mark
   */
   .poster{ position:relative; overflow:hidden;
-    padding:clamp(48px,7vw,96px) clamp(20px,4vw,60px) clamp(80px,10vw,140px);
+    /* Intrinsic height — content decides. Generous but bounded padding. */
+    padding:clamp(48px,7vw,96px) clamp(20px,4vw,60px) clamp(72px,8vw,112px);
     background:var(--ink);
-    min-height: 100vh;
     display:grid;
     grid-template-columns: 1fr;
-    align-content:end;
-    gap: clamp(24px,4vw,44px);
+    gap: clamp(20px,3vw,36px);
   }
 
   .type-wall{ position:absolute; inset:0;
@@ -450,12 +457,20 @@
   .poster-foot .kicker{ font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
 
-  /* ═══════════ SHARED PORTRAIT ═══════════ */
+  /* ═══════════ RITUAL PORTRAIT (embedded, not shared) ═══════════
+     In the compressed spread landing, the shared portrait created too
+     much overlap with the sets row + the ritual wordmark. Cleaner:
+     place a modest circular portrait inside the ritual section only,
+     let the type wall on the poster side carry the visual weight.
+     The rectangular plate lives in /print/poster for the A4 print. */
+  /* Portrait is absolutely positioned relative to .spread. Ritual section
+     is min(720px, 82vh), so place the portrait CENTER at ~44% of that. */
   .portrait-shared{
-    position:absolute; z-index:15;
-    left:50%; top: calc(100vh - 38%);
-    transform:translate(-50%, 0);
-    width:min(360px, 42vw);
+    position:absolute; z-index:8;
+    left:50%;
+    top: calc(min(720px, 82vh) * 0.44);
+    transform:translate(-50%, -50%);
+    width:min(220px, 26vw);
     aspect-ratio:1;
     pointer-events:none;
   }
@@ -474,23 +489,8 @@
     object-position:52% 30%;
     filter:contrast(1.1) brightness(.98);
   }
-  .portrait-shared .plate{
-    position:absolute;
-    left:14%; top:36%;
-    width:96%; height:96%;
-    border:1.5px solid rgba(181,34,26,.55);
-    background:var(--ink);
-    overflow:hidden; z-index:1;
-    transform:rotate(1.4deg);
-    clip-path: polygon(
-      0 0, 100% 0, 100% 22%, 96% 24%, 100% 26%, 100% 100%,
-      0 100%, 0 62%, 4% 60%, 0 58%);
-  }
-  .portrait-shared .plate img{
-    width:100%; height:100%; object-fit:cover;
-    object-position:center 22%;
-    filter:contrast(1.06) brightness(.95);
-  }
+  /* Plate ghost hidden on the compressed landing — lives in /print/poster */
+  .portrait-shared .plate{ display:none; }
 
   /* ═══════════ RESPONSIVE ═══════════ */
   @media (max-width:960px){
@@ -500,20 +500,27 @@
     .content-card{ width:calc(100% - 20px); }
   }
   @media (max-width:720px){
-    .spread{ grid-template-rows: 100vh 46vh auto; }
+    .spread{ grid-template-rows:
+      min(560px, 80vh)
+      min(240px, 28vh)
+      auto; }
     .sets-row{ grid-template-columns:1fr 1fr; gap:6px; bottom:4%; }
     .set-card:nth-child(3){ grid-column:1 / span 2; }
-    .portrait-shared{ width:min(240px, 54vw); top: calc(100vh - 42%); }
-    .r-title{ bottom:32%; }
-    .tw-word{ font-size:clamp(64px,20vw,110px); }
+    .portrait-shared{ width:min(190px, 40vw); top: calc(min(560px, 80vh) * 0.42); }
+    .r-title{ bottom:20%; }
+    .tw-word{ font-size:clamp(56px,17vw,100px); }
   }
   @media (max-width:480px){
+    .spread{ grid-template-rows:
+      min(520px, 78vh)
+      min(200px, 24vh)
+      auto; }
     .r-header .kicker{ display:none; }
-    .r-title{ bottom:28%; }
+    .r-title{ bottom:18%; }
     .sets-row{ display:flex; flex-direction:column; gap:6px; bottom:3%; }
     .set-card:nth-child(3){ grid-column:auto; }
-    .portrait-shared{ width:min(210px, 58vw); top: calc(100vh - 40%); }
-    .seam-word .word{ font-size:clamp(64px, 20vw, 140px); }
+    .portrait-shared{ width:min(160px, 42vw); top: calc(min(520px, 78vh) * 0.40); }
+    .seam-word .word{ font-size:clamp(56px, 18vw, 120px); }
   }
   </style>
 </head>

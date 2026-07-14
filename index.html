@@ -1,300 +1,700 @@
 <!doctype html>
-<html lang="pt-BR" data-lang="pt">
+<html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chêda · Patrícia Chêda</title>
-  <meta name="theme-color" content="#0E0B0A">
-  <meta name="description" content="Chêda — Patrícia Chêda. Techno, tech house, noise. Florianópolis, BR.">
-  <meta property="og:title" content="Chêda · Patrícia Chêda">
-  <meta property="og:description" content="Manifesto artístico em forma de pista. Techno · tech house · noise. Floripa, SC.">
-  <meta property="og:image" content="assets/portrait-ritual.jpg">
-  <meta property="og:type" content="website">
+  <title>CHÊDA · Patrícia Chêda</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/tokens.css">
   <style>
   /*
-    LANDING — direct. One screen. No sections stacked below.
-    Structure:
-      · Language toggle (top right)
-      · Wordmark "Chêda" (giant, center-left)
-      · Portrait (large, right side, same face from the ritual)
-      · One-line manifesto (below wordmark)
-      · Three routes: mixes / contato / press kit A4 (spread page)
-      · Instagram + email as small chips in the corner
+    Continuous scrollable page. One column. Three sections stacked:
+      1. Ritual  (rings + orbit captions + wordmark + set cards)
+      2. Seam    (VHS tracking error — wobble, headswitch bar, chroma bleed)
+      3. Poster  (type wall + SoundCloud slot + content card)
 
-    Everything else lives inside /print/spread.html.
+    Shared portrait straddles the ritual→seam boundary so the reader
+    physically rides from one composition into the other.
+
+    Hierarchy (top → bottom of visual weight):
+      portrait  →  wordmark  →  soundcloud  →  content card
   */
 
   html,body{ margin:0; background:var(--ink); color:var(--cream);
     font-family:var(--body-font); overflow-x:hidden;
     -webkit-font-smoothing:antialiased; }
-  a{ color:inherit; text-decoration:none; }
+  img{ display:block; max-width:100%; height:auto; }
 
-  /* Language toggle */
-  .lang-toggle{
-    position: fixed; top: 20px; right: 20px; z-index: 100;
-    display: flex; gap: 4px;
-    background: rgba(14,11,10,.75);
-    padding: 4px; border: 1px solid rgba(233,224,206,.2);
-    backdrop-filter: blur(10px);
+  .switcher{ position:fixed; top:12px; right:12px; z-index:1000;
+    display:flex; gap:6px; }
+  .switcher a{
+    font-family:var(--body-font); font-size:11px;
+    letter-spacing:.32em; text-transform:uppercase;
+    padding:8px 14px; border:1px solid rgba(233,224,206,.25);
+    background:rgba(14,11,10,.85); color:rgba(233,224,206,.55);
+    backdrop-filter:blur(8px);
   }
-  .lang-toggle button{
-    font-family: var(--display-font); font-weight: 500;
-    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
-    padding: 6px 12px; background: transparent; color: rgba(233,224,206,.55);
-    border: 0; cursor: pointer; transition: all .2s;
-  }
-  .lang-toggle button:hover{ color: var(--cream); }
-  .lang-toggle button.on{ background: var(--blood); color: var(--paper); }
+  .switcher a:hover{ color:var(--cream); border-color:rgba(233,224,206,.6); }
+  .switcher a.on{ background:var(--blood); border-color:var(--blood); color:var(--paper); }
 
-  /* Instagram/email small chips top-left */
-  .quick-links{
-    position: fixed; top: 20px; left: 20px; z-index: 100;
-    display: flex; align-items: center; gap: 12px;
-    background: rgba(14,11,10,.75);
-    padding: 8px 14px; border: 1px solid rgba(233,224,206,.2);
-    backdrop-filter: blur(10px);
-    font-family: var(--display-font); font-weight: 500;
-    font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
-  }
-  .quick-links a{ color: rgba(233,224,206,.7); transition: color .2s; }
-  .quick-links a:hover{ color: var(--blood); }
-  .quick-links .sep{ color: rgba(233,224,206,.25); }
+  .grain{ position:fixed; inset:0; z-index:5; pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+    background-size:3px 3px; mix-blend-mode:overlay; opacity:.24; }
 
-  /* ═══════════ STAGE ═══════════ */
-  .stage{
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    align-items: center;
-    padding: clamp(80px, 10vh, 140px) clamp(32px, 6vw, 96px) clamp(48px, 6vh, 96px);
-    gap: clamp(24px, 4vw, 60px);
-    position: relative;
+  .spread{ position:relative; width:100%; display:grid;
+    /*
+      Ritual: capped so tall screens don't sprout vertical whitespace
+      Seam:   VHS transition is a passage, not a room — keep it lean
+      Poster: intrinsic; content decides the height
+    */
+    grid-template-rows:
+      min(720px, 82vh)
+      min(340px, 36vh)
+      auto;
+  }
+
+  /* ═══════════ RITUAL ═══════════ */
+  .ritual{ position:relative; overflow:hidden;
+    padding:clamp(24px,4vw,64px) clamp(20px,4vw,60px);
+    background:var(--ink);
+  }
+  .ritual .r-header{ position:relative; z-index:12;
+    display:flex; justify-content:space-between; align-items:center;
+    gap:16px; flex-wrap:wrap; }
+  .ritual .brand{ display:flex; align-items:center; gap:12px; }
+  .ritual .panther-mark{
+    width:34px; height:34px; border-radius:50%;
+    background:var(--paper) url('assets/panther-mark.svg') center/70% no-repeat;
+    border:1px solid var(--gold);
+  }
+  .ritual .wordmark{ font-family:var(--display-font); font-weight:500;
+    font-size:16px; letter-spacing:.32em; color:var(--paper); }
+  .ritual .kicker{ font-family:var(--display-font); font-weight:500;
+    font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+
+  .rings{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+  @keyframes ring-pulse{ 0%,100%{opacity:.14;} 50%{opacity:.44;} }
+  .rings circle{ animation: ring-pulse 3s ease-in-out infinite; }
+  .rings circle:nth-child(1){ animation-delay: 0s; }
+  .rings circle:nth-child(2){ animation-delay: .25s; }
+  .rings circle:nth-child(3){ animation-delay: .5s; }
+  .rings circle:nth-child(4){ animation-delay: .75s; }
+  .rings circle:nth-child(5){ animation-delay: 1s; }
+  .rings circle:nth-child(6){ animation-delay: 1.25s; opacity:.09; }
+  @media (prefers-reduced-motion:reduce){ .rings circle{ animation:none; } }
+
+  .orbit-ring{ position:absolute; left:50%; top:64%;
+    transform:translate(-50%,-50%);
+    width:min(560px, 78vw); aspect-ratio:1; z-index:8; pointer-events:none; }
+  .orbit-caption{ position:absolute;
+    font-family:var(--display-font); font-weight:500;
+    font-size:9px; letter-spacing:.32em; text-transform:uppercase;
+    color:rgba(233,224,206,.55); white-space:nowrap; }
+
+  .r-title{ position:absolute; bottom:14%; left:0; right:0;
+    text-align:center; z-index:9; padding:0 16px; }
+  .r-name{ font-family:var(--display-font); font-weight:500;
+    font-size:clamp(48px,10vw,96px); letter-spacing:.04em;
+    color:var(--paper); line-height:1; display:inline-block; }
+  .r-serif{ display:block; margin-top:10px;
+    font-family:var(--serif-font); font-style:italic;
+    font-size:clamp(14px,1.6vw,18px); color:var(--gold); letter-spacing:.02em; }
+  .r-tagline{ margin-top:10px;
+    font-family:var(--display-font); font-weight:500;
+    font-size:9px; letter-spacing:.42em; text-transform:uppercase;
+    color:rgba(181,34,26,.85); }
+
+  .sets-row{ position:absolute; bottom:3%; left:5%; right:5%;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:8px; z-index:10; }
+  .set-card{ background:rgba(14,11,10,.82); border:1px solid var(--gold);
+    padding:10px 12px; backdrop-filter:blur(6px);
+    transform-origin:50% 50%; }
+  .set-card:nth-child(odd){ transform:rotate(var(--tA)); }
+  .set-card:nth-child(even){ transform:rotate(var(--tB)); }
+  .set-card .num{ font-family:var(--display-font); font-weight:500;
+    font-size:20px; color:var(--blood); line-height:1; }
+  .set-card .name{ font-family:var(--display-font); font-weight:500;
+    font-size:10px; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--paper); margin-top:4px; }
+  .set-card .meta{ font-size:8.5px; letter-spacing:.12em;
+    color:var(--soft); margin-top:2px; }
+
+  /* ═══════════ VHS TRACKING SEAM ═══════════
+     Real VHS-tracking-error vocabulary, not generic "glitch":
+
+     L1  base warm-sepia gradient (aged tape stock, faint green cast core)
+     L2  interlace comb — always-on 1px dark lines every 2px
+     L3  tracking wobble bands — three horizontal strips that skew/translate
+         sideways by different amounts, on independent slow loops
+     L4  rolling head-switch bar — fat gray-white noisy band that scrolls
+         top→bottom, PAUSES ~40% (tracking hiccup), then continues
+     L5  signal dropout — rare black horizontal slivers, one-frame flash
+     L6  head-switching hash strip at the very bottom edge
+     L7  seam wordmark w/ chroma bleed — red smear +6px right, cyan trail -3px
+         (VHS colour lag, not symmetric RGB split)
+     L8  timecode-style kickers top/bottom
+  */
+  .seam{ position:relative; overflow:hidden; isolation:isolate;
     background:
-      radial-gradient(60% 80% at 80% 40%, rgba(181,34,26,.18), transparent 70%),
-      repeating-linear-gradient(45deg,
-        rgba(181,34,26,.04) 0 1px, transparent 1px 80px),
-      var(--ink);
-  }
-  .stage::before{
-    content:""; position: absolute; inset: 0; pointer-events: none;
-    background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
-    background-size: 3px 3px; mix-blend-mode: overlay; opacity: .28;
+      radial-gradient(80% 40% at 50% 50%, rgba(120,140,93,.08), transparent 70%),
+      linear-gradient(180deg,
+        var(--ink) 0%,
+        #1a1410 20%,
+        #221812 50%,
+        #1a1410 80%,
+        var(--ink) 100%);
   }
 
-  /* ═══════════ LEFT — wordmark + manifesto + routes ═══════════ */
-  .left{ position: relative; z-index: 2; }
-
-  .eyebrow{
-    display: block; margin-bottom: 18px;
-    font-family: var(--display-font); font-weight: 500;
-    font-size: 11px; letter-spacing: .32em; text-transform: uppercase;
-    color: var(--gold);
+  /* L2 — interlace comb */
+  .seam::before{
+    content:''; position:absolute; inset:0; z-index:1;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,.28) 0 1px,
+      transparent 1px 2px);
+    mix-blend-mode:multiply;
+    pointer-events:none;
   }
 
-  .wordmark-hero{
-    font-family: var(--display-font); font-weight: 500;
-    font-size: clamp(80px, 15vw, 220px); line-height: .9;
-    letter-spacing: .01em; color: var(--paper); margin: 0;
+  /* L4 — rolling head-switch bar */
+  .seam::after{
+    content:''; position:absolute; z-index:3;
+    left:-2%; right:-2%; height:16%; top:-16%;
+    background:
+      linear-gradient(to bottom,
+        rgba(233,224,206,.9)  0%,
+        rgba(233,224,206,.35) 4%,
+        rgba(180,175,155,.22) 18%,
+        rgba(120,115,100,.18) 55%,
+        rgba(60,55,48,.28)    92%,
+        rgba(30,25,20,.6)     100%),
+      repeating-linear-gradient(to bottom,
+        rgba(255,255,255,.06) 0 1px,
+        transparent 1px 3px);
+    mix-blend-mode:screen;
+    filter: blur(.4px) contrast(1.05);
+    animation: vhs-headswitch 7s cubic-bezier(.5,0,.5,1) infinite;
+    pointer-events:none;
   }
-  .wordmark-hero .name-serif{
-    display: block; margin-top: 14px;
-    font-family: var(--serif-font); font-style: italic; font-weight: 500;
-    font-size: clamp(18px, 2vw, 28px); letter-spacing: .01em;
-    color: var(--gold);
+  @keyframes vhs-headswitch{
+    0%   { top:-16%; opacity:.85; transform: skewY(-.4deg) translateX(0); }
+    35%  { top:42%;  opacity:.9;  transform: skewY(-.6deg) translateX(-1.2%); }
+    39%  { top:42%;  opacity:.75; transform: skewY(.2deg)  translateX(2%); }
+    42%  { top:42%;  opacity:.95; transform: skewY(-.3deg) translateX(-1%); }
+    75%  { top:110%; opacity:.7;  transform: skewY(-.4deg) translateX(0); }
+    100% { top:110%; opacity:0;   transform: skewY(-.4deg) translateX(0); }
   }
 
-  .manifesto-line{
-    max-width: 42ch;
-    margin: 32px 0 44px;
-    font-family: var(--serif-font); font-style: italic;
-    font-size: clamp(17px, 1.7vw, 22px); line-height: 1.4;
-    color: var(--cream);
+  /* L3 — tracking wobble bands */
+  .wobble-band{ position:absolute; left:-8%; right:-8%; z-index:2;
+    pointer-events:none; overflow:hidden;
+    mix-blend-mode:screen;
+    background:
+      radial-gradient(60% 100% at 50% 50%, rgba(199,154,75,.06), transparent 80%);
   }
-  .manifesto-line em{ color: var(--blood); font-style: italic; }
+  .wobble-band.wb-1{ top:16%; height:12%; animation: wobble-a 9s ease-in-out infinite; }
+  .wobble-band.wb-2{ top:44%; height:14%; animation: wobble-b 11s ease-in-out infinite; }
+  .wobble-band.wb-3{ top:74%; height:12%; animation: wobble-c 7s ease-in-out infinite; }
+  @keyframes wobble-a{
+    0%,100%{ transform:translateX(0) skewX(0); }
+    30%    { transform:translateX(-2.5%) skewX(-1.2deg); }
+    62%    { transform:translateX(1.8%)  skewX(.6deg); }
+    82%    { transform:translateX(-.6%)  skewX(-.3deg); }
+  }
+  @keyframes wobble-b{
+    0%,100%{ transform:translateX(0) skewX(0); }
+    24%    { transform:translateX(3.2%)  skewX(.8deg); }
+    48%    { transform:translateX(-4.2%) skewX(-1.6deg); }
+    50%    { transform:translateX(6%)    skewX(2deg); }
+    52%    { transform:translateX(-2%)   skewX(-.6deg); }
+    78%    { transform:translateX(1.2%)  skewX(.4deg); }
+  }
+  @keyframes wobble-c{
+    0%,100%{ transform:translateX(0) skewX(0); }
+    40%    { transform:translateX(-1.6%) skewX(-.5deg); }
+    68%    { transform:translateX(2.4%)  skewX(.8deg); }
+  }
 
-  /* Three routes — direct, no ornament */
-  .routes{
-    display: flex; flex-direction: column; gap: 0;
-    max-width: 480px;
-    border-top: 1px solid rgba(199,154,75,.3);
+  /* L6 — head-switching hash strip at bottom */
+  .head-hash{ position:absolute; left:0; right:0; bottom:0; height:3%; z-index:6;
+    background:
+      repeating-linear-gradient(90deg,
+        rgba(233,224,206,.55) 0 1px,
+        transparent 1px 3px,
+        rgba(233,224,206,.35) 3px 4px,
+        transparent 4px 7px),
+      linear-gradient(to bottom, rgba(255,255,255,.12), transparent 60%);
+    mix-blend-mode:screen;
+    pointer-events:none;
+    animation: head-hash 1.6s steps(12) infinite;
   }
-  .route{
-    display: grid; grid-template-columns: 40px 1fr auto;
-    align-items: center; gap: 16px;
-    padding: 18px 4px;
-    border-bottom: 1px solid rgba(199,154,75,.3);
-    transition: padding .2s, background .2s;
+  @keyframes head-hash{
+    0%,100%{ background-position:0 0, 0 0; opacity:.9; }
+    50%    { background-position:-14px 0, 0 0; opacity:.55; }
   }
-  .route:hover{ padding-left: 12px; background: rgba(181,34,26,.06); }
-  .route .num{
-    font-family: var(--display-font); font-weight: 500;
-    font-size: 13px; letter-spacing: .18em; color: var(--gold);
-  }
-  .route .label{
-    font-family: var(--display-font); font-weight: 500;
-    font-size: clamp(15px, 1.4vw, 18px); letter-spacing: .06em;
-    color: var(--paper);
-  }
-  .route .arrow{
-    font-family: var(--display-font); font-weight: 500;
-    font-size: 16px; color: var(--blood);
-    transition: transform .2s;
-  }
-  .route:hover .arrow{ transform: translateX(4px); }
 
-  /* ═══════════ RIGHT — portrait ═══════════ */
-  .right{ position: relative; z-index: 2; }
-  .portrait-frame{
-    position: relative;
-    width: 100%; max-width: 520px; margin-left: auto;
-    aspect-ratio: 4/5;
-    border: 2px solid rgba(181,34,26,.55);
-    overflow: hidden;
+  /* L5 — signal dropouts */
+  .dropout{ position:absolute; left:0; right:0; height:3px; z-index:4;
+    background:#000; pointer-events:none; opacity:0;
+  }
+  .dropout.d1{ top:31%; animation: dropout 9.7s steps(1) infinite; }
+  .dropout.d2{ top:58%; animation: dropout 13.3s 2.4s steps(1) infinite; }
+  .dropout.d3{ top:22%; animation: dropout 11.1s 4.8s steps(1) infinite; height:1px; }
+  @keyframes dropout{
+    0%, 96%, 100% { opacity:0; }
+    97%           { opacity:.9; }
+    98%           { opacity:0; }
+    99%           { opacity:.55; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .seam::after{ display:none; }
+    .wobble-band, .head-hash, .dropout{ animation:none; }
+  }
+
+  /* L7 — seam wordmark with chroma bleed */
+  .seam-word{ position:absolute; inset:0; z-index:5;
+    display:flex; align-items:center; justify-content:center;
+    pointer-events:none; overflow:hidden;
+    animation: seam-word-jitter 4.8s steps(48) infinite;
+  }
+  .seam-word .word{
+    position:relative;
+    font-family:var(--display-font); font-weight:500;
+    font-size:clamp(80px, 14vw, 180px);
+    letter-spacing:.06em; line-height:1;
+    color:var(--paper);
+    text-shadow: 0 0 12px rgba(233,224,206,.08);
+    filter: contrast(1.1);
+  }
+  .seam-word .word::before,
+  .seam-word .word::after{
+    content: attr(data-word);
+    position:absolute; left:0; top:0;
+    font:inherit; letter-spacing:inherit;
+  }
+  .seam-word .word::before{
+    color: rgba(181,34,26,.9);
+    transform: translate(6px, 1px);
+    filter: blur(.6px);
+    mix-blend-mode: screen;
+    z-index:-1;
+  }
+  .seam-word .word::after{
+    color: rgba(120,150,180,.5);
+    transform: translate(-3px, 0);
+    filter: blur(.3px);
+    mix-blend-mode: screen;
+    z-index:-2;
+  }
+  @keyframes seam-word-jitter{
+    0%,  22%, 100% { transform: translate(0,0); }
+    23%            { transform: translate(2px, -1px); }
+    24%            { transform: translate(-1px, 1px); }
+    25%,  62%      { transform: translate(0,0); }
+    63%            { transform: translate(3px, 0); }
+    64%            { transform: translate(-2px, 2px); }
+    65%            { transform: translate(0,0); }
+  }
+  @media (prefers-reduced-motion:reduce){ .seam-word{ animation:none; } }
+
+  /* L8 — timecode kickers */
+  .seam-kicker{ position:absolute; z-index:7;
+    top:6%; left:0; right:0; text-align:center;
+    font-family:var(--display-font); font-weight:500;
+    font-size:10px; letter-spacing:.5em; text-transform:uppercase;
+    color:rgba(199,154,75,.75);
+    text-shadow: 0 0 4px rgba(199,154,75,.2);
+  }
+  .seam-kicker.bottom{ top:auto; bottom:7%;
+    color:rgba(181,34,26,.85); letter-spacing:.42em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ═══════════ POSTER ═══════════
+     Simplified. From top to bottom:
+       · type-wall (background)
+       · SoundCloud embed (16:9, prominent, sits in the upper-right well)
+       · content-card (bottom-left, unchanged)
+       · foot mark
+  */
+  .poster{ position:relative; overflow:hidden;
+    /* Intrinsic height — content decides. Generous but bounded padding. */
+    padding:clamp(48px,7vw,96px) clamp(20px,4vw,60px) clamp(72px,8vw,112px);
+    background:var(--ink);
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: clamp(20px,3vw,36px);
+  }
+
+  .type-wall{ position:absolute; inset:0;
+    display:flex; flex-direction:column; justify-content:space-around;
+    overflow:hidden; pointer-events:none; z-index:1; }
+  .tw-row{ display:flex; align-items:center; white-space:nowrap;
+    user-select:none; line-height:.86; transform-origin:left center; }
+  .tw-word{ font-family:var(--display-font); font-weight:500;
+    padding:0 .04em; letter-spacing:.02em;
+    font-size:clamp(80px,14vw,150px); }
+  .tw-row:nth-child(1){ transform:rotate(var(--tB)); }
+  .tw-row:nth-child(1) .tw-word{ color:var(--paper); }
+  .tw-row:nth-child(2){ padding-left:6%; transform:rotate(var(--tA)); }
+  .tw-row:nth-child(2) .tw-word{ color:var(--blood); }
+  .tw-row:nth-child(3){ padding-left:12%; transform:rotate(var(--tB)); }
+  .tw-row:nth-child(3) .tw-word{ color:transparent;
+    -webkit-text-stroke:1.5px var(--paper); opacity:.72; }
+  .tw-row:nth-child(4){ padding-left:4%; transform:rotate(var(--tA)); }
+  .tw-row:nth-child(4) .tw-word{ color:transparent;
+    -webkit-text-stroke:1.2px var(--blood); opacity:.42; }
+  .tw-row:nth-child(5){ padding-left:10%; transform:rotate(var(--tB)); }
+  .tw-row:nth-child(5) .tw-word{ color:transparent;
+    -webkit-text-stroke:.8px var(--gold); opacity:.22; }
+  .tw-row:nth-child(6){ padding-left:2%; transform:rotate(var(--tA)); }
+  .tw-row:nth-child(6) .tw-word{ color:transparent;
+    -webkit-text-stroke:.5px var(--paper); opacity:.08; }
+
+  /* ═════════ SOUNDCLOUD SLOT ═════════
+     Deliberate, prominent, reserved space. Sits on the right,
+     type-wall visible behind it. Waits for the actual embed URL. */
+  .sc-slot{ position:relative; z-index:12;
+    justify-self:end; margin-right:clamp(0px,4vw,40px);
+    width:min(560px, 78vw);
+    background:rgba(14,11,10,.94);
+    border:1px solid rgba(199,154,75,.35);
+    box-shadow:
+      0 24px 60px rgba(0,0,0,.5),
+      inset 0 0 0 6px rgba(14,11,10,.94),
+      inset 0 0 0 7px rgba(181,34,26,.35);
+    padding:14px 14px 12px;
+    backdrop-filter:blur(14px);
+  }
+  .sc-slot .sc-meta{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:10px;
+    font-family:var(--display-font); font-weight:500;
+    font-size:10px; letter-spacing:.42em; text-transform:uppercase;
+    color:var(--gold);
+  }
+  .sc-slot .sc-meta .listen{ color:var(--blood); }
+  /* 16:9 iframe / placeholder well */
+  .sc-slot .sc-frame{
+    position:relative; width:100%; aspect-ratio: 16/9;
+    background:
+      linear-gradient(135deg, rgba(199,154,75,.06), rgba(181,34,26,.05)),
+      #050403;
+    border:1px solid rgba(199,154,75,.22);
+    overflow:hidden;
+  }
+  .sc-slot iframe{
+    position:absolute; inset:0; width:100%; height:100%; border:0;
+  }
+  /* Placeholder shown when no iframe is present */
+  .sc-slot .sc-placeholder{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:14px; text-align:center;
+    padding:20px; pointer-events:none;
+  }
+  .sc-slot .sc-placeholder .icon{
+    width:44px; height:44px; border:1.5px solid var(--gold); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--gold); font-family:var(--display-font); font-size:20px;
+  }
+  .sc-slot .sc-placeholder .label{
+    font-family:var(--display-font); font-weight:500;
+    font-size:11px; letter-spacing:.42em; text-transform:uppercase;
+    color:rgba(233,224,206,.7);
+  }
+  .sc-slot .sc-placeholder .hint{
+    font-family:var(--body-font); font-size:11px;
+    color:rgba(233,224,206,.35); letter-spacing:.08em;
+    max-width:30ch;
+  }
+  /* Hide the placeholder automatically if an iframe is present */
+  .sc-slot .sc-frame:has(iframe) .sc-placeholder{ display:none; }
+
+  /* ═════════ CONTENT CARD ═════════ */
+  .content-card{ position:relative; z-index:20;
+    justify-self:start; margin-left:clamp(0px,4vw,20px);
+    width:min(560px, 82vw);
+    padding:clamp(20px,3vw,32px);
+    background:rgba(14,11,10,.92);
+    border:1px solid rgba(199,154,75,.35);
+    backdrop-filter:blur(14px);
+  }
+  .poster-logo{ font-family:var(--display-font); font-weight:500;
+    font-size:clamp(38px,7vw,60px); letter-spacing:.05em;
+    color:var(--paper); line-height:.9; }
+  .poster-serif{ display:block; margin-top:8px;
+    font-family:var(--serif-font); font-style:italic;
+    font-size:clamp(14px,1.6vw,17px); color:var(--gold); letter-spacing:.02em; }
+  .poster-tags{ margin:14px 0 16px;
+    font-family:var(--display-font); font-weight:500;
+    font-size:10px; letter-spacing:.42em; text-transform:uppercase;
+    color:rgba(181,34,26,.85); }
+  .card-divider{ width:44px; height:1px; background:var(--blood);
+    margin:0 0 16px; opacity:.65; }
+  .bio-text{ font-family:var(--body-font); font-size:clamp(11.5px,1.1vw,13px);
+    line-height:1.65; color:var(--soft); max-width:42ch; }
+  .sets-list{ margin-top:14px; list-style:none; padding:0;
+    display:flex; flex-direction:column; gap:6px; }
+  .sets-list li{ display:grid; grid-template-columns:auto 1fr auto;
+    align-items:baseline; gap:12px;
+    font-family:var(--display-font); font-size:11px;
+    letter-spacing:.05em; text-transform:uppercase; }
+  .sl-num{ font-weight:600; font-size:15px; color:var(--blood); }
+  .sl-name{ color:var(--paper); font-weight:500; }
+  .sl-meta{ color:var(--mute); font-weight:400; letter-spacing:.12em; }
+
+  .poster-foot{ position:absolute; z-index:25;
+    bottom:clamp(16px,2.5vh,28px); left:5%; right:5%;
+    display:flex; justify-content:space-between; align-items:center; }
+  .poster-foot .panther-mark{
+    width:26px; height:26px; border-radius:50%;
+    background:var(--paper) url('assets/panther-mark.svg') center/70% no-repeat;
+    border:1px solid var(--gold); }
+  .poster-foot .kicker{ font-family:var(--display-font); font-weight:500;
+    font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+
+  /* ═══════════ RITUAL PORTRAIT (embedded, not shared) ═══════════
+     In the compressed spread landing, the shared portrait created too
+     much overlap with the sets row + the ritual wordmark. Cleaner:
+     place a modest circular portrait inside the ritual section only,
+     let the type wall on the poster side carry the visual weight.
+     The rectangular plate lives in /print/poster for the A4 print. */
+  /* Portrait is absolutely positioned relative to .spread. Ritual section
+     is min(720px, 82vh), so place the portrait CENTER at ~44% of that. */
+  .portrait-shared{
+    position:absolute; z-index:8;
+    left:50%;
+    top: calc(min(720px, 82vh) * 0.44);
+    transform:translate(-50%, -50%);
+    width:min(220px, 26vw);
+    aspect-ratio:1;
+    pointer-events:none;
+  }
+  .portrait-shared .circle{
+    position:absolute; inset:0;
+    border-radius:50%; overflow:hidden;
+    border:2px solid rgba(181,34,26,.55);
     box-shadow:
       0 0 0 1px rgba(199,154,75,.35),
-      0 24px 80px rgba(0,0,0,.6),
-      0 0 60px rgba(181,34,26,.18);
-    transform: rotate(1.2deg);
+      0 0 60px rgba(181,34,26,.28),
+      inset 0 0 40px rgba(0,0,0,.55);
+    z-index:2;
   }
-  .portrait-frame img{
-    width: 100%; height: 100%; object-fit: cover;
-    object-position: center 15%;
-    filter: contrast(1.08) brightness(.96);
+  .portrait-shared .circle img{
+    width:100%; height:100%; object-fit:cover;
+    object-position:52% 30%;
+    filter:contrast(1.1) brightness(.98);
   }
-  /* Subtle red plate offset behind the portrait, like the poster plate */
-  .portrait-frame::before{
-    content: ""; position: absolute;
-    inset: 12px 12px -12px -12px;
-    border: 1.5px solid rgba(181,34,26,.4);
-    z-index: -1;
-  }
+  /* Plate ghost hidden on the compressed landing — lives in /print/poster */
+  .portrait-shared .plate{ display:none; }
 
-  /* ═══════════ FOOTER ROW — pure info ═══════════ */
-  .stage-foot{
-    position: absolute; left: clamp(32px, 6vw, 96px); right: clamp(32px, 6vw, 96px);
-    bottom: clamp(20px, 3vh, 32px);
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 20px; flex-wrap: wrap;
-    font-family: var(--display-font); font-weight: 500;
-    font-size: 10px; letter-spacing: .32em; text-transform: uppercase;
-    color: var(--mute); z-index: 3;
+  /* ═══════════ RESPONSIVE ═══════════ */
+  @media (max-width:960px){
+    .poster{ padding-block:clamp(40px,7vw,72px); }
+    .sc-slot, .content-card{ justify-self:center; margin-inline:auto; }
+    .sc-slot{ width:calc(100% - 20px); }
+    .content-card{ width:calc(100% - 20px); }
   }
-
-  /* ═══════════ MOBILE ═══════════
-     Stack vertically. Portrait becomes a strip up top.
-     Wordmark + manifesto + routes below. */
-  @media (max-width: 820px){
-    .stage{
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto;
-      padding-top: 100px;
-      gap: clamp(24px, 4vh, 40px);
-    }
-    .right{ order: -1; }
-    .portrait-frame{ margin: 0 auto; max-width: 320px; }
-    .stage-foot{ position: static; margin-top: 40px; }
+  @media (max-width:720px){
+    .spread{ grid-template-rows:
+      min(560px, 80vh)
+      min(240px, 28vh)
+      auto; }
+    .sets-row{ grid-template-columns:1fr 1fr; gap:6px; bottom:4%; }
+    .set-card:nth-child(3){ grid-column:1 / span 2; }
+    .portrait-shared{ width:min(190px, 40vw); top: calc(min(560px, 80vh) * 0.42); }
+    .r-title{ bottom:20%; }
+    .tw-word{ font-size:clamp(56px,17vw,100px); }
   }
-  @media (max-width: 480px){
-    .portrait-frame{ max-width: 260px; transform: rotate(0); }
-    .lang-toggle, .quick-links{ top: 12px; }
-    .lang-toggle{ right: 12px; }
-    .quick-links{ left: 12px; font-size: 10px; padding: 6px 10px; gap: 8px; }
-    .quick-links .hide-mobile{ display: none; }
+  @media (max-width:480px){
+    .spread{ grid-template-rows:
+      min(520px, 78vh)
+      min(200px, 24vh)
+      auto; }
+    .r-header .kicker{ display:none; }
+    .r-title{ bottom:18%; }
+    .sets-row{ display:flex; flex-direction:column; gap:6px; bottom:3%; }
+    .set-card:nth-child(3){ grid-column:auto; }
+    .portrait-shared{ width:min(160px, 42vw); top: calc(min(520px, 78vh) * 0.40); }
+    .seam-word .word{ font-size:clamp(56px, 18vw, 120px); }
   }
   </style>
 </head>
 <body>
 
-<nav class="quick-links" aria-label="Contact">
-  <a href="https://www.instagram.com/patriciacheda_/" target="_blank" rel="noopener">@patriciacheda_</a>
-  <span class="sep">·</span>
-  <a href="mailto:patriciavchedach@gmail.com" class="hide-mobile" data-i18n="quick.mail">contato</a>
-  <a href="mailto:patriciavchedach@gmail.com" style="display:none" class="show-mobile">✉</a>
+<nav class="switcher" aria-label="Layouts">
+  <a href="/print/ritual">3a</a>
+  <a href="/print/poster">3b</a>
+  <a href="/print/morph">morph</a>
+  <a class="on" href="/">spread</a>
 </nav>
+<div class="grain" aria-hidden="true"></div>
 
-<nav class="lang-toggle" aria-label="Language">
-  <button class="on" data-lang="pt" aria-pressed="true">PT</button>
-  <button data-lang="en" aria-pressed="false">EN</button>
-</nav>
+<div class="spread">
 
-<main class="stage">
-  <div class="left">
-    <span class="eyebrow" data-i18n="eyebrow">Digital Press Kit · 2026</span>
+  <!-- 3a RITUAL -->
+  <section class="ritual" aria-label="3a Ritual">
+    <svg class="rings" viewBox="0 0 794 1123" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="397" cy="620" r="180" fill="none" stroke="#B5221A" stroke-width="1.4"/>
+      <circle cx="397" cy="620" r="270" fill="none" stroke="#E9E0CE" stroke-width="1.1"/>
+      <circle cx="397" cy="620" r="370" fill="none" stroke="#C79A4B" stroke-width=".9"/>
+      <circle cx="397" cy="620" r="480" fill="none" stroke="#E9E0CE" stroke-width=".7"/>
+      <circle cx="397" cy="620" r="600" fill="none" stroke="#B5221A" stroke-width=".55"/>
+      <circle cx="397" cy="620" r="730" fill="none" stroke="#E9E0CE" stroke-width=".4"/>
+    </svg>
 
-    <h1 class="wordmark-hero">
-      CHÊDA
-      <span class="name-serif">Patrícia Chêda</span>
-    </h1>
+    <div class="r-header">
+      <div class="brand">
+        <div class="panther-mark" aria-hidden="true"></div>
+        <span class="wordmark">CHÊDA</span>
+      </div>
+      <span class="kicker">Digital Press Kit · 2026 · 3a Ritual</span>
+    </div>
 
-    <p class="manifesto-line">
-      <span data-i18n="manifesto">
-        <em>Música em movimento.</em> Movimento em unidade. Cada batida ecoa o pulsar da própria vida.
-      </span>
-    </p>
+    <div class="orbit-ring" id="orbit-ring" aria-hidden="true"></div>
 
-    <nav class="routes" aria-label="Onde ir">
-      <a class="route" href="/print/spread.html#mixes">
-        <span class="num">01</span>
-        <span class="label" data-i18n="route.mixes">Mixes · Listen</span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="route" href="mailto:patriciavchedach@gmail.com?subject=Booking%20%C2%B7%20Ch%C3%AAda">
-        <span class="num">02</span>
-        <span class="label" data-i18n="route.booking">Booking · Contato</span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="route" href="/print/spread.html">
-        <span class="num">03</span>
-        <span class="label" data-i18n="route.press">Press kit A4</span>
-        <span class="arrow">→</span>
-      </a>
-    </nav>
-  </div>
+    <div class="r-title">
+      <span class="r-name">CHÊDA</span>
+      <em class="r-serif">Patrícia Chêda</em>
+      <div class="r-tagline">som que invoca · cada set é um ritual</div>
+    </div>
 
-  <div class="right">
-    <div class="portrait-frame">
+    <div class="sets-row">
+      <div class="set-card">
+        <div class="num">01</div>
+        <div class="name">Ritual Noturno</div>
+        <div class="meta">live · 58 min · techno</div>
+      </div>
+      <div class="set-card">
+        <div class="num">02</div>
+        <div class="name">Som que Invoca</div>
+        <div class="meta">studio · 62 min · hypnotic</div>
+      </div>
+      <div class="set-card">
+        <div class="num">03</div>
+        <div class="name">Pista Aberta</div>
+        <div class="meta">club · 74 min · peak time</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VHS TRACKING SEAM -->
+  <section class="seam" aria-label="Ritual → Poster tracking transition">
+    <div class="seam-kicker">▶ play · vhs · 3a → 3b · tracking</div>
+
+    <div class="wobble-band wb-1" aria-hidden="true"></div>
+    <div class="wobble-band wb-2" aria-hidden="true"></div>
+    <div class="wobble-band wb-3" aria-hidden="true"></div>
+
+    <div class="dropout d1" aria-hidden="true"></div>
+    <div class="dropout d2" aria-hidden="true"></div>
+    <div class="dropout d3" aria-hidden="true"></div>
+
+    <div class="seam-word" aria-hidden="true">
+      <span class="word" data-word="CHÊDA">CHÊDA</span>
+    </div>
+
+    <div class="head-hash" aria-hidden="true"></div>
+
+    <div class="seam-kicker bottom">rec · sp · 00:03:42 · tracking</div>
+  </section>
+
+  <!-- 3b POSTER + SOUNDCLOUD SLOT -->
+  <section class="poster" aria-label="3b Poster">
+    <div class="type-wall" aria-hidden="true">
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+    </div>
+
+    <!--
+      ═══ SOUNDCLOUD EMBED SLOT ═══
+      Drop the actual iframe inside .sc-frame when the URL arrives.
+      Placeholder auto-hides when iframe is present (via CSS :has()).
+    -->
+    <div class="sc-slot" id="soundcloud">
+      <div class="sc-meta">
+        <span>SoundCloud · Featured Set</span>
+        <span class="listen">▶ Listen</span>
+      </div>
+      <div class="sc-frame" id="sc-frame">
+        <!-- IFRAME GOES HERE. Example when URL is ready:
+        <iframe scrolling="no" frameborder="no" allow="autoplay"
+          src="https://w.soundcloud.com/player/?url=[TRACK_OR_PLAYLIST_URL]&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true&color=%23B5221A"></iframe>
+        -->
+        <div class="sc-placeholder">
+          <div class="icon">♪</div>
+          <div class="label">SoundCloud embed</div>
+          <div class="hint">reserved for the featured set — waiting on the URL</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <div class="poster-logo">
+        CHÊDA
+        <em class="poster-serif">Patrícia Chêda</em>
+      </div>
+      <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
+      <div class="card-divider"></div>
+      <p class="bio-text">
+        Patrícia Chêda &mdash; DJ e selectora &mdash; atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.
+      </p>
+      <ul class="sets-list">
+        <li><span class="sl-num">01</span><span class="sl-name">Ritual Noturno</span><span class="sl-meta">live · 58 min</span></li>
+        <li><span class="sl-num">02</span><span class="sl-name">Som que Invoca</span><span class="sl-meta">studio · 62 min</span></li>
+        <li><span class="sl-num">03</span><span class="sl-name">Pista Aberta</span><span class="sl-meta">club · 74 min</span></li>
+      </ul>
+    </div>
+
+    <div class="poster-foot">
+      <div class="panther-mark" aria-hidden="true"></div>
+      <span class="kicker">Booking · pat@chdx.fm · 2026</span>
+    </div>
+  </section>
+
+  <!-- SHARED PORTRAIT -->
+  <div class="portrait-shared" aria-hidden="true">
+    <div class="plate">
+      <img src="assets/portrait-poster.jpg" alt="">
+    </div>
+    <div class="circle">
       <img src="assets/portrait-ritual.jpg" alt="Patrícia Chêda — retrato editorial">
     </div>
   </div>
-
-  <div class="stage-foot">
-    <span>Florianópolis · SC · Brasil</span>
-    <span>Techno · Tech House · Noise</span>
-  </div>
-</main>
+</div>
 
 <script>
-const i18n = {
-  'eyebrow':       { pt: 'Digital Press Kit · 2026',       en: 'Digital Press Kit · 2026' },
-  'manifesto':     { pt: '<em>Música em movimento.</em> Movimento em unidade. Cada batida ecoa o pulsar da própria vida.',
-                     en: '<em>Music into movement.</em> Movement into unity. Every beat echoes the pulse of life itself.' },
-  'quick.mail':    { pt: 'contato',                        en: 'contact' },
-  'route.mixes':   { pt: 'Mixes · Listen',                 en: 'Mixes · Listen' },
-  'route.booking': { pt: 'Booking · Contato',              en: 'Booking · Contact' },
-  'route.press':   { pt: 'Press kit A4',                   en: 'A4 press kit' }
-};
-
-function setLang(lang){
-  document.documentElement.dataset.lang = lang;
-  document.documentElement.lang = lang === 'en' ? 'en' : 'pt-BR';
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const k = el.dataset.i18n;
-    if(i18n[k] && i18n[k][lang]) el.innerHTML = i18n[k][lang];
+(function(){
+  const labels=[
+    'Techno · Tech House','Noise · Hypnotic',
+    'Florianópolis · SC','Som que Invoca','Ritual · não Playlist',
+    'Booking Direto','CHÊDA · 2026'
+  ];
+  const ring=document.getElementById('orbit-ring');
+  if(!ring) return;
+  labels.forEach((txt,i)=>{
+    const angle=(i/labels.length)*360 - 90;
+    const rad=angle*Math.PI/180;
+    const r=50;
+    const x=50+r*Math.cos(rad);
+    const y=50+r*Math.sin(rad);
+    const s=document.createElement('span');
+    s.className='orbit-caption';
+    s.textContent=txt;
+    s.style.left=x+'%';
+    s.style.top=y+'%';
+    s.style.transform='translate(-50%,-50%) rotate('+(angle+90)+'deg)';
+    ring.appendChild(s);
   });
-  document.querySelectorAll('.lang-toggle button').forEach(b => {
-    const on = b.dataset.lang === lang;
-    b.classList.toggle('on', on);
-    b.setAttribute('aria-pressed', on);
-  });
-}
-document.querySelectorAll('.lang-toggle button').forEach(b => {
-  b.addEventListener('click', () => setLang(b.dataset.lang));
-});
-setLang('pt');
+})();
 </script>
 
 </body>
