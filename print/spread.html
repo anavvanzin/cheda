@@ -10,10 +10,16 @@
   <link rel="stylesheet" href="../styles/tokens.css">
   <style>
   /*
-     One continuous scrollable page.
-     Ritual composition → glitch seam → Poster composition.
-     Portrait is ONE shared image that rips from circle to plate across the seam.
-     Mobile: everything reflows to a single-column stack; the seam still glitches.
+    Continuous scrollable page. One column. Three sections stacked:
+      1. Ritual  (rings + orbit captions + wordmark + set cards)
+      2. Seam    (VHS tracking error — wobble, headswitch bar, chroma bleed)
+      3. Poster  (type wall + SoundCloud slot + content card)
+
+    Shared portrait straddles the ritual→seam boundary so the reader
+    physically rides from one composition into the other.
+
+    Hierarchy (top → bottom of visual weight):
+      portrait  →  wordmark  →  soundcloud  →  content card
   */
 
   html,body{ margin:0; background:var(--ink); color:var(--cream);
@@ -21,7 +27,6 @@
     -webkit-font-smoothing:antialiased; }
   img{ display:block; max-width:100%; height:auto; }
 
-  /* Fixed top-right switcher back to the individual pages */
   .switcher{ position:fixed; top:12px; right:12px; z-index:1000;
     display:flex; gap:6px; }
   .switcher a{
@@ -34,24 +39,15 @@
   .switcher a:hover{ color:var(--cream); border-color:rgba(233,224,206,.6); }
   .switcher a.on{ background:var(--blood); border-color:var(--blood); color:var(--paper); }
 
-  /* Grain overlay (page-wide) */
   .grain{ position:fixed; inset:0; z-index:5; pointer-events:none;
     background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
-    background-size:3px 3px; mix-blend-mode:overlay; opacity:.28; }
+    background-size:3px 3px; mix-blend-mode:overlay; opacity:.24; }
 
-  /* ─────────────────────────────────────────────────────
-     LAYOUT
-     .spread is a single column that scrolls: ritual > seam > poster.
-     Desktop and mobile share the same column model — the difference is
-     only in intrinsic sizes (clamps) and the max grid columns.
-     ───────────────────────────────────────────────────── */
-  .spread{ position:relative; width:100%;
-    display:grid;
-    grid-template-rows: 100vh 60vh 100vh;
-    /* Ritual · Seam · Poster stacked full-height */
-    max-width:100%; }
+  .spread{ position:relative; width:100%; display:grid;
+    grid-template-rows: 100vh 62vh auto;
+  }
 
-  /* ═══════════ RITUAL SECTION ═══════════ */
+  /* ═══════════ RITUAL ═══════════ */
   .ritual{ position:relative; overflow:hidden;
     padding:clamp(24px,4vw,64px) clamp(20px,4vw,60px);
     background:var(--ink);
@@ -70,7 +66,6 @@
   .ritual .kicker{ font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
 
-  /* Concentric strobe rings — centered on the shared portrait */
   .rings{ position:absolute; inset:0; z-index:1; pointer-events:none; }
   @keyframes ring-pulse{ 0%,100%{opacity:.14;} 50%{opacity:.44;} }
   .rings circle{ animation: ring-pulse 3s ease-in-out infinite; }
@@ -82,11 +77,6 @@
   .rings circle:nth-child(6){ animation-delay: 1.25s; opacity:.09; }
   @media (prefers-reduced-motion:reduce){ .rings circle{ animation:none; } }
 
-  /* Portrait — LIVES INSIDE THE SEAM; ritual side sees just the top half
-     as a circular mask, poster side sees the full rectangular plate.
-     Positioned absolutely relative to .spread so it crosses the seam. */
-
-  /* Orbit captions */
   .orbit-ring{ position:absolute; left:50%; top:64%;
     transform:translate(-50%,-50%);
     width:min(560px, 78vw); aspect-ratio:1; z-index:8; pointer-events:none; }
@@ -95,7 +85,6 @@
     font-size:9px; letter-spacing:.32em; text-transform:uppercase;
     color:rgba(233,224,206,.55); white-space:nowrap; }
 
-  /* Ritual title block */
   .r-title{ position:absolute; bottom:14%; left:0; right:0;
     text-align:center; z-index:9; padding:0 16px; }
   .r-name{ font-family:var(--display-font); font-weight:700;
@@ -109,7 +98,6 @@
     font-size:9px; letter-spacing:.42em; text-transform:uppercase;
     color:rgba(181,34,26,.85); }
 
-  /* Set cards row at ritual foot */
   .sets-row{ position:absolute; bottom:3%; left:5%; right:5%;
     display:grid; grid-template-columns:repeat(3,1fr); gap:8px; z-index:10; }
   .set-card{ background:rgba(14,11,10,.82); border:1px solid var(--gold);
@@ -125,127 +113,214 @@
   .set-card .meta{ font-size:8.5px; letter-spacing:.12em;
     color:var(--soft); margin-top:2px; }
 
-  /* ═══════════ THE GLITCH SEAM ═══════════
-     The bleed zone between ritual and poster.
-     · Horizontal scanlines that stutter
-     · Two RGB-split copies of "CHDX" that drift
-     · Datamosh rectangles that tear the portrait edge
-     · Vertical scan line that swipes across on load
-     */
-  .seam{ position:relative; overflow:hidden;
+  /* ═══════════ VHS TRACKING SEAM ═══════════
+     Real VHS-tracking-error vocabulary, not generic "glitch":
+
+     L1  base warm-sepia gradient (aged tape stock, faint green cast core)
+     L2  interlace comb — always-on 1px dark lines every 2px
+     L3  tracking wobble bands — three horizontal strips that skew/translate
+         sideways by different amounts, on independent slow loops
+     L4  rolling head-switch bar — fat gray-white noisy band that scrolls
+         top→bottom, PAUSES ~40% (tracking hiccup), then continues
+     L5  signal dropout — rare black horizontal slivers, one-frame flash
+     L6  head-switching hash strip at the very bottom edge
+     L7  seam wordmark w/ chroma bleed — red smear +6px right, cyan trail -3px
+         (VHS colour lag, not symmetric RGB split)
+     L8  timecode-style kickers top/bottom
+  */
+  .seam{ position:relative; overflow:hidden; isolation:isolate;
     background:
+      radial-gradient(80% 40% at 50% 50%, rgba(120,140,93,.08), transparent 70%),
       linear-gradient(180deg,
         var(--ink) 0%,
-        #16110f 40%,
-        #16110f 60%,
+        #1a1410 20%,
+        #221812 50%,
+        #1a1410 80%,
         var(--ink) 100%);
   }
-  /* Scanlines */
+
+  /* L2 — interlace comb */
   .seam::before{
-    content:''; position:absolute; inset:0;
+    content:''; position:absolute; inset:0; z-index:1;
     background:repeating-linear-gradient(
       to bottom,
-      rgba(233,224,206,.04) 0 1px,
-      transparent 1px 3px);
+      rgba(0,0,0,.28) 0 1px,
+      transparent 1px 2px);
+    mix-blend-mode:multiply;
     pointer-events:none;
-    mix-blend-mode:screen;
-    animation: scan-stutter 3.4s steps(28) infinite;
-  }
-  @keyframes scan-stutter{
-    0%,100%{ transform:translateY(0); opacity:.7; }
-    47%{ transform:translateY(-4px); opacity:1; }
-    50%{ transform:translateY(6px); opacity:.4; }
-    53%{ transform:translateY(-2px); opacity:.9; }
   }
 
-  /* Datamosh horizontal tear band */
+  /* L4 — rolling head-switch bar */
   .seam::after{
-    content:''; position:absolute;
-    left:-4%; right:-4%; top:44%; height:14%;
+    content:''; position:absolute; z-index:3;
+    left:-2%; right:-2%; height:16%; top:-16%;
     background:
-      linear-gradient(90deg,
-        transparent 0%,
-        rgba(181,34,26,.14) 12%,
-        rgba(233,224,206,.10) 26%,
-        transparent 40%,
-        rgba(181,34,26,.20) 58%,
-        transparent 72%,
-        rgba(199,154,75,.14) 88%,
-        transparent 100%);
+      linear-gradient(to bottom,
+        rgba(233,224,206,.9)  0%,
+        rgba(233,224,206,.35) 4%,
+        rgba(180,175,155,.22) 18%,
+        rgba(120,115,100,.18) 55%,
+        rgba(60,55,48,.28)    92%,
+        rgba(30,25,20,.6)     100%),
+      repeating-linear-gradient(to bottom,
+        rgba(255,255,255,.06) 0 1px,
+        transparent 1px 3px);
     mix-blend-mode:screen;
-    filter:blur(.4px);
-    animation: mosh 2.6s ease-in-out infinite;
+    filter: blur(.4px) contrast(1.05);
+    animation: vhs-headswitch 7s cubic-bezier(.5,0,.5,1) infinite;
     pointer-events:none;
   }
-  @keyframes mosh{
-    0%,100%{ transform:translate(0,0)   scaleY(1); }
-    30%    { transform:translate(-6%,2px) scaleY(1.06); }
-    55%    { transform:translate(4%,-3px) scaleY(.94); }
-    78%    { transform:translate(-2%,1px) scaleY(1.02); }
-  }
-  @media (prefers-reduced-motion:reduce){
-    .seam::before, .seam::after{ animation:none; }
+  @keyframes vhs-headswitch{
+    0%   { top:-16%; opacity:.85; transform: skewY(-.4deg) translateX(0); }
+    35%  { top:42%;  opacity:.9;  transform: skewY(-.6deg) translateX(-1.2%); }
+    39%  { top:42%;  opacity:.75; transform: skewY(.2deg)  translateX(2%); }
+    42%  { top:42%;  opacity:.95; transform: skewY(-.3deg) translateX(-1%); }
+    75%  { top:110%; opacity:.7;  transform: skewY(-.4deg) translateX(0); }
+    100% { top:110%; opacity:0;   transform: skewY(-.4deg) translateX(0); }
   }
 
-  /* RGB-split ghost text — three copies of "CHDX" stack in the seam */
-  .seam-ghost{ position:absolute; inset:0; z-index:2;
+  /* L3 — tracking wobble bands */
+  .wobble-band{ position:absolute; left:-8%; right:-8%; z-index:2;
+    pointer-events:none; overflow:hidden;
+    mix-blend-mode:screen;
+    background:
+      radial-gradient(60% 100% at 50% 50%, rgba(199,154,75,.06), transparent 80%);
+  }
+  .wobble-band.wb-1{ top:16%; height:12%; animation: wobble-a 9s ease-in-out infinite; }
+  .wobble-band.wb-2{ top:44%; height:14%; animation: wobble-b 11s ease-in-out infinite; }
+  .wobble-band.wb-3{ top:74%; height:12%; animation: wobble-c 7s ease-in-out infinite; }
+  @keyframes wobble-a{
+    0%,100%{ transform:translateX(0) skewX(0); }
+    30%    { transform:translateX(-2.5%) skewX(-1.2deg); }
+    62%    { transform:translateX(1.8%)  skewX(.6deg); }
+    82%    { transform:translateX(-.6%)  skewX(-.3deg); }
+  }
+  @keyframes wobble-b{
+    0%,100%{ transform:translateX(0) skewX(0); }
+    24%    { transform:translateX(3.2%)  skewX(.8deg); }
+    48%    { transform:translateX(-4.2%) skewX(-1.6deg); }
+    50%    { transform:translateX(6%)    skewX(2deg); }
+    52%    { transform:translateX(-2%)   skewX(-.6deg); }
+    78%    { transform:translateX(1.2%)  skewX(.4deg); }
+  }
+  @keyframes wobble-c{
+    0%,100%{ transform:translateX(0) skewX(0); }
+    40%    { transform:translateX(-1.6%) skewX(-.5deg); }
+    68%    { transform:translateX(2.4%)  skewX(.8deg); }
+  }
+
+  /* L6 — head-switching hash strip at bottom */
+  .head-hash{ position:absolute; left:0; right:0; bottom:0; height:3%; z-index:6;
+    background:
+      repeating-linear-gradient(90deg,
+        rgba(233,224,206,.55) 0 1px,
+        transparent 1px 3px,
+        rgba(233,224,206,.35) 3px 4px,
+        transparent 4px 7px),
+      linear-gradient(to bottom, rgba(255,255,255,.12), transparent 60%);
+    mix-blend-mode:screen;
+    pointer-events:none;
+    animation: head-hash 1.6s steps(12) infinite;
+  }
+  @keyframes head-hash{
+    0%,100%{ background-position:0 0, 0 0; opacity:.9; }
+    50%    { background-position:-14px 0, 0 0; opacity:.55; }
+  }
+
+  /* L5 — signal dropouts */
+  .dropout{ position:absolute; left:0; right:0; height:3px; z-index:4;
+    background:#000; pointer-events:none; opacity:0;
+  }
+  .dropout.d1{ top:31%; animation: dropout 9.7s steps(1) infinite; }
+  .dropout.d2{ top:58%; animation: dropout 13.3s 2.4s steps(1) infinite; }
+  .dropout.d3{ top:22%; animation: dropout 11.1s 4.8s steps(1) infinite; height:1px; }
+  @keyframes dropout{
+    0%, 96%, 100% { opacity:0; }
+    97%           { opacity:.9; }
+    98%           { opacity:0; }
+    99%           { opacity:.55; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .seam::after{ display:none; }
+    .wobble-band, .head-hash, .dropout{ animation:none; }
+  }
+
+  /* L7 — seam wordmark with chroma bleed */
+  .seam-word{ position:absolute; inset:0; z-index:5;
     display:flex; align-items:center; justify-content:center;
-    pointer-events:none; overflow:hidden; }
-  .seam-ghost span{
-    position:absolute;
+    pointer-events:none; overflow:hidden;
+    animation: seam-word-jitter 4.8s steps(48) infinite;
+  }
+  .seam-word .word{
+    position:relative;
     font-family:var(--display-font); font-weight:700;
-    font-size:clamp(80px,14vw,180px); letter-spacing:.06em;
-    line-height:1; user-select:none;
+    font-size:clamp(80px, 14vw, 180px);
+    letter-spacing:.06em; line-height:1;
+    color:var(--paper);
+    text-shadow: 0 0 12px rgba(233,224,206,.08);
+    filter: contrast(1.1);
   }
-  .seam-ghost .g-r{ color:rgba(181,34,26,.75); mix-blend-mode:screen;
-    animation: split-r 2.2s ease-in-out infinite; }
-  .seam-ghost .g-g{ color:rgba(199,154,75,.4); mix-blend-mode:screen;
-    animation: split-g 2.2s ease-in-out infinite; }
-  .seam-ghost .g-b{ color:rgba(233,224,206,.85); mix-blend-mode:normal;
-    animation: split-b 2.2s ease-in-out infinite; }
-  @keyframes split-r{ 0%,100%{ transform:translate(-4px,0); }
-                       50%    { transform:translate(-9px,2px); } }
-  @keyframes split-g{ 0%,100%{ transform:translate(0,0); }
-                       50%    { transform:translate(2px,-1px); } }
-  @keyframes split-b{ 0%,100%{ transform:translate(3px,0); }
-                       50%    { transform:translate(7px,-2px); } }
-  @media (prefers-reduced-motion:reduce){
-    .seam-ghost span{ animation:none; }
+  .seam-word .word::before,
+  .seam-word .word::after{
+    content: attr(data-word);
+    position:absolute; left:0; top:0;
+    font:inherit; letter-spacing:inherit;
   }
+  .seam-word .word::before{
+    color: rgba(181,34,26,.9);
+    transform: translate(6px, 1px);
+    filter: blur(.6px);
+    mix-blend-mode: screen;
+    z-index:-1;
+  }
+  .seam-word .word::after{
+    color: rgba(120,150,180,.5);
+    transform: translate(-3px, 0);
+    filter: blur(.3px);
+    mix-blend-mode: screen;
+    z-index:-2;
+  }
+  @keyframes seam-word-jitter{
+    0%,  22%, 100% { transform: translate(0,0); }
+    23%            { transform: translate(2px, -1px); }
+    24%            { transform: translate(-1px, 1px); }
+    25%,  62%      { transform: translate(0,0); }
+    63%            { transform: translate(3px, 0); }
+    64%            { transform: translate(-2px, 2px); }
+    65%            { transform: translate(0,0); }
+  }
+  @media (prefers-reduced-motion:reduce){ .seam-word{ animation:none; } }
 
-  /* Diagonal glitch bars — thin bright strips punching across */
-  .glitch-bar{ position:absolute; height:2px;
-    background:linear-gradient(90deg, transparent, var(--paper), transparent);
-    mix-blend-mode:screen; pointer-events:none;
-  }
-  .glitch-bar.b1{ top:18%; left:-10%; right:-10%;
-    animation: bar 4.2s ease-in-out infinite; }
-  .glitch-bar.b2{ top:72%; left:-10%; right:-10%; height:1px;
-    background:linear-gradient(90deg, transparent, var(--blood), transparent);
-    animation: bar 3.1s .8s ease-in-out infinite; }
-  @keyframes bar{
-    0%,88%,100% { opacity:0; transform:translateX(-30%); }
-    90%         { opacity:1; transform:translateX(10%); }
-    92%         { opacity:.4; transform:translateX(30%); }
-    94%         { opacity:1; transform:translateX(60%); }
-  }
-  @media (prefers-reduced-motion:reduce){
-    .glitch-bar{ animation:none; opacity:0; }
-  }
-
-  /* Kicker inside the seam */
-  .seam-kicker{ position:absolute; z-index:4;
-    top:8%; left:0; right:0; text-align:center;
+  /* L8 — timecode kickers */
+  .seam-kicker{ position:absolute; z-index:7;
+    top:6%; left:0; right:0; text-align:center;
     font-family:var(--display-font); font-weight:500;
     font-size:10px; letter-spacing:.5em; text-transform:uppercase;
-    color:rgba(199,154,75,.7); }
-  .seam-kicker.bottom{ top:auto; bottom:8%;
-    color:rgba(181,34,26,.75); letter-spacing:.42em; }
+    color:rgba(199,154,75,.75);
+    text-shadow: 0 0 4px rgba(199,154,75,.2);
+  }
+  .seam-kicker.bottom{ top:auto; bottom:7%;
+    color:rgba(181,34,26,.85); letter-spacing:.42em;
+    font-variant-numeric: tabular-nums;
+  }
 
-  /* ═══════════ POSTER SECTION ═══════════ */
+  /* ═══════════ POSTER ═══════════
+     Simplified. From top to bottom:
+       · type-wall (background)
+       · SoundCloud embed (16:9, prominent, sits in the upper-right well)
+       · content-card (bottom-left, unchanged)
+       · foot mark
+  */
   .poster{ position:relative; overflow:hidden;
-    padding:clamp(24px,4vw,64px) clamp(20px,4vw,60px);
-    background:var(--ink); }
+    padding:clamp(48px,7vw,96px) clamp(20px,4vw,60px) clamp(80px,10vw,140px);
+    background:var(--ink);
+    min-height: 100vh;
+    display:grid;
+    grid-template-columns: 1fr;
+    align-content:end;
+    gap: clamp(24px,4vw,44px);
+  }
 
   .type-wall{ position:absolute; inset:0;
     display:flex; flex-direction:column; justify-content:space-around;
@@ -272,13 +347,75 @@
   .tw-row:nth-child(6) .tw-word{ color:transparent;
     -webkit-text-stroke:.5px var(--paper); opacity:.08; }
 
-  .content-card{ position:absolute; z-index:20;
-    left:clamp(20px,5%,60px); bottom:clamp(60px,10vh,120px);
+  /* ═════════ SOUNDCLOUD SLOT ═════════
+     Deliberate, prominent, reserved space. Sits on the right,
+     type-wall visible behind it. Waits for the actual embed URL. */
+  .sc-slot{ position:relative; z-index:12;
+    justify-self:end; margin-right:clamp(0px,4vw,40px);
     width:min(560px, 78vw);
+    background:rgba(14,11,10,.94);
+    border:1px solid rgba(199,154,75,.35);
+    box-shadow:
+      0 24px 60px rgba(0,0,0,.5),
+      inset 0 0 0 6px rgba(14,11,10,.94),
+      inset 0 0 0 7px rgba(181,34,26,.35);
+    padding:14px 14px 12px;
+    backdrop-filter:blur(14px);
+  }
+  .sc-slot .sc-meta{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:10px;
+    font-family:var(--display-font); font-weight:500;
+    font-size:10px; letter-spacing:.42em; text-transform:uppercase;
+    color:var(--gold);
+  }
+  .sc-slot .sc-meta .listen{ color:var(--blood); }
+  /* 16:9 iframe / placeholder well */
+  .sc-slot .sc-frame{
+    position:relative; width:100%; aspect-ratio: 16/9;
+    background:
+      linear-gradient(135deg, rgba(199,154,75,.06), rgba(181,34,26,.05)),
+      #050403;
+    border:1px solid rgba(199,154,75,.22);
+    overflow:hidden;
+  }
+  .sc-slot iframe{
+    position:absolute; inset:0; width:100%; height:100%; border:0;
+  }
+  /* Placeholder shown when no iframe is present */
+  .sc-slot .sc-placeholder{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:14px; text-align:center;
+    padding:20px; pointer-events:none;
+  }
+  .sc-slot .sc-placeholder .icon{
+    width:44px; height:44px; border:1.5px solid var(--gold); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--gold); font-family:var(--display-font); font-size:20px;
+  }
+  .sc-slot .sc-placeholder .label{
+    font-family:var(--display-font); font-weight:600;
+    font-size:11px; letter-spacing:.42em; text-transform:uppercase;
+    color:rgba(233,224,206,.7);
+  }
+  .sc-slot .sc-placeholder .hint{
+    font-family:var(--body-font); font-size:11px;
+    color:rgba(233,224,206,.35); letter-spacing:.08em;
+    max-width:30ch;
+  }
+  /* Hide the placeholder automatically if an iframe is present */
+  .sc-slot .sc-frame:has(iframe) .sc-placeholder{ display:none; }
+
+  /* ═════════ CONTENT CARD ═════════ */
+  .content-card{ position:relative; z-index:20;
+    justify-self:start; margin-left:clamp(0px,4vw,20px);
+    width:min(560px, 82vw);
     padding:clamp(20px,3vw,32px);
     background:rgba(14,11,10,.92);
     border:1px solid rgba(199,154,75,.35);
-    backdrop-filter:blur(14px); }
+    backdrop-filter:blur(14px);
+  }
   .poster-logo{ font-family:var(--display-font); font-weight:700;
     font-size:clamp(38px,7vw,60px); letter-spacing:.14em;
     color:var(--paper); line-height:.9; }
@@ -313,21 +450,10 @@
   .poster-foot .kicker{ font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
 
-  /* ═══════════ THE SHARED PORTRAIT ═══════════
-     Sits absolutely positioned relative to .spread, straddling ritual↔seam.
-     Wrapper is circular (top half over rings), but bottom half glitch-tears
-     into a rectangular plate that reaches into the poster type-wall.
-     Achieved with:
-       · circular <div> holding the <img>
-       · a rectangular ::after "plate ghost" offset below-right, red-bordered
-       · a horizontal glitch clip-path mask across the middle */
+  /* ═══════════ SHARED PORTRAIT ═══════════ */
   .portrait-shared{
     position:absolute; z-index:15;
-    left:50%;
-    /* Anchor the portrait so its center is at the ritual→seam seam.
-       Ritual section is 100vh; seam starts at 100vh; we want the circle
-       centered ~ at 100vh with the plate reaching down. */
-    top: calc(100vh - 38%);
+    left:50%; top: calc(100vh - 38%);
     transform:translate(-50%, 0);
     width:min(360px, 42vw);
     aspect-ratio:1;
@@ -348,8 +474,6 @@
     object-position:52% 30%;
     filter:contrast(1.1) brightness(.98);
   }
-  /* The rectangular plate ghost — offset down-right, sits behind and
-     under the circle, sticks INTO the seam+poster */
   .portrait-shared .plate{
     position:absolute;
     left:14%; top:36%;
@@ -367,38 +491,21 @@
     object-position:center 22%;
     filter:contrast(1.06) brightness(.95);
   }
-  /* The glitch tear line right through the middle of the shared portrait */
-  .portrait-shared::before{
-    content:''; position:absolute; left:-6%; right:-6%;
-    top:52%; height:10%;
-    background:
-      linear-gradient(90deg,
-        transparent, rgba(181,34,26,.6), transparent,
-        rgba(233,224,206,.6), transparent);
-    mix-blend-mode:screen; z-index:3;
-    animation: mosh 2.6s ease-in-out infinite;
-    filter: blur(.6px);
-    pointer-events:none;
-  }
-  @media (prefers-reduced-motion:reduce){
-    .portrait-shared::before{ animation:none; }
-  }
 
-  /* ═══════════ MOBILE ADJUSTMENTS ═══════════
-     Under 720px:
-     · rows collapse from 100vh/60vh/100vh to natural min-heights
-     · sets-row becomes 1 column
-     · content-card becomes full-width
-     · shared portrait scales down and repositions */
+  /* ═══════════ RESPONSIVE ═══════════ */
+  @media (max-width:960px){
+    .poster{ padding-block:clamp(40px,7vw,72px); }
+    .sc-slot, .content-card{ justify-self:center; margin-inline:auto; }
+    .sc-slot{ width:calc(100% - 20px); }
+    .content-card{ width:calc(100% - 20px); }
+  }
   @media (max-width:720px){
-    .spread{ grid-template-rows: 100vh 46vh 100vh; }
+    .spread{ grid-template-rows: 100vh 46vh auto; }
     .sets-row{ grid-template-columns:1fr 1fr; gap:6px; bottom:4%; }
     .set-card:nth-child(3){ grid-column:1 / span 2; }
-    .content-card{ width:calc(100% - 40px); left:20px; right:20px; }
     .portrait-shared{ width:min(240px, 54vw); top: calc(100vh - 42%); }
     .r-title{ bottom:32%; }
     .tw-word{ font-size:clamp(64px,20vw,110px); }
-    .seam-ghost span{ font-size:clamp(64px,20vw,140px); }
   }
   @media (max-width:480px){
     .r-header .kicker{ display:none; }
@@ -406,6 +513,7 @@
     .sets-row{ display:flex; flex-direction:column; gap:6px; bottom:3%; }
     .set-card:nth-child(3){ grid-column:auto; }
     .portrait-shared{ width:min(210px, 58vw); top: calc(100vh - 40%); }
+    .seam-word .word{ font-size:clamp(64px, 20vw, 140px); }
   }
   </style>
 </head>
@@ -421,7 +529,7 @@
 
 <div class="spread">
 
-  <!-- ═══════════ 3a RITUAL SECTION ═══════════ -->
+  <!-- 3a RITUAL -->
   <section class="ritual" aria-label="3a Ritual">
     <svg class="rings" viewBox="0 0 794 1123" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="397" cy="620" r="180" fill="none" stroke="#B5221A" stroke-width="1.4"/>
@@ -467,24 +575,28 @@
     </div>
   </section>
 
-  <!-- ═══════════ GLITCH SEAM ═══════════ -->
-  <section class="seam" aria-label="Ritual → Poster transition">
-    <div class="seam-kicker">3a — ritual · noise transition · 3b — poster</div>
+  <!-- VHS TRACKING SEAM -->
+  <section class="seam" aria-label="Ritual → Poster tracking transition">
+    <div class="seam-kicker">▶ play · vhs · 3a → 3b · tracking</div>
 
-    <!-- RGB-split ghost text sitting in the middle of the seam -->
-    <div class="seam-ghost" aria-hidden="true">
-      <span class="g-r">CHDX</span>
-      <span class="g-g">CHDX</span>
-      <span class="g-b">CHDX</span>
+    <div class="wobble-band wb-1" aria-hidden="true"></div>
+    <div class="wobble-band wb-2" aria-hidden="true"></div>
+    <div class="wobble-band wb-3" aria-hidden="true"></div>
+
+    <div class="dropout d1" aria-hidden="true"></div>
+    <div class="dropout d2" aria-hidden="true"></div>
+    <div class="dropout d3" aria-hidden="true"></div>
+
+    <div class="seam-word" aria-hidden="true">
+      <span class="word" data-word="CHDX">CHDX</span>
     </div>
 
-    <div class="glitch-bar b1"></div>
-    <div class="glitch-bar b2"></div>
+    <div class="head-hash" aria-hidden="true"></div>
 
-    <div class="seam-kicker bottom">som que invoca · som que rompe · som que ritualiza</div>
+    <div class="seam-kicker bottom">rec · sp · 00:03:42 · tracking</div>
   </section>
 
-  <!-- ═══════════ 3b POSTER SECTION ═══════════ -->
+  <!-- 3b POSTER + SOUNDCLOUD SLOT -->
   <section class="poster" aria-label="3b Poster">
     <div class="type-wall" aria-hidden="true">
       <div class="tw-row"><span class="tw-word">CHDX</span></div>
@@ -493,6 +605,29 @@
       <div class="tw-row"><span class="tw-word">CHDX</span></div>
       <div class="tw-row"><span class="tw-word">CHDX</span></div>
       <div class="tw-row"><span class="tw-word">CHDX</span></div>
+    </div>
+
+    <!--
+      ═══ SOUNDCLOUD EMBED SLOT ═══
+      Drop the actual iframe inside .sc-frame when the URL arrives.
+      Placeholder auto-hides when iframe is present (via CSS :has()).
+    -->
+    <div class="sc-slot" id="soundcloud">
+      <div class="sc-meta">
+        <span>SoundCloud · Featured Set</span>
+        <span class="listen">▶ Listen</span>
+      </div>
+      <div class="sc-frame" id="sc-frame">
+        <!-- IFRAME GOES HERE. Example when URL is ready:
+        <iframe scrolling="no" frameborder="no" allow="autoplay"
+          src="https://w.soundcloud.com/player/?url=[TRACK_OR_PLAYLIST_URL]&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true&color=%23B5221A"></iframe>
+        -->
+        <div class="sc-placeholder">
+          <div class="icon">♪</div>
+          <div class="label">SoundCloud embed</div>
+          <div class="hint">reserved for the featured set — waiting on the URL</div>
+        </div>
+      </div>
     </div>
 
     <div class="content-card">
@@ -518,12 +653,7 @@
     </div>
   </section>
 
-  <!--
-    THE SHARED PORTRAIT
-    Sits inside .spread so it can straddle the ritual→seam boundary.
-    Circular part visually anchors ritual; rectangular plate ghost
-    reaches down into the seam and points toward the type wall.
-  -->
+  <!-- SHARED PORTRAIT -->
   <div class="portrait-shared" aria-hidden="true">
     <div class="plate">
       <img src="../assets/portrait-poster.jpg" alt="">
