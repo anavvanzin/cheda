@@ -1,5 +1,5 @@
 /* ============================================================
-   CHDX design tokens — extracted from pat.archive/site/style.css
+   CHÊDA design tokens — extracted from pat.archive/site/style.css
    Palette, type scale, rhythm, tilts. Shared by site + print.
    ============================================================ */
 
@@ -16,9 +16,14 @@
   --edge:  #4a423a;
 
   /* Type */
-  --display-font: 'Oswald', 'Arial Narrow', sans-serif;
+  --display-font: 'Montserrat', 'Helvetica Neue', sans-serif;
   --serif-font:   'Cormorant Garamond', 'Times New Roman', serif;
   --body-font:    'Hanken Grotesk', system-ui, sans-serif;
+
+  /* Display weight — Montserrat medium (500) por padrão; alguns
+     lugares específicos usam 600 quando o Ê acentuado precisa de mais peso.
+     NUNCA usar 700+ (fica pesado demais e some a leveza do Montserrat). */
+  --display-weight: 500;
 
   /* Rhythm */
   --tA: -2deg;

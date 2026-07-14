@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CHDX · Ritual ↔ Poster (morph)</title>
+  <title>CHÊDA · Ritual ↔ Poster (morph)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/print.css">
   <style>
   /* ─────────────────────────────────────────────────────────
@@ -100,7 +100,7 @@
     transform: translateX(calc((1 - var(--t)) * -40%));
     transition: transform var(--dur) var(--ease);
   }
-  .tw-word{ font-family:var(--display-font); font-weight:700;
+  .tw-word{ font-family:var(--display-font); font-weight:500;
     padding:0 .04em; letter-spacing:.02em; font-size:150px; }
   .type-wall .tw-row:nth-child(1){ transform: translateX(calc((1 - var(--t)) * -40%)) rotate(1.6deg); }
   .type-wall .tw-row:nth-child(1) .tw-word{ color:var(--paper); }
@@ -128,7 +128,7 @@
     background:var(--paper) url('../assets/panther-mark.svg') center/70% no-repeat;
     border:1px solid var(--gold);
   }
-  .ritual-header .wordmark{ font-family:var(--display-font); font-weight:700;
+  .ritual-header .wordmark{ font-family:var(--display-font); font-weight:500;
     font-size:16px; letter-spacing:.32em; color:var(--paper); }
   .ritual-header .kicker{ font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
@@ -209,8 +209,8 @@
     transform: translateY(calc(var(--t) * 20px));
     transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
   }
-  .ritual-name{ font-family:var(--display-font); font-weight:700;
-    font-size:96px; letter-spacing:.16em; color:var(--paper); line-height:1; display:inline-block; }
+  .ritual-name{ font-family:var(--display-font); font-weight:500;
+    font-size:96px; letter-spacing:.04em; color:var(--paper); line-height:1; display:inline-block; }
   .ritual-serif{ display:block; margin-top:10px;
     font-family:var(--serif-font); font-style:italic; font-size:18px;
     color:var(--gold); letter-spacing:.02em; }
@@ -234,10 +234,10 @@
     padding:12px 14px; backdrop-filter:blur(6px); }
   .set-card:nth-child(odd){ transform:rotate(var(--tA)); }
   .set-card:nth-child(even){ transform:rotate(var(--tB)); }
-  .set-card .num{ font-family:var(--display-font); font-weight:700;
+  .set-card .num{ font-family:var(--display-font); font-weight:500;
     font-size:22px; color:var(--blood); line-height:1; }
-  .set-card .name{ font-family:var(--display-font); font-weight:600;
-    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  .set-card .name{ font-family:var(--display-font); font-weight:500;
+    font-size:11px; letter-spacing:.04em; text-transform:uppercase;
     color:var(--paper); margin-top:6px; }
   .set-card .meta{ font-size:9px; letter-spacing:.12em;
     color:var(--soft); margin-top:4px; }
@@ -265,8 +265,8 @@
     pointer-events:none;
     transition: opacity var(--dur) var(--ease);
   }
-  .poster-logo{ font-family:var(--display-font); font-weight:700;
-    font-size:60px; letter-spacing:.14em; color:var(--paper); line-height:.9; }
+  .poster-logo{ font-family:var(--display-font); font-weight:500;
+    font-size:60px; letter-spacing:.05em; color:var(--paper); line-height:.9; }
   .poster-serif{ display:block; margin-top:8px;
     font-family:var(--serif-font); font-style:italic;
     font-size:17px; color:var(--gold); letter-spacing:.02em; }
@@ -283,9 +283,9 @@
   .sets-list li{ display:grid; grid-template-columns:auto 1fr auto;
     align-items:baseline; gap:12px;
     font-family:var(--display-font); font-size:11px;
-    letter-spacing:.14em; text-transform:uppercase; }
-  .sl-num{ font-weight:700; font-size:15px; color:var(--blood); }
-  .sl-name{ color:var(--paper); font-weight:600; }
+    letter-spacing:.05em; text-transform:uppercase; }
+  .sl-num{ font-weight:600; font-size:15px; color:var(--blood); }
+  .sl-name{ color:var(--paper); font-weight:500; }
   .sl-meta{ color:var(--mute); font-weight:400; letter-spacing:.12em; }
 
   /* Poster foot mark — only in Poster */
@@ -338,12 +338,12 @@
     </svg>
 
     <div class="type-wall" aria-hidden="true">
-      <div class="tw-row"><span class="tw-word">CHDX</span></div>
-      <div class="tw-row"><span class="tw-word">CHDX</span></div>
-      <div class="tw-row"><span class="tw-word">CHDX</span></div>
-      <div class="tw-row"><span class="tw-word">CHDX</span></div>
-      <div class="tw-row"><span class="tw-word">CHDX</span></div>
-      <div class="tw-row"><span class="tw-word">CHDX</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
     </div>
 
     <div class="a4-grain" aria-hidden="true"></div>
@@ -351,7 +351,7 @@
     <header class="ritual-header">
       <div class="brand">
         <div class="panther-mark" aria-hidden="true"></div>
-        <span class="wordmark">CHDX</span>
+        <span class="wordmark">CHÊDA</span>
       </div>
       <span class="kicker">Digital Press Kit · 2026 · A4</span>
     </header>
@@ -368,46 +368,29 @@
     <div class="orbit-ring" id="orbit-ring" aria-hidden="true"></div>
 
     <div class="ritual-title">
-      <span class="ritual-name">CHDX</span>
-      <em class="ritual-serif">Patrícia Chêda · selectora</em>
+      <span class="ritual-name">CHÊDA</span>
+      <em class="ritual-serif">Patrícia Chêda</em>
       <div class="ritual-tagline">som que invoca · cada set é um ritual</div>
     </div>
 
-    <div class="sets-row">
-      <div class="set-card">
-        <div class="num">01</div><div class="name">Ritual Noturno</div>
-        <div class="meta">live · 58 min · techno</div>
-      </div>
-      <div class="set-card">
-        <div class="num">02</div><div class="name">Som que Invoca</div>
-        <div class="meta">studio · 62 min · hypnotic</div>
-      </div>
-      <div class="set-card">
-        <div class="num">03</div><div class="name">Pista Aberta</div>
-        <div class="meta">club · 74 min · peak time</div>
-      </div>
-    </div>
+    <!-- set cards removed — waiting on real mix titles -->
 
     <div class="content-card">
       <div class="poster-logo">
-        CHDX
-        <em class="poster-serif">Patrícia Chêda · selectora</em>
+        CHÊDA
+        <em class="poster-serif">Patrícia Chêda</em>
       </div>
       <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
       <div class="card-divider"></div>
       <p class="bio-text">
-        Sob o projeto CHDX, Patrícia Chêda atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.
+        Patrícia Chêda &mdash; DJ e selectora &mdash; atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.
       </p>
-      <ul class="sets-list">
-        <li><span class="sl-num">01</span><span class="sl-name">Ritual Noturno</span><span class="sl-meta">live · 58 min</span></li>
-        <li><span class="sl-num">02</span><span class="sl-name">Som que Invoca</span><span class="sl-meta">studio · 62 min</span></li>
-        <li><span class="sl-num">03</span><span class="sl-name">Pista Aberta</span><span class="sl-meta">club · 74 min</span></li>
-      </ul>
+      <!-- track list removed — to be replaced with real mixes -->
     </div>
 
     <div class="poster-foot">
       <div class="panther-mark" aria-hidden="true"></div>
-      <span class="kicker">Booking · pat@chdx.fm · 2026</span>
+      <span class="kicker">Booking · patriciavchedach@gmail.com · 2026</span>
     </div>
   </div>
 </div>
@@ -416,9 +399,9 @@
 (function(){
   // Orbit captions — placed trigonometrically like on /print/ritual.html
   const labels=[
-    'DJ · Selectora','Techno · Tech House','Noise · Hypnotic',
-    'Florianópolis · SC','Som que Invoca','Ritual · não Playlist',
-    'Booking Direto','CHDX · 2026'
+    'Techno · Tech House','Noise · Hypnotic',
+    'Florianópolis · SC',
+    'Booking Direto','CHÊDA · 2026'
   ];
   const ring=document.getElementById('orbit-ring');
   labels.forEach((txt,i)=>{

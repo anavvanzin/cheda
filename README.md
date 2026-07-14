@@ -1,4 +1,4 @@
-# CHDX — Patrícia Chêda · Digital Press Kit
+# CHÊDA — Patrícia Chêda · Digital Press Kit
 
 New repo. Independent of [`pat.archive`](https://github.com/anavvanzin/pat.archive) —
 that repo is only the visual template we borrowed from. Palette, type
@@ -59,4 +59,4 @@ Static — Vercel, Cloudflare Pages or GitHub Pages. No build step.
 
 ---
 
-© 2026 CHDX / Patrícia Chêda — Florianópolis, SC
+© 2026 CHÊDA / Patrícia Chêda — Florianópolis, SC
