@@ -99,10 +99,11 @@ body{ overflow-x:hidden; }
     inset 0 0 40px rgba(0,0,0,.55);
   z-index:10;
 }
+/* portrait-ritual.jpg is square (1080×1080); face sits upper-center */
 .portrait-wrap img{
   width:100%; height:100%; object-fit:cover;
-  object-position:38% 22%;
-  filter:contrast(1.08) saturate(1.05) grayscale(.05);
+  object-position:52% 30%;
+  filter:contrast(1.1) brightness(.98);
 }
 
 /* Orbiting captions */
@@ -221,10 +222,11 @@ body{ overflow-x:hidden; }
   transform:rotate(1.5deg);
   z-index:2;
 }
+/* portrait-poster.jpg is 4:5 portrait; face sits upper-third */
 .photo-plate img{
   width:100%; height:100%; object-fit:cover;
-  object-position:center 15%;
-  filter:contrast(1.08) saturate(1.05);
+  object-position:center 22%;
+  filter:contrast(1.06) brightness(.98);
 }
 .photo-plate::before{
   content:''; position:absolute; inset:8px 8px -8px -8px;

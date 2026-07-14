@@ -59,9 +59,9 @@ section[data-rhythm="on"]::before{
 }
 #s1 .hero-photo{
   position:absolute; inset:0;
-  background:url('../assets/portrait.jpg') center/cover no-repeat;
-  filter:grayscale(.15) contrast(1.05) saturate(1.05);
-  opacity:.86; z-index:0;
+  background:url('../assets/portrait-ritual.jpg') center 20%/cover no-repeat;
+  filter:contrast(1.06) brightness(.92);
+  opacity:.88; z-index:0;
 }
 #s1 .hero-grain{
   position:absolute; inset:0; z-index:1; pointer-events:none;
@@ -186,6 +186,9 @@ section[data-rhythm="on"]::before{
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:clamp(14px,2.4vw,34px); max-width:1200px; margin:0 auto;
 }
+#s4 .fotos-grid .crop:nth-child(4),
+#s4 .fotos-grid .crop:nth-child(5),
+#s4 .fotos-grid .crop:nth-child(6){ margin-top:clamp(20px,3vw,44px); }
 #s4 .crop{
   border:1px solid var(--edge); padding:10px; background:var(--ink);
   aspect-ratio:3/4; overflow:hidden;
