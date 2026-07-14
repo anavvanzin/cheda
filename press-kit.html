@@ -99,7 +99,7 @@
       body{background:#fff;}
       .kit-bar,.sheet-cap{display:none !important;}
       .sheets{padding:0;}
-      .frame{max-width:none;width:794px;height:1123px;}
+      .frame{max-width:none;width:794px;height:1123px !important;}
       .sheet{transform:none !important;box-shadow:none;break-after:page;page-break-after:always;}
       .frame:last-child .sheet{break-after:auto;page-break-after:auto;}
     }
@@ -241,8 +241,17 @@
           frame.style.height = (H * scale) + 'px';
         });
       }
+      function clearForPrint() {
+        document.querySelectorAll('.frame').forEach(function (frame) {
+          var sheet = frame.querySelector('.sheet');
+          if (sheet) sheet.style.transform = '';
+          frame.style.height = '';
+        });
+      }
       window.addEventListener('resize', fit);
       window.addEventListener('load', fit);
+      window.addEventListener('beforeprint', clearForPrint);
+      window.addEventListener('afterprint', fit);
       if (window.matchMedia) {
         var mq = window.matchMedia('print');
         (mq.addEventListener ? mq.addEventListener('change', fit) : mq.addListener(fit));
