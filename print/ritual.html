@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CHDX · Ritual — A4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/print.css">
+</head>
+<body>
+
+<nav class="switcher" aria-label="Print variants">
+  <a class="on" href="ritual.html">3a · Ritual</a>
+  <a href="poster.html">3b · Poster</a>
+</nav>
+
+<div class="stage">
+  <div class="a4" id="ritual-a4">
+    <!--
+      Full-canvas concentric strobe rings.
+      cx=397, cy=494 (44% of 1123) — matches the portrait center.
+      Radii cascade outward beyond the A4 edge (max r ≈ 685px)
+      so the outermost ring "spans the entire A4" — reaching the corners.
+    -->
+    <svg class="rings-svg" viewBox="0 0 794 1123" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle class="rp-1" cx="397" cy="494" r="145" fill="none" stroke="#B5221A" stroke-width="1.4"/>
+      <circle class="rp-2" cx="397" cy="494" r="200" fill="none" stroke="#E9E0CE" stroke-width="1.2"/>
+      <circle class="rp-3" cx="397" cy="494" r="260" fill="none" stroke="#C79A4B" stroke-width="1"/>
+      <circle class="rp-4" cx="397" cy="494" r="330" fill="none" stroke="#E9E0CE" stroke-width=".85"/>
+      <circle class="rp-5" cx="397" cy="494" r="410" fill="none" stroke="#B5221A" stroke-width=".7"/>
+      <circle class="rp-6" cx="397" cy="494" r="500" fill="none" stroke="#E9E0CE" stroke-width=".55"/>
+      <circle class="rp-7" cx="397" cy="494" r="590" fill="none" stroke="#C79A4B" stroke-width=".4"/>
+      <circle class="rp-8" cx="397" cy="494" r="685" fill="none" stroke="#E9E0CE" stroke-width=".3"/>
+    </svg>
+
+    <div class="a4-grain" aria-hidden="true"></div>
+
+    <header class="ritual-header">
+      <div class="brand">
+        <div class="panther-mark" aria-hidden="true"></div>
+        <span class="wordmark">CHDX</span>
+      </div>
+      <span class="kicker">Digital Press Kit · 2026 · A4</span>
+    </header>
+
+    <div class="portrait-wrap">
+      <img src="../assets/portrait.jpg" alt="Patrícia Chêda — retrato">
+    </div>
+
+    <div class="orbit-ring" id="orbit-ring" aria-hidden="true"></div>
+
+    <div class="ritual-title">
+      <span class="ritual-name">CHDX</span>
+      <em class="ritual-serif">Patrícia Chêda · selectora</em>
+      <div class="ritual-tagline">som que invoca · cada set é um ritual</div>
+    </div>
+
+    <div class="sets-row">
+      <div class="set-card">
+        <div class="num">01</div>
+        <div class="name">Ritual Noturno</div>
+        <div class="meta">live · 58 min · techno</div>
+      </div>
+      <div class="set-card">
+        <div class="num">02</div>
+        <div class="name">Som que Invoca</div>
+        <div class="meta">studio · 62 min · hypnotic</div>
+      </div>
+      <div class="set-card">
+        <div class="num">03</div>
+        <div class="name">Pista Aberta</div>
+        <div class="meta">club · 74 min · peak time</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Orbiting captions — trig-placed on a ring 66% wide,
+   each rotated tangentially so the type curls around the portrait. */
+(function(){
+  const labels=[
+    'DJ · Selectora',
+    'Techno · Tech House',
+    'Noise · Hypnotic',
+    'Florianópolis · SC',
+    'Som que Invoca',
+    'Ritual · não Playlist',
+    'Booking Direto',
+    'CHDX · 2026'
+  ];
+  const ring=document.getElementById('orbit-ring');
+  labels.forEach((txt,i)=>{
+    const angle=(i/labels.length)*360 - 90;   // start at top
+    const rad=angle*Math.PI/180;
+    const r=50; // radius in %
+    const x=50+r*Math.cos(rad);
+    const y=50+r*Math.sin(rad);
+    const s=document.createElement('span');
+    s.className='orbit-caption';
+    s.textContent=txt;
+    s.style.left=x+'%';
+    s.style.top=y+'%';
+    s.style.transform='translate(-50%,-50%) rotate('+(angle+90)+'deg)';
+    ring.appendChild(s);
+  });
+})();
+</script>
+
+</body>
+</html>
