@@ -1,6 +1,10 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/print/spread",      "destination": "/", "permanent": true },
+    { "source": "/print/spread.html", "destination": "/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",
