@@ -63,14 +63,13 @@
   .ritual .r-header{ position:relative; z-index:12;
     display:flex; justify-content:space-between; align-items:center;
     gap:16px; flex-wrap:wrap; }
-  .ritual .brand{ display:flex; align-items:center; gap:12px; }
-  .ritual .panther-mark{
-    width:34px; height:34px; border-radius:50%;
-    background:var(--paper) url('../assets/panther-mark.svg') center/70% no-repeat;
-    border:1px solid var(--gold);
+  .ritual .brand{ display:flex; align-items:center; gap:14px; }
+  /* Official Chêda logotype PNG — white alpha, sits inline as brand mark. */
+  .ritual .brand-logo{
+    height:22px; width:auto; display:block;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.4));
   }
-  .ritual .wordmark{ font-family:var(--display-font); font-weight:500;
-    font-size:16px; letter-spacing:.32em; color:var(--paper); }
+  .ritual .brand .sr{ position:absolute; left:-9999px; }
   .ritual .kicker{ font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
 
@@ -450,10 +449,10 @@
   .poster-foot{ position:absolute; z-index:25;
     bottom:clamp(16px,2.5vh,28px); left:5%; right:5%;
     display:flex; justify-content:space-between; align-items:center; }
-  .poster-foot .panther-mark{
-    width:26px; height:26px; border-radius:50%;
-    background:var(--paper) url('../assets/panther-mark.svg') center/70% no-repeat;
-    border:1px solid var(--gold); }
+  .poster-foot .brand-logo{
+    height:18px; width:auto; display:block;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.4));
+  }
   .poster-foot .kicker{ font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
 
@@ -549,8 +548,8 @@
 
     <div class="r-header">
       <div class="brand">
-        <div class="panther-mark" aria-hidden="true"></div>
-        <span class="wordmark">CHÊDA</span>
+        <img class="brand-logo" src="../assets/logo-cheda-white-alpha.png" alt="CHÊDA" width="246" height="65">
+        <span class="sr">CHÊDA</span>
       </div>
       <span class="kicker">Digital Press Kit · 2026 · 3a Ritual</span>
     </div>
@@ -625,15 +624,9 @@
         <span class="listen">▶ Listen</span>
       </div>
       <div class="sc-frame" id="sc-frame">
-        <!-- IFRAME GOES HERE. Example when URL is ready:
         <iframe scrolling="no" frameborder="no" allow="autoplay"
-          src="https://w.soundcloud.com/player/?url=[TRACK_OR_PLAYLIST_URL]&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true&color=%23B5221A"></iframe>
-        -->
-        <div class="sc-placeholder">
-          <div class="icon">♪</div>
-          <div class="label">SoundCloud embed</div>
-          <div class="hint">reserved for the featured set — waiting on the URL</div>
-        </div>
+          title="Chêda — SoundCloud"
+          src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/patriciacheda&color=%23B5221A&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
       </div>
     </div>
 
@@ -655,8 +648,8 @@
     </div>
 
     <div class="poster-foot">
-      <div class="panther-mark" aria-hidden="true"></div>
-      <span class="kicker">Booking · pat@chdx.fm · 2026</span>
+      <img class="brand-logo" src="../assets/logo-cheda-white-alpha.png" alt="CHÊDA" width="246" height="65">
+      <span class="kicker">Booking · patriciavchedach@gmail.com · 2026</span>
     </div>
   </section>
 
