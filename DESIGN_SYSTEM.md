@@ -25,8 +25,8 @@ Techno, tech house, noise. Sets densos e hipnóticos, sem playlist fixa.
 
 **Deploy**:
 - Repo: `github.com/anavvanzin/cheda` (privado)
-- Vercel: `cheda-six.vercel.app` (público, sem SSO protection desde 14 jul 2026)
-- Domínio custom: **PENDENTE** — usuária mencionou `cheda.press`, `cheda.fm` ou similar
+- Domínio canônico: **`https://patriciacheda.com`** (GitHub Pages + Cloudflare; `CNAME` no repo)
+- Vercel legado: `cheda-six.vercel.app` (ainda existe, mas não é o destino — OG/links apontam para o domínio custom)
 
 ---
 
@@ -329,7 +329,7 @@ git push origin main
 vercel --token "$VERCEL_TOKEN" deploy --prod --yes
 ```
 
-Alias fixo: `cheda-six.vercel.app`. Vercel infra do usuária é team `anavanzin`, project `cheda`.
+Domínio canônico: `patriciacheda.com` (GitHub Pages via `CNAME`). Vercel legado `cheda-six.vercel.app` (team `anavanzin`, project `cheda`) não deve mais aparecer em OG/canonical.
 
 **Nota**: o proxy GitHub da Perplexity retorna 407 CONNECT tunnel failed intermitentemente. Se acontecer, esperar 5-10s e tentar de novo (3 tentativas costumam resolver).
 
@@ -355,7 +355,7 @@ Quando a usuária voltar, esses são os fios soltos:
 
 Se você é uma sessão AI nova entrando neste projeto, cole este bloco no início:
 
-> Estou desenvolvendo o site da DJ **Patrícia Chêda** (nome completo, com Ê — nunca CHDX). Repo `github.com/anavvanzin/cheda` (privado), deploy em `cheda-six.vercel.app`.
+> Estou desenvolvendo o site da DJ **Patrícia Chêda** (nome completo, com Ê — nunca CHDX). Repo `github.com/anavvanzin/cheda` (privado), deploy canônico em `patriciacheda.com`.
 >
 > **Antes de qualquer edição**:
 > 1. Ler `DESIGN_SYSTEM.md` (este arquivo) — contém tokens, arquitetura, regras de linguagem e o registro completo do "VHS Tracking Seam" que é a peça mais idiossincrática.
