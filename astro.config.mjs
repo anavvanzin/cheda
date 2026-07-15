@@ -1,7 +1,5 @@
 import { defineConfig } from 'astro/config';
 
-import cloudflare from "@astrojs/cloudflare";
-
 // No @astrojs/vercel adapter: canonical host is GitHub Pages.
 // The Vercel adapter forces build.format "directory", copies assets into
 // .vercel/output, and drops Astro redirect pages from dist/ — so Pages
@@ -21,6 +19,4 @@ export default defineConfig({
   redirects: {
     '/print/spread': '/',
   },
-
-  adapter: cloudflare()
 });
