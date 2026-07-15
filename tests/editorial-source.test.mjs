@@ -68,6 +68,8 @@ const expectedContent = {
     defaultTitle: 'CHÊDA · Patrícia Chêda',
     defaultDescription: officialBio,
     ogImage: 'https://patriciacheda.com/assets/favicon/og-image.jpg',
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
   },
   editorial: {
     officialShortBio: officialBio,
@@ -83,6 +85,8 @@ const expectedContent = {
     socialDescription:
       'DJ e selectora de techno denso e hipnótico — Florianópolis, BR. Som que invoca.',
     ogImage: '/assets/portrait-ritual.jpg',
+    ogImageWidth: 1080,
+    ogImageHeight: 1080,
     bioPt:
       'Patrícia Chêda é DJ e selectora radicada em Florianópolis. Sets de techno densos e hipnóticos — ruído, groove e tensão em camadas que crescem sem pressa.',
     bioEn:

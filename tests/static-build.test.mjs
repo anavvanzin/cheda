@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
-import { access } from 'node:fs/promises';
+import { lstat, readFile, stat } from 'node:fs/promises';
 import test from 'node:test';
 
 const requiredPages = [
@@ -19,6 +18,18 @@ const forbiddenWorkerArtifacts = [
 ];
 
 const canonicalOrigin = 'https://patriciacheda.com';
+const socialMetadata = new Map([
+  ['dist/index.html', {
+    image: `${canonicalOrigin}/assets/favicon/og-image.jpg`,
+    width: '1200',
+    height: '630',
+  }],
+  ['dist/press-kit.html', {
+    image: `${canonicalOrigin}/assets/portrait-ritual.jpg`,
+    width: '1080',
+    height: '1080',
+  }],
+]);
 const realPages = new Map([
   ['dist/index.html', { canonical: `${canonicalOrigin}/`, activeHref: '/' }],
   ['dist/press-kit.html', { canonical: `${canonicalOrigin}/press-kit`, activeHref: null }],
@@ -42,14 +53,15 @@ test('writes the canonical custom domain to dist/CNAME', async () => {
 
 test('emits every required static HTML page', async () => {
   for (const page of requiredPages) {
-    await assert.doesNotReject(access(page), `${page} should exist`);
+    assert.equal((await stat(page)).isFile(), true, `${page} should be a regular file`);
+    assert.equal((await lstat(page)).isSymbolicLink(), false, `${page} should not be a symlink`);
   }
 });
 
 test('does not emit Cloudflare Worker artifacts', async () => {
   for (const artifact of forbiddenWorkerArtifacts) {
     await assert.rejects(
-      access(artifact),
+      lstat(artifact),
       { code: 'ENOENT' },
       `${artifact} should not exist`,
     );
@@ -71,15 +83,17 @@ test('renders approved production metadata and public identity', async () => {
   assert.match(pressKit, /<title>CHÊDA · Patrícia Chêda · Press Kit A4<\/title>/);
   assert.match(pressKit, /name="description"\s+content="Press kit A4 — CHÊDA \/ Patrícia Chêda/);
 
-  for (const [html, canonical] of [[home, `${canonicalOrigin}/`], [pressKit, `${canonicalOrigin}/press-kit`]]) {
+  for (const [page, html, canonical] of [
+    ['dist/index.html', home, `${canonicalOrigin}/`],
+    ['dist/press-kit.html', pressKit, `${canonicalOrigin}/press-kit`],
+  ]) {
     assert.equal(attributeValue(html, /<link\b(?=[^>]*\brel="canonical")[^>]*>/i, 'href'), canonical);
     assert.equal(attributeValue(html, /<meta\b(?=[^>]*\bproperty="og:url")[^>]*>/i, 'content'), canonical);
-    for (const pattern of [
-      /<meta\b(?=[^>]*\bproperty="og:image")[^>]*>/i,
-      /<meta\b(?=[^>]*\bname="twitter:image")[^>]*>/i,
-    ]) {
-      assert.match(attributeValue(html, pattern, 'content') ?? '', /^https:\/\//);
-    }
+    const expected = socialMetadata.get(page);
+    assert.equal(attributeValue(html, /<meta\b(?=[^>]*\bproperty="og:image")[^>]*>/i, 'content'), expected.image);
+    assert.equal(attributeValue(html, /<meta\b(?=[^>]*\bname="twitter:image")[^>]*>/i, 'content'), expected.image);
+    assert.equal(attributeValue(html, /<meta\b(?=[^>]*\bproperty="og:image:width")[^>]*>/i, 'content'), expected.width);
+    assert.equal(attributeValue(html, /<meta\b(?=[^>]*\bproperty="og:image:height")[^>]*>/i, 'content'), expected.height);
   }
 });
 
