@@ -2,6 +2,12 @@
 import { siteContent } from '../data/site';
 
 const soundcloudEmbedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComponent(siteContent.contact.soundcloudUrl)}&color=%23B5221A&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`;
+const posterTags = [
+  'DJ',
+  ...siteContent.editorial.genres.map((genre) =>
+    genre.replace(/\b\w/g, (character) => character.toUpperCase())),
+  siteContent.location.displayShort,
+].join(' · ');
 ---
 
 <!-- Custom cursor layers — hidden on touch/coarse via cursor.css -->
@@ -39,7 +45,7 @@ const soundcloudEmbedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComp
 
     <div class="r-header will-reveal will-reveal-delay-1">
       <div class="brand">
-        <img class="brand-logo" src="/assets/logo-cheda-white-alpha.png" alt="CHÊDA" width="246" height="65">
+        <img class="brand-logo" src="/assets/logo-cheda-white-alpha.png" alt={siteContent.identity.stageName} width="246" height="65">
         <span class="sr">CHÊDA</span>
       </div>
       <span class="kicker">Digital Press Kit · 2026 · 3a Ritual</span>
@@ -85,7 +91,7 @@ const soundcloudEmbedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComp
           {siteContent.identity.stageName}
           <em class="poster-serif">{siteContent.identity.artistName}</em>
         </div>
-        <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
+        <div class="poster-tags">{posterTags}</div>
         <div class="card-divider"></div>
         <div class="bio-text">
           <p>{siteContent.editorial.officialShortBio}</p>
@@ -127,7 +133,7 @@ const soundcloudEmbedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComp
     </div>
     <div class="foot-signature">
       <img src="/assets/logo-patricia-blackletter-cream.png"
-           alt="Patricia Chêda"
+           alt={siteContent.identity.artistName}
            width="993" height="224">
     </div>
   </footer>
@@ -138,7 +144,7 @@ const soundcloudEmbedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComp
       <img src="/assets/portrait-poster.jpg" alt="">
     </div>
     <div class="circle">
-      <img src="/assets/portrait-ritual.jpg" alt="Patrícia Chêda — retrato editorial">
+      <img src="/assets/portrait-ritual.jpg" alt={`${siteContent.identity.artistName} — retrato editorial`}>
     </div>
   </div>
 </div>

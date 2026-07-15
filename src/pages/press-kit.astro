@@ -14,7 +14,7 @@ const ldJson = JSON.stringify({
     '@type': 'PostalAddress',
     addressLocality: siteContent.location.city,
     addressRegion: siteContent.location.state,
-    addressCountry: 'BR',
+    addressCountry: siteContent.location.countryCode,
   },
   knowsAbout: siteContent.editorial.genres,
 });

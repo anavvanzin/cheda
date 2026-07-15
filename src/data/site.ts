@@ -1,3 +1,6 @@
+const officialShortBio =
+  'Patrícia Chêda — DJ e selectora — atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.';
+
 export const siteContent = {
   identity: {
     stageName: 'CHÊDA',
@@ -16,19 +19,18 @@ export const siteContent = {
     city: 'Florianópolis',
     state: 'SC',
     country: 'Brasil',
+    countryCode: 'BR',
     displayPt: 'Florianópolis · SC · Brasil',
     displayShort: 'Floripa',
   },
   site: {
     canonicalUrl: 'https://patriciacheda.com',
     defaultTitle: 'CHÊDA · Patrícia Chêda',
-    defaultDescription:
-      'Patrícia Chêda — DJ e selectora — atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.',
+    defaultDescription: officialShortBio,
     ogImage: 'https://patriciacheda.com/assets/favicon/og-image.jpg',
   },
   editorial: {
-    officialShortBio:
-      'Patrícia Chêda — DJ e selectora — atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.',
+    officialShortBio,
     manifesto:
       'Uma apresentação que transforma música em movimento e movimento em unidade. No meu projeto de DJ, ofereço mais do que música: um encontro de vibrações, uma troca de energia. O que sentimos juntos não é apenas ritmo — é pulsação. Aqui, cada batida ecoa o pulsar da própria vida.',
     genres: ['techno', 'tech house', 'noise'],

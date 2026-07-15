@@ -1,5 +1,12 @@
 ---
 import { siteContent } from '../data/site';
+
+const posterTags = [
+  'DJ',
+  ...siteContent.editorial.genres.map((genre) =>
+    genre.replace(/\b\w/g, (character) => character.toUpperCase())),
+  siteContent.location.displayShort,
+].join(' · ');
 ---
 
 <nav class="switcher" aria-label="Layouts">
@@ -36,7 +43,7 @@ import { siteContent } from '../data/site';
     -->
     <div class="poster-composite">
       <div class="photo-plate">
-        <img src="/assets/portrait-poster.jpg" alt="Patrícia Chêda — retrato editorial">
+        <img src="/assets/portrait-poster.jpg" alt={`${siteContent.identity.artistName} — retrato editorial`}>
       </div>
 
       <div class="content-card">
@@ -44,7 +51,7 @@ import { siteContent } from '../data/site';
           {siteContent.identity.stageName}
           <em class="poster-serif">{siteContent.identity.artistName}</em>
         </div>
-        <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
+        <div class="poster-tags">{posterTags}</div>
         <div class="card-divider"></div>
         <p class="bio-text">
           {siteContent.editorial.officialShortBio}
