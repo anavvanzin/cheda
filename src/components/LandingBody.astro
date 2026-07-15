@@ -19,7 +19,7 @@ const posterTags = [
   <a href="/print/ritual">3a</a>
   <a href="/print/poster">3b</a>
   <a href="/print/morph">morph</a>
-  <a class="on" href="/">spread</a>
+  <a class="on" href="/" aria-current="page">spread</a>
 </nav>
 <div class="grain" aria-hidden="true"></div>
 
@@ -30,7 +30,8 @@ const posterTags = [
        loading="lazy" decoding="async" />
 </div>
 
-<div class="spread">
+<main class="spread">
+  <h1 class="sr-only">{siteContent.site.defaultTitle}</h1>
 
   <!-- 3a RITUAL -->
   <section class="ritual" aria-label="3a Ritual">
@@ -129,6 +130,7 @@ const posterTags = [
     <div class="foot-info">
       <span>Booking · <a href={`${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`}>{siteContent.contact.bookingEmail}</a></span>
       <span>Instagram · <a href={siteContent.contact.instagramUrl} target="_blank" rel="noopener">{siteContent.contact.instagramHandle}</a></span>
+      <a class="sr-only" href={siteContent.contact.soundcloudUrl}>SoundCloud · {siteContent.identity.artistName}</a>
       <span>{siteContent.location.displayPt} · 2026</span>
     </div>
     <div class="foot-signature">
@@ -147,4 +149,4 @@ const posterTags = [
       <img src="/assets/portrait-ritual.jpg" alt={`${siteContent.identity.artistName} — retrato editorial`}>
     </div>
   </div>
-</div>
+</main>

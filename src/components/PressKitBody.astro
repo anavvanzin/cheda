@@ -14,9 +14,9 @@ const invocation = siteContent.editorial.tagline.split(' · ')[0];
 ---
 
 <header class="kit-bar">
-    <div class="brand">{siteContent.identity.stageName} · Press Kit A4
+    <h1 class="brand" style="margin:0;">{siteContent.identity.stageName} · Press Kit A4
       <small>{siteContent.identity.artistName} — {roleSlash} · {locationBrCompact}</small>
-    </div>
+    </h1>
     <div class="kit-actions">
       <a class="btn" href={bookingHref}>booking</a>
       <button class="btn" type="button" onclick="window.print()">salvar pdf</button>
@@ -29,7 +29,6 @@ const invocation = siteContent.editorial.tagline.split(' · ')[0];
   </noscript>
 
   <main class="sheets">
-
     <!-- ============================================================
          A — RITUAL  (concentric red rings + duotone portrait)
          ============================================================ -->

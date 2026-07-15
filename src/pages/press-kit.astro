@@ -1,7 +1,13 @@
 ---
+import Base from '../layouts/Base.astro';
 import PressKitBody from '../components/PressKitBody.astro';
 import { siteContent } from '../data/site';
 import '../styles/press-kit.css';
+
+const canonicalUrl = new URL(
+  Astro.url.pathname.replace(/\.html$/, ''),
+  Astro.site ?? siteContent.site.canonicalUrl,
+).href;
 
 const ldJson = JSON.stringify({
   '@context': 'https://schema.org',
@@ -10,6 +16,11 @@ const ldJson = JSON.stringify({
   alternateName: siteContent.identity.stageName,
   jobTitle: siteContent.identity.rolePt,
   email: siteContent.contact.bookingMailto,
+  url: canonicalUrl,
+  sameAs: [
+    siteContent.contact.instagramUrl,
+    siteContent.contact.soundcloudUrl,
+  ],
   address: {
     '@type': 'PostalAddress',
     addressLocality: siteContent.location.city,
@@ -19,36 +30,15 @@ const ldJson = JSON.stringify({
   knowsAbout: siteContent.editorial.genres,
 });
 ---
-<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{siteContent.pressKit.title}</title>
-    <meta name="theme-color" content="#0E0B0A" />
-    <meta
-      name="description"
-      content={siteContent.pressKit.description}
-    />
-    <meta property="og:title" content={siteContent.pressKit.title} />
-    <meta property="og:description" content={siteContent.pressKit.socialDescription} />
-    <meta property="og:image" content={siteContent.pressKit.ogImage} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={siteContent.pressKit.title} />
-    <meta name="twitter:description" content={siteContent.pressKit.socialDescription} />
-    <meta name="twitter:image" content={siteContent.pressKit.ogImage} />
-    <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+<Base
+  title={siteContent.pressKit.title}
+  description={siteContent.pressKit.description}
+  socialDescription={siteContent.pressKit.socialDescription}
+  ogImage={siteContent.pressKit.ogImage}
+>
+  <Fragment slot="head">
     <script type="application/ld+json" set:html={ldJson} />
-  </head>
-  <body>
-    <PressKitBody />
-    <script is:inline src="/scripts/press-kit.js"></script>
-  </body>
-</html>
+  </Fragment>
+  <PressKitBody />
+  <script is:inline src="/scripts/press-kit.js"></script>
+</Base>

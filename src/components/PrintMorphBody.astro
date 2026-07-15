@@ -12,15 +12,16 @@ const posterTags = [
 <nav class="switcher" aria-label="Layouts">
   <a href="/print/ritual">3a</a>
   <a href="/print/poster">3b</a>
-  <a class="on" href="/print/morph">morph</a>
+  <a class="on" href="/print/morph" aria-current="page">morph</a>
   <a href="/">spread</a>
 </nav>
 <nav class="morph-toggle" aria-label="Morph state">
-  <a id="btn-ritual" class="on">3a · Ritual</a>
-  <a id="btn-poster">3b · Poster</a>
+  <button type="button" id="btn-ritual" class="on" aria-pressed="true">3a · Ritual</button>
+  <button type="button" id="btn-poster" aria-pressed="false">3b · Poster</button>
 </nav>
 
-<div class="stage">
+<main class="stage">
+  <h1 class="sr-only">CHÊDA · Morph — A4</h1>
   <div class="a4-morph" id="a4">
 
     <svg class="rings-svg" viewBox="0 0 794 1123" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -88,4 +89,4 @@ const posterTags = [
       <span class="kicker">Booking · {siteContent.contact.bookingEmail} · 2026</span>
     </div>
   </div>
-</div>
+</main>

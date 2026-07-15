@@ -11,12 +11,13 @@ const posterTags = [
 
 <nav class="switcher" aria-label="Layouts">
   <a href="/print/ritual">3a</a>
-  <a class="on" href="/print/poster">3b</a>
+  <a class="on" href="/print/poster" aria-current="page">3b</a>
   <a href="/print/morph">morph</a>
   <a href="/">spread</a>
 </nav>
 
-<div class="stage">
+<main class="stage">
+  <h1 class="sr-only">CHÊDA · Poster — A4</h1>
   <div class="a4" id="poster-a4">
 
     <!-- Type wall — solid → stroke → fading, six rows across the full A4 -->
@@ -65,4 +66,4 @@ const posterTags = [
     </div>
 
   </div>
-</div>
+</main>
