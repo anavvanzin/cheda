@@ -173,7 +173,8 @@ cheda/
 │   ├── print.css            ← Skin dos A4
 │   └── press-kit.css        ← Press kit multi-folha
 ├── public/assets/           ← Portraits, logos, favicon/PWA
-├── vercel.json              ← framework astro + redirects /print/spread → /
+├── vercel.json              ← LEGACY only (cheda-six.vercel.app); Pages ignores this
+├── .github/workflows/deploy-pages.yml  ← deploy canônico → GitHub Pages
 └── DESIGN_SYSTEM.md         ← este arquivo
 ```
 
@@ -293,8 +294,8 @@ Todos os keyframes têm fallback `@media (prefers-reduced-motion: reduce)`.
 
 ```bash
 cd cheda
-python3 -m http.server 8765 --bind 127.0.0.1
-open http://127.0.0.1:8765
+npm install
+npm run dev          # http://127.0.0.1:8765 — Astro, não http.server
 ```
 
 ### QA visual (screenshot de referência)
@@ -322,16 +323,16 @@ Sempre rodar QA visual em **desktop 1440×900** e **mobile 390×844** antes de d
 ```bash
 git add -A && git commit -m "…"
 git push origin main
-vercel --token "$VERCEL_TOKEN" deploy --prod --yes
+# Actions: npm ci → npm run build → upload dist/ → GitHub Pages
 ```
 
-Domínio canônico: `patriciacheda.com` (GitHub Pages via `CNAME`). Vercel legado `cheda-six.vercel.app` (team `anavanzin`, project `cheda`) não deve mais aparecer em OG/canonical.
+Domínio canônico: `patriciacheda.com` (GitHub Pages + Cloudflare via `CNAME`). Redirects de `/print/spread` vivem em `astro.config.mjs` (também espelhados em `vercel.json` só pro host legado). Vercel `cheda-six.vercel.app` (team `anavanzin`, project `cheda`) não deve aparecer em OG/canonical e não é o caminho de deploy.
 
 **Nota**: o proxy GitHub da Perplexity retorna 407 CONNECT tunnel failed intermitentemente. Se acontecer, esperar 5-10s e tentar de novo (3 tentativas costumam resolver).
 
 ### Regra do `index.html` regenerado a partir de `print/spread.html`
 
-**Descontinuado.** A landing agora é canonicamente `index.html` na raiz. Não existe mais `print/spread.html` — deletado, com redirect 308 configurado. Se um agente futuro tentar recriar `print/spread.html`, **não fazer**: quebra o redirect e duplica conteúdo.
+**Descontinuado.** A landing agora é canonicamente `index.html` na raiz. Não existe mais `print/spread.html` — deletado, com redirect configurado em `astro.config.mjs` (e espelhado em `vercel.json` só pro host legado). Se um agente futuro tentar recriar `print/spread.html`, **não fazer**: quebra o redirect e duplica conteúdo.
 
 ---
 
@@ -339,7 +340,7 @@ Domínio canônico: `patriciacheda.com` (GitHub Pages via `CNAME`). Vercel legad
 
 Quando a usuária voltar, esses são os fios soltos:
 
-- **Domínio custom** — ela mencionou `cheda.press` ou `cheda.fm` mas não confirmou. Passo: pedir a decisão, comprar/atachar via Vercel, atualizar DNS.
+- **Domínios alternativos** — ela mencionou `cheda.press` ou `cheda.fm` mas não confirmou. O canônico atual já é `patriciacheda.com` (Pages + Cloudflare).
 - **Set list real** — placeholders foram removidos. Aguardando títulos/durações/links reais de mixes específicos pra reintroduzir a estrutura `.sets-row` + `.sets-list` (CSS já existe no `print.css`).
 - **Foto adicional** — usuária mencionou upload `photos-1784006617332.jpg` que nunca chegou; se aparecer, provavelmente é candidata a hero portrait.
 - **Instagram embed opcional** — se a usuária quiser mostrar feed dela ao lado do SoundCloud, dá pra plugar um Instagram basic display embed no mesmo padrão do `.sc-slot`.
@@ -355,7 +356,7 @@ Se você é uma sessão AI nova entrando neste projeto, cole este bloco no iníc
 >
 > **Antes de qualquer edição**:
 > 1. Ler `DESIGN_SYSTEM.md` (este arquivo) — contém tokens, arquitetura, regras de linguagem e o registro completo do "VHS Tracking Seam" que é a peça mais idiossincrática.
-> 2. Rodar `python3 -m http.server 8765` e abrir `http://127.0.0.1:8765`.
+> 2. Rodar `npm install && npm run dev` e abrir `http://127.0.0.1:8765` (nunca `python3 -m http.server` — rotas vêm do Astro).
 > 3. Fazer screenshot Playwright desktop+mobile do estado atual antes de tocar em qualquer coisa.
 >
 > **Princípios não-negociáveis**:
@@ -441,7 +442,7 @@ Mudanças substantivas do dia, em ordem cronológica:
 3. **Logo oficial CHÊDA** — substitui o `panther-mark` circular genérico pelo logotipo real da artista. Arquivo original (`CHEDA_logo_branca.jpg`) tinha bug (todos pixels brancos opacos), foi regenerado a partir do preto original com alpha correto. Novos assets: `logo-cheda-{black,white}{,-alpha}.png`.
 4. **SoundCloud embed** — iframe do `w.soundcloud.com/player` apontando para `soundcloud.com/patriciacheda` (perfil inteiro, não faixa específica), color `#B5221A`, `visual=true`. Substitui o placeholder que aguardava URL.
 5. **Setlists inventados removidos** — os placeholders `Ritual Noturno / Som que Invoca / Pista Aberta` (com durações fake `58 min / 62 min / 74 min`) foram removidos de todos os quatro layouts: `index.html`, `print/ritual.html`, `print/poster.html`, `print/morph.html`. Também as duas orbit captions inventadas (`Som que Invoca`, `Ritual · não Playlist`). A frase filosófica `som que invoca · cada set é um ritual` fica preservada no subtítulo — é manifesto, não título de faixa. O CSS de `.sets-row` e `.sets-list` continua nos stylesheets para reintroduzir quando títulos reais chegarem.
-6. **`/print/spread` deletado** — arquivo removido, redirects 308 `/print/spread{,.html} → /` configurados em `vercel.json`, switchers dos outros A4 atualizados para apontar `spread` → `/`.
+6. **`/print/spread` deletado** — arquivo removido, redirects `/print/spread{,.html} → /` em `astro.config.mjs` (Pages) e espelhados em `vercel.json` (legado), switchers dos outros A4 atualizados para apontar `spread` → `/`.
 7. **Vercel deployment protection desativada** — SSO Protection removida via API PATCH. Site publicamente acessível sem auth wall.
 8. **Email consolidado** — substituiu todo `pat@chdx.fm` (que era fake) por `patriciavchedach@gmail.com` (real) em `print/poster.html`, `print/morph.html`, index.
 9. **DESIGN_SYSTEM.md criado** — este documento, agora atualizado.
