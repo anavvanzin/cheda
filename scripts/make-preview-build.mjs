@@ -147,6 +147,42 @@ function rewriteCss(content, prefix) {
   return content;
 }
 
+/**
+ * Preview iframes forbid persistent browser-storage APIs. The production
+ * intro.js gates the intro with sessionStorage; for the preview copy we swap it
+ * for an in-memory store so the SAME behaviour works within a single page view
+ * (dismiss / reopen), and — critically — so NO literal forbidden identifier
+ * remains anywhere in the file (the validator scans raw content, including
+ * comments and strings). Production dist/scripts/intro.js is untouched.
+ */
+function rewritePreviewJs(content) {
+  const FORBIDDEN = /sessionStorage/g;
+  if (!FORBIDDEN.test(content)) return content;
+
+  // Inject a tiny in-memory shim at the top of the IIFE body. It mimics the
+  // getItem/setItem/removeItem surface the script uses. Named to avoid the
+  // forbidden token entirely.
+  const shim =
+    '\n  /* preview build: in-memory gate (no persistent browser storage) */\n' +
+    '  var __introMemStore = (function () {\n' +
+    '    var m = {};\n' +
+    '    return {\n' +
+    '      getItem: function (k) { return Object.prototype.hasOwnProperty.call(m, k) ? m[k] : null; },\n' +
+    '      setItem: function (k, v) { m[k] = String(v); },\n' +
+    '      removeItem: function (k) { delete m[k]; }\n' +
+    '    };\n' +
+    '  })();\n';
+
+  // Insert the shim right after the IIFE opener "(function () {".
+  let out = content.replace(/\(function\s*\(\)\s*\{/, function (m) { return m + shim; });
+
+  // Replace every remaining reference (code + comments) to the forbidden
+  // identifier with the shim name, so the literal token is fully absent.
+  out = out.replace(FORBIDDEN, '__introMemStore');
+
+  return out;
+}
+
 function rewriteWebmanifest(content, prefix) {
   try {
     const json = JSON.parse(content);
@@ -185,9 +221,14 @@ async function main() {
       content = await fs.readFile(abs, 'utf8');
       const next = rewriteWebmanifest(content, prefix);
       if (next !== content) { await fs.writeFile(abs, next); touched++; }
+    } else if (ext === '.js') {
+      // JS has no root-absolute asset paths in this project (verified), but the
+      // intro controller uses sessionStorage which is forbidden in the preview
+      // iframe. Swap it for an in-memory shim in the preview copy only.
+      content = await fs.readFile(abs, 'utf8');
+      const next = rewritePreviewJs(content);
+      if (next !== content) { await fs.writeFile(abs, next); touched++; }
     }
-    // JS in this project contains no root-absolute asset paths (verified), so
-    // JS files are copied verbatim. If that changes, add a JS branch here.
   }
 
   console.log(`preview-dist ready: ${OUT}`);
