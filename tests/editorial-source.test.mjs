@@ -159,6 +159,18 @@ test('consumers import approved facts instead of owning editorial phrases', () =
   }
 });
 
+const fakeSetTitlePattern = /(?:(?:setTitle|trackTitle)\s*[:=]\s*['"]Som que Invoca['"]|<([a-z][\w-]*)\b(?=[^>]*\bclass=['"](?:[^'"]*\s)?(?:set|track)(?:-(?:card|title|item))?(?=\s|['"])[^'"]*['"])[^>]*>(?:(?!<\/\1\s*>)[\s\S])*?Som que Invoca(?:(?!<\/\1\s*>)[\s\S])*?<\/\1\s*>)/i;
+
+test('fake set title detection is semantic and bounded to its card', () => {
+  const approvedManifesto = '<div class="asset-card"></div><p>Som que Invoca</p>';
+  const closedSetCard = '<div class="set-card"></div><p>Som que Invoca</p>';
+  const inventedSetCard = '<article class="set-card"><h3>Som que Invoca</h3></article>';
+
+  assert.doesNotMatch(approvedManifesto, fakeSetTitlePattern);
+  assert.doesNotMatch(closedSetCard, fakeSetTitlePattern);
+  assert.match(inventedSetCard, fakeSetTitlePattern);
+});
+
 test('all public textual source rejects retired, invented, private, and local-only copy', () => {
   const forbiddenPatterns = [
     /\bCHDX\b/,
@@ -174,8 +186,6 @@ test('all public textual source rejects retired, invented, private, and local-on
 
   // “Som que Invoca” is approved manifesto/tagline language. It is forbidden
   // only when assigned to a set/track title or rendered inside a set/track card.
-  const fakeSetTitlePattern = /(?:(?:set|track)Title\s*[:=]\s*['"]Som que Invoca['"]|class=['"][^'"]*(?:set|track)[^'"]*['"][^>]*>[\s\S]{0,200}Som que Invoca)/i;
-
   for (const [path, contents] of publicFiles) {
     for (const pattern of forbiddenPatterns) {
       assert.doesNotMatch(contents, pattern, `${path} matches ${pattern}`);
