@@ -32,8 +32,45 @@
     background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
     background-size:3px 3px; mix-blend-mode:overlay; opacity:.24; }
 
-  .spread{ position:relative; width:100%; display:grid;
-    /*
+  /* ── Atmospheric silhouette (bottom-right, faded) ────────────────
+     A quiet ambient echo of the artist anchored in the lower-right
+     corner. Fixed and non-interactive so it never blocks text, links
+     or controls; contained so the whole figure fits without cropping;
+     screen-blended into the black so it reads as a red-lit ghost. */
+  .site-silhouette{
+    position:fixed;
+    right:0; bottom:0;
+    z-index:0;               /* behind all content, above the page bg */
+    pointer-events:none;
+    width:clamp(220px, 30vw, 460px);
+    max-width:46vw;
+    /* height cap keeps the full figure inside the viewport corner */
+    max-height:82vh;
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-end;
+    opacity:.5;
+    /* let it dissolve toward the top/left so it melts into the page */
+    -webkit-mask-image:linear-gradient(300deg, #000 34%, transparent 82%);
+    mask-image:linear-gradient(300deg, #000 34%, transparent 82%);
+    animation:site-sil-breathe 13s ease-in-out infinite;
+    will-change:opacity, transform;
+  }
+  .site-silhouette img{
+    width:100%;
+    height:auto;
+    max-height:82vh;
+    object-fit:contain;      /* never crop the figure */
+    mix-blend-mode:screen;
+    filter:saturate(1.05) contrast(1.04) brightness(.9);
+  }
+  @keyframes site-sil-breathe{
+    0%,100%{ opacity:.44; transform:translateY(0) scale(1); }
+    50%{     opacity:.56; transform:translateY(-6px) scale(1.012); }
+  }
+
+  .spread{ position:relative; z-index:1; width:100%; display:grid;
+    /* z-index:1 keeps all real content above the ambient silhouette (z-0)
       Ritual: capped so tall screens don't sprout vertical whitespace
       Seam:   VHS transition is a passage, not a room — keep it lean
       Poster: intrinsic; content decides the height
@@ -287,6 +324,9 @@
     65%            { transform: translate(0,0); }
   }
   @media (prefers-reduced-motion:reduce){ .seam-word{ animation:none; } }
+  @media (prefers-reduced-motion:reduce){
+    .site-silhouette{ animation:none !important; transform:none !important; }
+  }
 
   /* L8 — timecode kickers */
   .seam-kicker{ position:absolute; z-index:7;
@@ -536,6 +576,11 @@
     .site-footer .foot-signature{ max-width: 280px; }
   }
   @media (max-width:720px){
+    /* on phones the corner echo is smaller and dimmer so it stays elegant
+       and never competes with content; still fully contained */
+    .site-silhouette{ width:clamp(150px, 42vw, 240px); opacity:.36;
+      max-height:56vh; }
+    .site-silhouette img{ max-height:56vh; }
     .spread{ grid-template-rows:
       min(560px, 80vh)
       min(240px, 28vh)
@@ -545,6 +590,7 @@
     .tw-word{ font-size: clamp(52px, 14vw, 88px); }
   }
   @media (max-width:480px){
+    .site-silhouette{ width:clamp(130px, 44vw, 190px); opacity:.3; }
     .spread{ grid-template-rows:
       min(520px, 78vh)
       min(200px, 24vh)
