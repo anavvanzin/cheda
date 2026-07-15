@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import LandingBody from '../components/LandingBody.astro';
+import '../styles/tokens.css';
+import '../styles/cursor.css';
+import '../styles/landing.css';
+---
+<Base>
+  <LandingBody />
+  <script is:inline src="/scripts/orbit.js"></script>
+  <script is:inline src="/scripts/cursor.js"></script>
+</Base>

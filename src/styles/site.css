@@ -76,7 +76,7 @@ section[data-rhythm="on"]::before{
 }
 #hero .hero-photo{
   position: absolute; inset: 0;
-  background: url('../assets/portrait-ritual.jpg') center 15%/cover no-repeat;
+  background: url('/assets/portrait-ritual.jpg') center 15%/cover no-repeat;
   filter: contrast(1.08) brightness(.72) saturate(.95);
   opacity: .62; z-index: 0;
 }
@@ -100,7 +100,7 @@ section[data-rhythm="on"]::before{
 #hero .brand{ display: flex; align-items: center; gap: 14px; }
 #hero .panther-mark{
   width: 38px; height: 38px; border-radius: 50%;
-  background: var(--paper) url('../assets/panther-mark.svg') center/70% no-repeat;
+  background: var(--paper) url('/assets/panther-mark.svg') center/70% no-repeat;
   border: 1.5px solid var(--gold);
 }
 #hero .site-nav{ display: flex; gap: 26px; }

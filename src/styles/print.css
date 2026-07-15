@@ -73,7 +73,7 @@ body{ overflow-x:hidden; }
 }
 .ritual-header .panther-mark{
   width:34px; height:34px; border-radius:50%;
-  background:var(--paper) url('../assets/panther-mark.svg') center/70% no-repeat;
+  background:var(--paper) url('/assets/panther-mark.svg') center/70% no-repeat;
   border:1px solid var(--gold);
 }
 .ritual-header .wordmark{
@@ -316,7 +316,7 @@ body{ overflow-x:hidden; }
 }
 .poster-foot .panther-mark{
   width:26px; height:26px; border-radius:50%;
-  background:var(--paper) url('../assets/panther-mark.svg') center/70% no-repeat;
+  background:var(--paper) url('/assets/panther-mark.svg') center/70% no-repeat;
   border:1px solid var(--gold);
 }
 .poster-foot .kicker{
