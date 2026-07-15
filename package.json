@@ -10,6 +10,8 @@
     "preview": "astro preview --host 127.0.0.1 --port 8765"
   },
   "dependencies": {
+    "@astrojs/vercel": "^9.0.5",
+    "@vercel/analytics": "^2.0.1",
     "astro": "^5.12.0"
   }
 }

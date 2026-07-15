@@ -1,8 +1,14 @@
 import { defineConfig } from 'astro/config';
+import vercel from '@astrojs/vercel/static';
 
 export default defineConfig({
   site: 'https://patriciacheda.com',
   output: 'static',
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
   trailingSlash: 'never',
   compressHTML: false,
   build: {
