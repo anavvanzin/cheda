@@ -9,15 +9,14 @@ import '../styles/intro.css';
 ---
 <Base>
   <Fragment slot="head">
-    <!-- Paint the intro backdrop immediately so there is no flash of the
-         landing before intro.css / intro.js resolve. Removed on exit. -->
+    <!-- Paint the intro backdrop (true black stage) immediately so there
+         is no flash of the landing before intro.css / intro.js resolve. -->
     <style is:inline>
-      #intro{position:fixed;inset:0;z-index:9000;background:#0E0B0A;}
+      #intro{position:fixed;inset:0;z-index:9000;background:#000;}
       #intro.is-gone{display:none;}
     </style>
     <link rel="preload" as="image" href="/assets/intro/intro-poster.jpg" />
-    <link rel="preload" as="image" href="/assets/logo-patricia-blackletter-cream.png" />
-    <link rel="preload" as="image" href="/assets/silhouette-cheda.webp" />
+    <link rel="preload" as="video" href="/assets/intro/intro.mp4" type="video/mp4" />
   </Fragment>
 
   <Intro />
