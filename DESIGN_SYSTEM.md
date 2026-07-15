@@ -25,8 +25,9 @@ Techno, tech house, noise. Sets densos e hipnóticos, sem playlist fixa.
 
 **Deploy**:
 - Repo: `github.com/anavvanzin/cheda` (privado)
-- Deploy único: **GitHub Pages**, via `.github/workflows/deploy-pages.yml`
-- Domínio canônico: **`https://patriciacheda.com`** (`public/CNAME`; Cloudflare apenas como DNS/proxy, sem Worker)
+- Deploy canônico único do repositório: **GitHub Pages**, via `.github/workflows/deploy-pages.yml`
+- Domínio canônico: **`https://patriciacheda.com`** (`public/CNAME`); por contrato, Cloudflare deve atuar apenas como DNS/proxy
+- Artefato verificado: o build estático não contém runtime nem arquivos de Cloudflare Worker; o estado externo do painel não é presumido
 - Vercel legado: `cheda-six.vercel.app` (não é destino de deploy — OG/links apontam para o domínio custom)
 
 ---
@@ -328,9 +329,9 @@ npm test
 # Actions: npm ci → npm test → upload dist/ → GitHub Pages
 ```
 
-GitHub Pages é o único destino de deploy. O domínio canônico é `patriciacheda.com`; `public/CNAME` entra em `dist/CNAME` e o workflow verifica o artefato estático antes de publicar. Cloudflare atua somente como DNS/proxy, sem Worker. Redirects de `/print/spread` vivem em `astro.config.mjs` (também espelhados em `vercel.json` só para o host legado). Vercel `cheda-six.vercel.app` não deve aparecer em OG/canonical e não é o caminho de deploy.
+GitHub Pages é o único destino canônico de deploy do repositório. O domínio canônico é `patriciacheda.com`; `public/CNAME` entra em `dist/CNAME` e o workflow verifica o artefato estático antes de publicar. Por contrato, Cloudflare deve atuar somente como DNS/proxy. O fato verificado pelo repositório é mais restrito: o build estático não contém runtime nem arquivos de Cloudflare Worker. Redirects de `/print/spread` vivem em `astro.config.mjs` (também espelhados em `vercel.json` só para o host legado). Vercel `cheda-six.vercel.app` não deve aparecer em OG/canonical e não é o caminho canônico de deploy.
 
-Verificações externas de Cloudflare e Vercel são manuais, reversíveis e não fazem parte de uma mudança no repositório. Consultar [`docs/deployment-checklist.md`](docs/deployment-checklist.md); nenhum estado de dashboard é presumido por este documento.
+Verificações externas de DNS/proxy, rotas/builds de Worker e Vercel são manuais, reversíveis e não fazem parte de uma mudança no repositório. Consultar [`docs/deployment-checklist.md`](docs/deployment-checklist.md); nenhum estado de dashboard é presumido por este documento.
 
 **Nota**: o proxy GitHub da Perplexity retorna 407 CONNECT tunnel failed intermitentemente. Se acontecer, esperar 5-10s e tentar de novo (3 tentativas costumam resolver).
 

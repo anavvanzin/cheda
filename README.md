@@ -51,19 +51,22 @@ Key routes: `/`, `/press-kit`, `/print/ritual`, `/print/poster`, `/print/morph`.
 
 ## Deploy
 
-GitHub Pages is the only deployment target. Pull requests to `main` run the
-static artifact checks; a push to `main` runs
+GitHub Pages is the only canonical repository deployment target. Pull requests
+to `main` run the static artifact checks; a push to `main` runs
 `.github/workflows/deploy-pages.yml`: `npm ci` → `npm test` → upload `dist/` →
 deploy to Pages.
 
 The canonical host is `https://patriciacheda.com`. `public/CNAME` is copied to
-the build artifact and is verified by the workflow. Cloudflare is limited to
-DNS/proxy in front of GitHub Pages; the site has no Cloudflare Worker runtime.
-Vercel (`cheda-six.vercel.app`) is legacy and is not a deployment target.
+the build artifact and is verified by the workflow. The repository contract
+requires Cloudflare to act only as DNS/proxy in front of GitHub Pages. The
+verified static build contains no Cloudflare Worker runtime or Worker artifacts.
+Vercel (`cheda-six.vercel.app`) is legacy and is not a canonical deployment
+target.
 
 Dashboard handoff steps are documented in
 [`docs/deployment-checklist.md`](docs/deployment-checklist.md). They are manual,
-reversible, and are not performed by repository changes.
+reversible, and are not performed by repository changes; current external DNS,
+proxy, Worker-route, Worker-build, and Vercel states are not presumed here.
 
 ---
 
