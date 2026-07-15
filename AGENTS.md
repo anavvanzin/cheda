@@ -29,4 +29,4 @@ There is **no automated test suite**. Visual QA = open the pages (dev or preview
 - Client scripts are copied to `public/scripts/` and loaded with `is:inline` so they stay classic IIFEs (orbit captions, custom cursor, print helpers).
 - Legacy root `index.html` / `print/*.html` were removed after the Astro migration — do not recreate them at the repo root.
 - External integrations degrade gracefully: Google Fonts CDN, SoundCloud iframe, Instagram link.
-- Deploy path: push `main` → `.github/workflows/deploy-pages.yml` → GitHub Pages + Cloudflare. Canonical host: `https://patriciacheda.com`. Vercel (`cheda-six.vercel.app`) is legacy only.
+- Deploy path: push `main` → `.github/workflows/deploy-pages.yml` → GitHub Pages + Cloudflare. Canonical host: `https://patriciacheda.com`. Vercel (`cheda-six.vercel.app`) is legacy only — do **not** add `@astrojs/vercel` (it forces directory output and drops redirect pages from `dist/`).
