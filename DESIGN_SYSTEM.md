@@ -157,27 +157,23 @@ Os três layouts A4 (`print/ritual`, `print/poster`, `print/morph`) recebem só 
 
 ## 3 · Arquitetura do site
 
+> **Stack (jul 2026):** Astro SSG (`output: 'static'`). Rotas em `src/pages/`,
+> estilos em `src/styles/`, assets em `public/assets/`. O HTML monolítico na raiz
+> foi aposentado — a landing canônica é `src/pages/index.astro`.
+
 ```
 cheda/
-├── index.html               ← LANDING (raiz). Cópia canônica de conteúdo,
-│                              paths locais. Título "CHÊDA · Patrícia Chêda".
-├── vercel.json              ← cleanUrls + redirects /print/spread → /
-├── styles/
+├── src/pages/index.astro    ← LANDING. Ritual → VHS seam → Poster
+├── src/pages/press-kit.astro
+├── src/pages/print/         ← ritual / poster / morph (A4)
+├── src/styles/
 │   ├── tokens.css           ← Design tokens (palette, fonts, rhythm)
-│   ├── site.css             ← Skin do site (imports tokens)
-│   └── print.css            ← Skin dos A4 (imports tokens)
-├── print/
-│   ├── ritual.html          ← 3a A4 — full-canvas strobe rings + orbits + sets
-│   ├── poster.html          ← 3b A4 — type wall + photo plate + content card
-│   └── morph.html           ← Ritual ↔ Poster morph timeline (CSS @property --t)
-├── assets/
-│   ├── portrait-ritual.jpg  ← IMG_7694 (B&W warpaint, square)
-│   ├── portrait-poster.jpg  ← IMG_5194 (4:5 warpaint, editorial)
-│   ├── foto-editorial.jpg   ← IMG_3745 (Chêda em madeira, coleira)
-│   ├── foto-lattice.jpg     ← IMG_3472 (quimono, óculos escuros)
-│   ├── foto-steps.jpg       ← IMG_3473 (escadaria colonial)
-│   ├── foto-yellow.jpg      ← IMG_7533 (parede amarela, casual)
-│   └── logo-cheda-*.png     ← 4 variações do logotipo oficial
+│   ├── landing.css          ← Skin da landing (ex-inline do index.html)
+│   ├── cursor.css           ← Cursor custom (só landing)
+│   ├── print.css            ← Skin dos A4
+│   └── press-kit.css        ← Press kit multi-folha
+├── public/assets/           ← Portraits, logos, favicon/PWA
+├── vercel.json              ← framework astro + redirects /print/spread → /
 └── DESIGN_SYSTEM.md         ← este arquivo
 ```
 

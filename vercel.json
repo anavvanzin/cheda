@@ -1,9 +1,14 @@
 {
-  "cleanUrls": true,
+  "framework": "astro",
   "trailingSlash": false,
   "redirects": [
-    { "source": "/print/spread",      "destination": "/", "permanent": true },
-    { "source": "/print/spread.html", "destination": "/", "permanent": true }
+    { "source": "/print/spread", "destination": "/", "permanent": true },
+    { "source": "/print/spread.html", "destination": "/", "permanent": true },
+    { "source": "/print/ritual.html", "destination": "/print/ritual", "permanent": true },
+    { "source": "/print/poster.html", "destination": "/print/poster", "permanent": true },
+    { "source": "/print/morph.html", "destination": "/print/morph", "permanent": true },
+    { "source": "/press-kit.html", "destination": "/press-kit", "permanent": true },
+    { "source": "/index.html", "destination": "/", "permanent": true }
   ],
   "headers": [
     {

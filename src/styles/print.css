@@ -1,0 +1,326 @@
+@import url("./tokens.css");
+
+/* ============================================================
+   CHÊDA print — A4 (794 × 1123px @ 96dpi) pages.
+   Shared skin for 3a Ritual + 3b Poster.
+   ============================================================ */
+
+body{ overflow-x:hidden; }
+
+.switcher{
+  position:fixed; top:12px; right:12px; z-index:1000;
+  display:flex; gap:6px;
+}
+.switcher a{
+  font-family:var(--body-font); font-size:11px;
+  letter-spacing:.32em; text-transform:uppercase;
+  padding:8px 14px; border:1px solid rgba(233,224,206,.25);
+  background:rgba(14,11,10,.85); color:rgba(233,224,206,.5);
+  backdrop-filter:blur(8px); transition:all .2s;
+}
+.switcher a:hover{ color:var(--cream); border-color:rgba(233,224,206,.6); }
+.switcher a.on{ background:var(--blood); border-color:var(--blood); color:var(--paper); }
+
+/* A4 stage — centered card on a paperless void */
+.stage{
+  min-height:100vh; padding:32px 16px;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(60% 80% at 80% 40%, rgba(181,34,26,.10), transparent 70%),
+    radial-gradient(rgba(199,154,75,.06) 1px, transparent 1.4px) 0 0/10px 10px,
+    #050403;
+}
+.a4{
+  position:relative; width:794px; max-width:100%;
+  aspect-ratio:794/1123; background:var(--ink);
+  overflow:hidden; box-shadow:0 24px 80px rgba(0,0,0,.85);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   3A — RITUAL
+   Full-canvas concentric strobe rings + orbiting captions +
+   three set cards at the foot. Portrait sits at the center.
+   ═══════════════════════════════════════════════════════════ */
+.rings-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+
+/* Ring pulse — staggered so they ripple outward */
+@keyframes ring-pulse{ 0%,100%{opacity:.14;} 50%{opacity:.44;} }
+.rp-1{ animation:ring-pulse 3s ease-in-out infinite; }
+.rp-2{ animation:ring-pulse 3s ease-in-out infinite .25s; }
+.rp-3{ animation:ring-pulse 3s ease-in-out infinite .5s; }
+.rp-4{ animation:ring-pulse 3s ease-in-out infinite .75s; }
+.rp-5{ animation:ring-pulse 3s ease-in-out infinite 1s; }
+.rp-6{ animation:ring-pulse 3s ease-in-out infinite 1.25s; }
+.rp-7{ animation:ring-pulse 3s ease-in-out infinite 1.5s; opacity:.09; }
+.rp-8{ animation:ring-pulse 3s ease-in-out infinite 1.75s; opacity:.06; }
+@media(prefers-reduced-motion:reduce){ [class^="rp-"]{ animation:none; } }
+
+/* Grain overlay */
+.a4-grain{
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+  background-size:3px 3px; mix-blend-mode:overlay; opacity:.35;
+}
+
+/* Ritual header */
+.ritual-header{
+  position:absolute; top:5%; left:0; right:0; z-index:20;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 8%;
+}
+.ritual-header .brand{
+  display:flex; align-items:center; gap:12px;
+}
+.ritual-header .panther-mark{
+  width:34px; height:34px; border-radius:50%;
+  background:var(--paper) url('/assets/panther-mark.svg') center/70% no-repeat;
+  border:1px solid var(--gold);
+}
+.ritual-header .wordmark{
+  font-family:var(--display-font); font-weight:500;
+  font-size:16px; letter-spacing:.32em; color:var(--paper);
+}
+.ritual-header .kicker{
+  font-family:var(--display-font); font-weight:500;
+  font-size:9px; letter-spacing:.42em; text-transform:uppercase;
+  color:var(--gold);
+}
+
+/* Portrait — circular, centered on ring cx/cy */
+.portrait-wrap{
+  position:absolute; left:50%; top:44%;
+  transform:translate(-50%,-50%);
+  width:34%; aspect-ratio:1;
+  border-radius:50%; overflow:hidden;
+  border:2px solid rgba(181,34,26,.6);
+  box-shadow:
+    0 0 0 1px rgba(199,154,75,.35),
+    0 0 60px rgba(181,34,26,.28),
+    inset 0 0 40px rgba(0,0,0,.55);
+  z-index:10;
+}
+/* portrait-ritual.jpg is square (1080×1080); face sits upper-center */
+.portrait-wrap img{
+  width:100%; height:100%; object-fit:cover;
+  object-position:52% 30%;
+  filter:contrast(1.1) brightness(.98);
+}
+
+/* Orbiting captions */
+.orbit-ring{
+  position:absolute; left:50%; top:44%;
+  transform:translate(-50%,-50%);
+  width:66%; aspect-ratio:1; z-index:15; pointer-events:none;
+}
+.orbit-caption{
+  position:absolute; font-family:var(--display-font); font-weight:500;
+  font-size:9px; letter-spacing:.32em; text-transform:uppercase;
+  color:rgba(233,224,206,.55); white-space:nowrap;
+}
+
+/* Ritual title block */
+.ritual-title{
+  position:absolute; bottom:22%; left:0; right:0;
+  text-align:center; z-index:20;
+}
+.ritual-name{
+  font-family:var(--display-font); font-weight:500;
+  font-size:96px; letter-spacing:.04em;
+  color:var(--paper); line-height:1;
+  display:inline-block;
+}
+.ritual-serif{
+  display:block; margin-top:10px;
+  font-family:var(--serif-font); font-style:italic;
+  font-size:18px; color:var(--gold); letter-spacing:.02em;
+}
+.ritual-tagline{
+  margin-top:10px;
+  font-family:var(--display-font); font-weight:500;
+  font-size:9px; letter-spacing:.42em; text-transform:uppercase;
+  color:rgba(181,34,26,.85);
+}
+
+/* Sets row — three cards at the foot */
+.sets-row{
+  position:absolute; bottom:4%; left:6%; right:6%;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:10px; z-index:20;
+}
+.set-card{
+  background:rgba(14,11,10,.82);
+  border:1px solid var(--gold);
+  padding:12px 14px; backdrop-filter:blur(6px);
+  transition:transform .3s;
+}
+.set-card:nth-child(odd){ transform:rotate(var(--tA)); }
+.set-card:nth-child(even){ transform:rotate(var(--tB)); }
+.set-card .num{
+  font-family:var(--display-font); font-weight:500;
+  font-size:22px; color:var(--blood); line-height:1;
+}
+.set-card .name{
+  font-family:var(--display-font); font-weight:500;
+  font-size:11px; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--paper); margin-top:6px;
+}
+.set-card .meta{
+  font-size:9px; letter-spacing:.12em;
+  color:var(--soft); margin-top:4px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   3B — POSTER
+   Full-page type wall: solid → stroke → fading repeats.
+   Photo plate + content card share a bleed spine, so they
+   read as one continuous object (no floating panels).
+   ═══════════════════════════════════════════════════════════ */
+
+/* Type wall — 6 rows, cascading opacity/stroke */
+.type-wall{
+  position:absolute; inset:0; z-index:1;
+  display:flex; flex-direction:column; justify-content:space-around;
+  overflow:hidden; pointer-events:none;
+}
+.tw-row{
+  display:flex; align-items:center; white-space:nowrap;
+  user-select:none; line-height:.86;
+  transform-origin:left center;
+}
+.tw-word{
+  font-family:var(--display-font); font-weight:500;
+  padding:0 .04em; letter-spacing:.02em;
+}
+/* Cascade: 1 solid paper → 2 solid blood → 3 stroke paper → 4 stroke blood → 5 ghost paper → 6 whisper */
+.tw-row:nth-child(1){ transform:rotate(var(--tB)); }
+.tw-row:nth-child(1) .tw-word{ font-size:150px; color:var(--paper); }
+.tw-row:nth-child(2){ transform:rotate(var(--tA)); padding-left:6%; }
+.tw-row:nth-child(2) .tw-word{ font-size:150px; color:var(--blood); }
+.tw-row:nth-child(3){ transform:rotate(var(--tB)); padding-left:12%; }
+.tw-row:nth-child(3) .tw-word{ font-size:150px; color:transparent; -webkit-text-stroke:1.5px var(--paper); opacity:.72; }
+.tw-row:nth-child(4){ transform:rotate(var(--tA)); padding-left:4%; }
+.tw-row:nth-child(4) .tw-word{ font-size:150px; color:transparent; -webkit-text-stroke:1.2px var(--blood); opacity:.42; }
+.tw-row:nth-child(5){ transform:rotate(var(--tB)); padding-left:10%; }
+.tw-row:nth-child(5) .tw-word{ font-size:150px; color:transparent; -webkit-text-stroke:.8px var(--gold); opacity:.22; }
+.tw-row:nth-child(6){ transform:rotate(var(--tA)); padding-left:2%; }
+.tw-row:nth-child(6) .tw-word{ font-size:150px; color:transparent; -webkit-text-stroke:.5px var(--paper); opacity:.08; }
+
+/* The overlap composite: photo plate + content card share a spine */
+.poster-composite{
+  position:absolute; z-index:20;
+  top:6%; right:5%; bottom:11%; left:5%;
+  display:grid;
+  grid-template-columns:1fr;
+  grid-template-rows:50% 44%;
+  pointer-events:none;
+}
+
+.photo-plate{
+  position:relative;
+  justify-self:end; align-self:start;
+  width:56%; height:100%;
+  transform:rotate(1.5deg);
+  z-index:2;
+}
+/* portrait-poster.jpg is 4:5 portrait; face sits upper-third */
+.photo-plate img{
+  width:100%; height:100%; object-fit:cover;
+  object-position:center 22%;
+  filter:contrast(1.06) brightness(.98);
+}
+.photo-plate::before{
+  content:''; position:absolute; inset:8px 8px -8px -8px;
+  border:1.5px solid rgba(181,34,26,.55); z-index:-1;
+}
+/* Bleed fade — the photo dissolves downward into the ink */
+.photo-plate::after{
+  content:''; position:absolute;
+  left:0; right:0; bottom:-1px; height:55%;
+  background:linear-gradient(to bottom,
+    transparent 0%,
+    rgba(14,11,10,.35) 35%,
+    rgba(14,11,10,.85) 75%,
+    var(--ink) 100%);
+  pointer-events:none;
+}
+
+.content-card{
+  position:relative;
+  justify-self:start; align-self:end;
+  width:74%; z-index:3;
+  padding:28px 32px 24px;
+  background:rgba(14,11,10,.92);
+  border:1px solid rgba(199,154,75,.35);
+  backdrop-filter:blur(14px);
+  margin-top:-16%; /* pushes the card UP into the photo bleed */
+}
+/* Top edge fade — the card rises out of the same ink the photo fades into */
+.content-card::before{
+  content:''; position:absolute;
+  left:0; right:0; top:-64px; height:64px;
+  background:linear-gradient(to bottom, transparent, rgba(14,11,10,.92));
+  pointer-events:none;
+}
+/* Shared vertical spine — a thin blood line binds the two halves */
+.content-card::after{
+  content:''; position:absolute;
+  right:8%; top:-42%; height:48%;
+  width:1px; background:var(--blood); opacity:.7;
+  pointer-events:none;
+}
+
+.poster-logo{
+  font-family:var(--display-font); font-weight:500;
+  font-size:60px; letter-spacing:.05em;
+  color:var(--paper); line-height:.9;
+}
+.poster-serif{
+  display:block; margin-top:8px;
+  font-family:var(--serif-font); font-style:italic;
+  font-size:17px; color:var(--gold); letter-spacing:.02em;
+}
+.poster-tags{
+  margin:16px 0 18px;
+  font-family:var(--display-font); font-weight:500;
+  font-size:10px; letter-spacing:.42em; text-transform:uppercase;
+  color:rgba(181,34,26,.85);
+}
+.card-divider{
+  width:44px; height:1px; background:var(--blood);
+  margin:0 0 18px; opacity:.65;
+}
+.bio-text{
+  font-family:var(--body-font);
+  font-size:12px; line-height:1.65; color:var(--soft);
+  max-width:42ch;
+}
+.sets-list{
+  margin-top:16px; list-style:none; padding:0;
+  display:flex; flex-direction:column; gap:6px;
+}
+.sets-list li{
+  display:grid; grid-template-columns:auto 1fr auto;
+  align-items:baseline; gap:12px;
+  font-family:var(--display-font); font-size:11px;
+  letter-spacing:.05em; text-transform:uppercase;
+}
+.sl-num{ font-weight:600; font-size:15px; color:var(--blood); }
+.sl-name{ color:var(--paper); font-weight:500; }
+.sl-meta{ color:var(--mute); font-weight:400; letter-spacing:.12em; }
+
+/* Foot mark on poster */
+.poster-foot{
+  position:absolute; bottom:2.5%; left:5%; right:5%;
+  display:flex; justify-content:space-between; align-items:center;
+  z-index:25;
+}
+.poster-foot .panther-mark{
+  width:26px; height:26px; border-radius:50%;
+  background:var(--paper) url('/assets/panther-mark.svg') center/70% no-repeat;
+  border:1px solid var(--gold);
+}
+.poster-foot .kicker{
+  font-family:var(--display-font); font-weight:500;
+  font-size:9px; letter-spacing:.42em; text-transform:uppercase;
+  color:var(--gold);
+}

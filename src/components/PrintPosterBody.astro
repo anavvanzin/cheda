@@ -1,0 +1,58 @@
+<nav class="switcher" aria-label="Layouts">
+  <a href="/print/ritual">3a</a>
+  <a class="on" href="/print/poster">3b</a>
+  <a href="/print/morph">morph</a>
+  <a href="/">spread</a>
+</nav>
+
+<div class="stage">
+  <div class="a4" id="poster-a4">
+
+    <!-- Type wall — solid → stroke → fading, six rows across the full A4 -->
+    <div class="type-wall" aria-hidden="true">
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+      <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+    </div>
+
+    <div class="a4-grain" aria-hidden="true"></div>
+
+    <!--
+      Composite: the photo plate sits top-right,
+      the content card sits bottom-left and RISES UP
+      into the photo's fade zone. They share:
+        · a bleed gradient (photo::after fades to ink,
+          card::before rises from ink)
+        · a vertical blood spine (card::after) that
+          links the two masses.
+      Result: two objects that read as one continuous form.
+    -->
+    <div class="poster-composite">
+      <div class="photo-plate">
+        <img src="/assets/portrait-poster.jpg" alt="Patrícia Chêda — retrato editorial">
+      </div>
+
+      <div class="content-card">
+        <div class="poster-logo">
+          CHÊDA
+          <em class="poster-serif">Patrícia Chêda</em>
+        </div>
+        <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
+        <div class="card-divider"></div>
+        <p class="bio-text">
+          Patrícia Chêda &mdash; DJ e selectora &mdash; atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.
+        </p>
+        <!-- track list removed — to be replaced with real mixes -->
+      </div>
+    </div>
+
+    <div class="poster-foot">
+      <div class="panther-mark" aria-hidden="true"></div>
+      <span class="kicker">Booking · patriciavchedach@gmail.com · 2026</span>
+    </div>
+
+  </div>
+</div>
