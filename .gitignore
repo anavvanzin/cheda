@@ -3,6 +3,7 @@ node_modules/
 .vercel/
 .astro/
 dist/
+preview-dist/
 qa-*.png
 .vercel
 
