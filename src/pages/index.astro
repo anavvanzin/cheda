@@ -1,12 +1,28 @@
 ---
 import Base from '../layouts/Base.astro';
+import Intro from '../components/Intro.astro';
 import LandingBody from '../components/LandingBody.astro';
 import '../styles/tokens.css';
 import '../styles/cursor.css';
 import '../styles/landing.css';
+import '../styles/intro.css';
 ---
 <Base>
+  <Fragment slot="head">
+    <!-- Paint the intro backdrop immediately so there is no flash of the
+         landing before intro.css / intro.js resolve. Removed on exit. -->
+    <style is:inline>
+      #intro{position:fixed;inset:0;z-index:9000;background:#0E0B0A;}
+      #intro.is-gone{display:none;}
+    </style>
+    <link rel="preload" as="image" href="/assets/intro/intro-poster.jpg" />
+    <link rel="preload" as="image" href="/assets/logo-patricia-blackletter-cream.png" />
+  </Fragment>
+
+  <Intro />
   <LandingBody />
+
+  <script is:inline src="/scripts/intro.js"></script>
   <script is:inline src="/scripts/orbit.js"></script>
   <script is:inline src="/scripts/cursor.js"></script>
 </Base>

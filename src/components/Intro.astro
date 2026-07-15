@@ -1,0 +1,53 @@
+---
+/**
+ * CHÊDA — hypnotic site intro overlay.
+ *
+ * A full-viewport ritual: the nocturnal red portrait video plays
+ * behind the breathing blackletter "Patrícia Chêda" wordmark, then
+ * dissolves into the landing. Fully keyboard/tap accessible, gated
+ * per session, and degrades to a static poster under reduced motion
+ * or autoplay failure.
+ *
+ * Rendered server-side (no client framework, no hydration). Behaviour
+ * lives in /scripts/intro.js loaded is:inline as a classic IIFE.
+ */
+---
+<div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Abertura — Patrícia Chêda">
+  <!-- Backdrop: muted, looping, poster fallback, no audio track -->
+  <video
+    class="intro__media"
+    poster="/assets/intro/intro-poster.jpg"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+  >
+    <source src="/assets/intro/intro.mp4" type="video/mp4" />
+  </video>
+
+  <div class="intro__duotone" aria-hidden="true"></div>
+  <div class="intro__vignette" aria-hidden="true"></div>
+  <div class="intro__grain" aria-hidden="true"></div>
+
+  <!-- The memorable moment: the blackletter mark, breathing -->
+  <div class="intro__markwrap" aria-hidden="true">
+    <img class="intro__mark intro__mark--r" src="/assets/logo-patricia-blackletter-white.png" alt="" width="993" height="224" style="filter:sepia(1) saturate(6) hue-rotate(-30deg) brightness(.9);" />
+    <img class="intro__mark intro__mark--g" src="/assets/logo-patricia-blackletter-white.png" alt="" width="993" height="224" style="filter:sepia(1) saturate(3) hue-rotate(5deg) brightness(1.1);" />
+    <img class="intro__mark" src="/assets/logo-patricia-blackletter-cream.png" alt="Patrícia Chêda" width="993" height="224" fetchpriority="high" />
+  </div>
+
+  <div class="intro__ui">
+    <p class="intro__eyebrow">Som que invoca · cada set é um ritual</p>
+
+    <div class="intro__controls">
+      <button type="button" class="intro__enter" aria-label="Entrar no site">Entrar</button>
+      <button type="button" class="intro__skip" aria-label="Pular abertura">Pular abertura</button>
+      <p class="intro__hint">clique ou pressione enter</p>
+    </div>
+  </div>
+</div>
+
+<!-- Re-open affordance, revealed only after the intro has been dismissed -->
+<button type="button" id="intro-reopen" class="intro-reopen" hidden aria-label="Reabrir a abertura">↺ Abertura</button>
