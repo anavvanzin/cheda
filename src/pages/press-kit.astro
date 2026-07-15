@@ -1,37 +1,43 @@
 ---
 import PressKitBody from '../components/PressKitBody.astro';
+import { siteContent } from '../data/site';
 import '../styles/press-kit.css';
 
-const ldJson = `{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Patrícia Chêda",
-  "alternateName": "CHÊDA",
-  "jobTitle": "DJ · Selectora",
-  "email": "mailto:patriciavchedach@gmail.com",
-  "address": { "@type": "PostalAddress", "addressLocality": "Florianópolis", "addressRegion": "SC", "addressCountry": "BR" },
-  "knowsAbout": ["techno", "tech house", "noise"]
-}`;
+const ldJson = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: siteContent.identity.artistName,
+  alternateName: siteContent.identity.stageName,
+  jobTitle: siteContent.identity.rolePt,
+  email: siteContent.contact.bookingMailto,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: siteContent.location.city,
+    addressRegion: siteContent.location.state,
+    addressCountry: 'BR',
+  },
+  knowsAbout: siteContent.editorial.genres,
+});
 ---
 <!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CHÊDA · Patrícia Chêda · Press Kit A4</title>
+    <title>{siteContent.pressKit.title}</title>
     <meta name="theme-color" content="#0E0B0A" />
     <meta
       name="description"
-      content="Press kit A4 — CHÊDA / Patrícia Chêda. DJ e selectora de techno denso e hipnótico, Florianópolis. Som que invoca: cada set é um ritual, não uma playlist."
+      content={siteContent.pressKit.description}
     />
-    <meta property="og:title" content="CHÊDA · Patrícia Chêda · Press Kit A4" />
-    <meta property="og:description" content="DJ e selectora de techno denso e hipnótico — Florianópolis, BR. Som que invoca." />
-    <meta property="og:image" content="/assets/portrait-ritual.jpg" />
+    <meta property="og:title" content={siteContent.pressKit.title} />
+    <meta property="og:description" content={siteContent.pressKit.socialDescription} />
+    <meta property="og:image" content={siteContent.pressKit.ogImage} />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="CHÊDA · Patrícia Chêda · Press Kit A4" />
-    <meta name="twitter:description" content="DJ e selectora de techno denso e hipnótico — Florianópolis, BR. Som que invoca." />
-    <meta name="twitter:image" content="/assets/portrait-ritual.jpg" />
+    <meta name="twitter:title" content={siteContent.pressKit.title} />
+    <meta name="twitter:description" content={siteContent.pressKit.socialDescription} />
+    <meta name="twitter:image" content={siteContent.pressKit.ogImage} />
     <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

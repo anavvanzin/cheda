@@ -1,9 +1,18 @@
+---
+import { siteContent } from '../data/site';
+
+const bookingHref = `${siteContent.contact.bookingMailto}?subject=Booking%20CH%C3%8ADA`;
+const instagramDisplay = siteContent.contact.instagramUrl
+  .replace(/^https:\/\/(?:www\.)?/, '')
+  .replace(/\/$/, '');
+---
+
 <header class="kit-bar">
-    <div class="brand">CHÊDA · Press Kit A4
-      <small>Patrícia Chêda — DJ / selectora · Florianópolis, BR</small>
+    <div class="brand">{siteContent.identity.stageName} · Press Kit A4
+      <small>{siteContent.identity.artistName} — {siteContent.identity.rolePt.replace(' e ', ' / ')} · {siteContent.location.city}, BR</small>
     </div>
     <div class="kit-actions">
-      <a class="btn" href="mailto:patriciavchedach@gmail.com?subject=Booking%20CH%C3%8ADA">booking</a>
+      <a class="btn" href={bookingHref}>booking</a>
       <button class="btn" type="button" onclick="window.print()">salvar pdf</button>
     </div>
   </header>
@@ -42,11 +51,10 @@
         <div style="position:absolute;top:540px;right:48px;width:160px;font:italic 600 17px 'Cormorant Garamond',serif;color:var(--gold);">cada set,<br>um ritual</div>
 
         <div style="position:absolute;top:752px;left:40px;right:40px;display:grid;grid-template-columns:1fr 1fr;gap:26px;">
-          <p style="font:13.5px/1.65 'Hanken Grotesk',sans-serif;color:var(--body);margin:0;"><span class="biglabel" style="color:var(--accent);display:block;margin-bottom:7px;">PT</span>Patrícia Chêda é DJ e selectora radicada em Florianópolis. Sets de techno densos e hipnóticos — ruído, groove e tensão em camadas que crescem sem pressa.</p>
-          <p lang="en" style="font:13.5px/1.65 'Hanken Grotesk',sans-serif;color:var(--muted);margin:0;"><span class="biglabel" style="color:var(--dim);display:block;margin-bottom:7px;">EN</span>DJ and selector based in Florianópolis, Brazil. Dense, hypnotic techno — noise, groove and tension layered with patience. Every set a ritual.</p>
+          <p style="font:13.5px/1.65 'Hanken Grotesk',sans-serif;color:var(--body);margin:0;"><span class="biglabel" style="color:var(--accent);display:block;margin-bottom:7px;">PT</span>{siteContent.pressKit.bioPt}</p>
+          <p lang="en" style="font:13.5px/1.65 'Hanken Grotesk',sans-serif;color:var(--muted);margin:0;"><span class="biglabel" style="color:var(--dim);display:block;margin-bottom:7px;">EN</span>{siteContent.pressKit.bioEn}</p>
         </div>
 
-        <!-- sets removed — waiting on real mix titles (mirrors main cleanup) -->
         <div style="position:absolute;top:906px;left:40px;right:40px;">
           <div class="biglabel" style="color:var(--accent);margin-bottom:6px;">Press photos</div>
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
@@ -59,8 +67,8 @@
         </div>
 
         <div class="footbar" style="padding:20px 40px;">
-          <a class="fmail" href="mailto:patriciavchedach@gmail.com?subject=Booking%20CH%C3%8ADA">patriciavchedach@gmail.com</a>
-          <span class="fmeta">Florianópolis · SC · Brasil</span>
+          <a class="fmail" href={bookingHref}>{siteContent.contact.bookingEmail}</a>
+          <span class="fmeta">{siteContent.location.displayPt}</span>
         </div>
       </div>
     </section>
@@ -90,8 +98,8 @@
         <div style="position:absolute;left:44px;right:44px;bottom:96px;background:rgba(14,11,10,.93);border:1px solid var(--hair2);padding:24px 28px;">
           <div style="display:grid;grid-template-columns:1.1fr .9fr;gap:26px;">
             <div>
-              <p style="font:13px/1.6 'Hanken Grotesk',sans-serif;color:var(--body);margin:0 0 12px;"><span class="biglabel" style="color:var(--accent);display:block;margin-bottom:6px;">PT</span>Patrícia Chêda é DJ e selectora radicada em Florianópolis. Sets de techno densos e hipnóticos — ruído, groove e tensão em camadas que crescem sem pressa.</p>
-              <p lang="en" style="font:13px/1.6 'Hanken Grotesk',sans-serif;color:var(--muted);margin:0 0 14px;"><span class="biglabel" style="color:var(--dim);display:block;margin-bottom:6px;">EN</span>DJ and selector based in Florianópolis, Brazil. Dense, hypnotic techno — every set a ritual, not a playlist.</p>
+              <p style="font:13px/1.6 'Hanken Grotesk',sans-serif;color:var(--body);margin:0 0 12px;"><span class="biglabel" style="color:var(--accent);display:block;margin-bottom:6px;">PT</span>{siteContent.pressKit.bioPt}</p>
+              <p lang="en" style="font:13px/1.6 'Hanken Grotesk',sans-serif;color:var(--muted);margin:0 0 14px;"><span class="biglabel" style="color:var(--dim);display:block;margin-bottom:6px;">EN</span>{siteContent.pressKit.bioEnCompact}</p>
               <div style="display:flex;gap:8px;">
                 <img loading="lazy" decoding="async" src="/assets/portrait-ritual.jpg" alt="Press · retrato" style="width:86px;height:64px;object-fit:cover;object-position:50% 26%;display:block;filter:grayscale(1) contrast(1.15);">
                 <img loading="lazy" decoding="async" src="/assets/foto-editorial.jpg" alt="Press · editorial" style="width:86px;height:64px;object-fit:cover;object-position:50% 22%;display:block;filter:grayscale(1) contrast(1.12);">
@@ -99,19 +107,18 @@
               </div>
             </div>
             <div>
-              <!-- sets removed — waiting on real mix titles (mirrors main cleanup) -->
               <div class="biglabel" style="color:var(--accent);margin-bottom:4px;">Booking · Contato</div>
-              <div class="setrow" style="padding:9px 0;"><span class="t" style="text-transform:none;letter-spacing:.02em;">patriciavchedach@gmail.com</span></div>
-              <div class="setrow" style="padding:9px 0;"><span class="t" style="text-transform:none;letter-spacing:.02em;">instagram.com/patriciacheda_</span></div>
-              <div class="setrow" style="padding:9px 0;"><span class="t" style="text-transform:none;letter-spacing:.02em;">Florianópolis · SC · Brasil</span></div>
-              <div style="font:italic 600 14px 'Cormorant Garamond',serif;color:var(--gold);margin-top:14px;">som que invoca · cada set é um ritual</div>
+              <div class="setrow" style="padding:9px 0;"><span class="t" style="text-transform:none;letter-spacing:.02em;">{siteContent.contact.bookingEmail}</span></div>
+              <div class="setrow" style="padding:9px 0;"><span class="t" style="text-transform:none;letter-spacing:.02em;">{instagramDisplay}</span></div>
+              <div class="setrow" style="padding:9px 0;"><span class="t" style="text-transform:none;letter-spacing:.02em;">{siteContent.location.displayPt}</span></div>
+              <div style="font:italic 600 14px 'Cormorant Garamond',serif;color:var(--gold);margin-top:14px;">{siteContent.editorial.tagline}</div>
             </div>
           </div>
         </div>
 
         <div class="footbar" style="padding:20px 44px;">
-          <a class="fmail" href="mailto:patriciavchedach@gmail.com?subject=Booking%20CH%C3%8ADA">patriciavchedach@gmail.com</a>
-          <span class="fmeta">Florianópolis · SC · Brasil</span>
+          <a class="fmail" href={bookingHref}>{siteContent.contact.bookingEmail}</a>
+          <span class="fmeta">{siteContent.location.displayPt}</span>
         </div>
       </div>
     </section>

@@ -1,3 +1,7 @@
+---
+import { siteContent } from '../data/site';
+---
+
 <nav class="switcher" aria-label="Layouts">
   <a href="/print/ritual">3a</a>
   <a class="on" href="/print/poster">3b</a>
@@ -37,21 +41,20 @@
 
       <div class="content-card">
         <div class="poster-logo">
-          CHÊDA
-          <em class="poster-serif">Patrícia Chêda</em>
+          {siteContent.identity.stageName}
+          <em class="poster-serif">{siteContent.identity.artistName}</em>
         </div>
         <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
         <div class="card-divider"></div>
         <p class="bio-text">
-          Patrícia Chêda &mdash; DJ e selectora &mdash; atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.
+          {siteContent.editorial.officialShortBio}
         </p>
-        <!-- track list removed — to be replaced with real mixes -->
       </div>
     </div>
 
     <div class="poster-foot">
       <div class="panther-mark" aria-hidden="true"></div>
-      <span class="kicker">Booking · patriciavchedach@gmail.com · 2026</span>
+      <span class="kicker">Booking · {siteContent.contact.bookingEmail} · 2026</span>
     </div>
 
   </div>

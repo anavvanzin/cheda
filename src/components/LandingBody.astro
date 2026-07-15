@@ -1,3 +1,9 @@
+---
+import { siteContent } from '../data/site';
+
+const soundcloudEmbedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComponent(siteContent.contact.soundcloudUrl)}&color=%23B5221A&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`;
+---
+
 <!-- Custom cursor layers — hidden on touch/coarse via cursor.css -->
 <div class="cursor-layer cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 <div class="cursor-layer cursor-disc" id="cursor-disc" aria-hidden="true"></div>
@@ -42,12 +48,11 @@
     <div class="orbit-ring" id="orbit-ring" aria-hidden="true"></div>
 
     <div class="r-title will-reveal will-reveal-delay-2">
-      <span class="r-name">CHÊDA</span>
-      <em class="r-serif">Patrícia Chêda</em>
-      <div class="r-tagline">som que invoca · cada set é um ritual</div>
+        <span class="r-name">{siteContent.identity.stageName}</span>
+        <em class="r-serif">{siteContent.identity.artistName}</em>
+        <div class="r-tagline">{siteContent.editorial.tagline}</div>
     </div>
 
-    <!-- set cards removed — waiting on real track/mix titles -->
   </section>
 
   <!-- VHS TRACKING SEAM -->
@@ -77,17 +82,13 @@
     <div class="poster-left">
       <div class="content-card will-reveal">
         <div class="poster-logo">
-          CHÊDA
-          <em class="poster-serif">Patrícia Chêda</em>
+          {siteContent.identity.stageName}
+          <em class="poster-serif">{siteContent.identity.artistName}</em>
         </div>
         <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
         <div class="card-divider"></div>
         <div class="bio-text">
-          <p>Dona de uma presença magnética e de personalidade marcante, CHÊDA tem uma assinatura artística própria na música eletrônica.</p>
-          <p>DJ e seletora paranaense radicada em Florianópolis, destaca-se por sua curadoria musical criteriosa, identidade visual autoral e capacidade de conduzir a pista com técnica e naturalidade.</p>
-          <p>Com um projeto iniciado em 2018, a artista desenvolve uma trajetória marcada pela pesquisa contínua e por oferecer, além da música, um encontro de vibrações e troca de energia.</p>
-          <p>Suas seleções transitam entre diferentes vertentes da House Music e do Techno, combinando profundidade melódica, progressão e impacto, criando continuidade entre diferentes texturas e níveis de energia.</p>
-          <p>No palco, domínio técnico e carisma se traduzem em apresentações envolventes, conduzidas com atenção à energia da pista e às respostas do público.</p>
+          <p>{siteContent.editorial.officialShortBio}</p>
         </div>
       </div>
 
@@ -99,7 +100,7 @@
         <div class="sc-frame" id="sc-frame">
           <iframe scrolling="no" frameborder="no" allow="autoplay"
             title="Chêda — SoundCloud"
-            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/patriciacheda&color=%23B5221A&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
+            src={soundcloudEmbedUrl}></iframe>
         </div>
       </div>
     </div>
@@ -120,9 +121,9 @@
   <!-- ═══ SITE FOOTER (blackletter signature) ═══ -->
   <footer class="site-footer will-reveal will-reveal-delay-3">
     <div class="foot-info">
-      <span>Booking · <a href="mailto:patriciavchedach@gmail.com?subject=Booking%20·%20Chêda">patriciavchedach@gmail.com</a></span>
-      <span>Instagram · <a href="https://www.instagram.com/patriciacheda_/" target="_blank" rel="noopener">@patriciacheda_</a></span>
-      <span>Florianópolis · SC · Brasil · 2026</span>
+      <span>Booking · <a href={`${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`}>{siteContent.contact.bookingEmail}</a></span>
+      <span>Instagram · <a href={siteContent.contact.instagramUrl} target="_blank" rel="noopener">{siteContent.contact.instagramHandle}</a></span>
+      <span>{siteContent.location.displayPt} · 2026</span>
     </div>
     <div class="foot-signature">
       <img src="/assets/logo-patricia-blackletter-cream.png"
