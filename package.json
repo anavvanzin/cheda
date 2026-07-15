@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev --host 127.0.0.1 --port 8765",
     "build": "astro build",
+    "build:preview": "astro build && node scripts/make-preview-build.mjs",
     "preview": "astro preview --host 127.0.0.1 --port 8765"
   },
   "dependencies": {
