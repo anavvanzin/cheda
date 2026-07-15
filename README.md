@@ -50,7 +50,7 @@ Key routes: `/`, `/press-kit`, `/print/ritual`, `/print/poster`, `/print/morph`.
 
 ## Deploy
 
-Static Astro build on Vercel (`framework: astro` in `vercel.json`). Output in `dist/`.
+Push to `main` runs `.github/workflows/deploy-pages.yml`: `astro build` → publish `dist/` to GitHub Pages. Canonical host: `https://patriciacheda.com` (Cloudflare DNS → Pages). Vercel (`cheda-six.vercel.app`) is legacy only.
 
 ---
 
