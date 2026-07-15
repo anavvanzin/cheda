@@ -22,9 +22,9 @@ const canonicalOrigin = 'https://patriciacheda.com';
 const realPages = new Map([
   ['dist/index.html', { canonical: `${canonicalOrigin}/`, activeHref: '/' }],
   ['dist/press-kit.html', { canonical: `${canonicalOrigin}/press-kit`, activeHref: null }],
-  ['dist/print/ritual.html', { canonical: null, activeHref: '/print/ritual' }],
-  ['dist/print/poster.html', { canonical: null, activeHref: '/print/poster' }],
-  ['dist/print/morph.html', { canonical: null, activeHref: '/print/morph' }],
+  ['dist/print/ritual.html', { canonical: `${canonicalOrigin}/print/ritual`, activeHref: '/print/ritual' }],
+  ['dist/print/poster.html', { canonical: `${canonicalOrigin}/print/poster`, activeHref: '/print/poster' }],
+  ['dist/print/morph.html', { canonical: `${canonicalOrigin}/print/morph`, activeHref: '/print/morph' }],
 ]);
 
 function countElements(html, tagName) {
@@ -112,13 +112,18 @@ test('public HTML excludes deployment leaks, placeholders, and the legacy host',
 });
 
 test('every real page has one main landmark, one h1, and accessible media', async () => {
-  for (const [page, { activeHref }] of realPages) {
+  for (const [page, { canonical, activeHref }] of realPages) {
     const html = await readFile(page, 'utf8');
     const renderedHtml = html.replace(/<!--[\s\S]*?-->/g, '');
     assert.equal(countElements(renderedHtml, 'main'), 1, `${page} must have exactly one main`);
     assert.equal(countElements(renderedHtml, 'h1'), 1, `${page} must have exactly one h1`);
     assert.match(renderedHtml, /<h1\b[^>]*>[\s\S]*?\S[\s\S]*?<\/h1>/i, `${page} h1 must not be empty`);
     assert.match(html, /<title>\s*\S[\s\S]*?<\/title>/i, `${page} title must not be empty`);
+    assert.equal(
+      attributeValue(html, /<link\b(?=[^>]*\brel="canonical")[^>]*>/i, 'href'),
+      canonical,
+      `${page} must expose its exact canonical route`,
+    );
 
     for (const image of renderedHtml.match(/<img(?=\s|\/?>)[^>]*>/gi) ?? []) {
       assert.match(image, /\balt=["'][^"']*["']/i, `${page} image is missing alt: ${image}`);
@@ -133,6 +138,35 @@ test('every real page has one main landmark, one h1, and accessible media', asyn
       assert.equal(attributeValue(activeLink[0], /<a\b[^>]*>/i, 'href'), activeHref);
     }
   }
+});
+
+test('print pages expose canonical only, without social metadata', async () => {
+  for (const [page] of [...realPages].filter(([path]) => path.includes('/print/'))) {
+    const html = await readFile(page, 'utf8');
+    assert.doesNotMatch(html, /<meta\b[^>]*(?:property="og:|name="twitter:)/i, page);
+  }
+});
+
+test('landing footer sits outside main', async () => {
+  const html = await readFile('dist/index.html', 'utf8');
+  const mainEnd = html.indexOf('</main>');
+  const footerStart = html.indexOf('<footer');
+
+  assert.ok(mainEnd > -1 && footerStart > mainEnd, 'landing footer must follow the closed main');
+});
+
+test('hidden focusable content has a visible focus recovery utility', async () => {
+  const html = await readFile('dist/index.html', 'utf8');
+  const tokens = await readFile('src/styles/tokens.css', 'utf8');
+
+  const focusableSrOnly = html.match(
+    /<(?:a|button|input|select|textarea)\b(?=[^>]*\bclass="[^"]*\bsr-only\b)[^>]*>/gi,
+  ) ?? [];
+  assert.ok(focusableSrOnly.length > 0, 'contract requires a focusable sr-only control');
+  for (const element of focusableSrOnly) {
+    assert.match(element, /\bclass="[^"]*\bsr-only-focusable\b/i, `invisible focus target: ${element}`);
+  }
+  assert.match(tokens, /\.sr-only-focusable:focus\s*,\s*\.sr-only-focusable:active\s*\{/);
 });
 
 test('morph state controls are real buttons with synchronized pressed state', async () => {

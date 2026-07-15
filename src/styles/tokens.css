@@ -63,6 +63,17 @@ img{ display:block; max-width:100%; height:auto; }
   white-space:nowrap;
   border:0;
 }
+.sr-only-focusable:focus,
+.sr-only-focusable:active{
+  position:static;
+  width:auto;
+  height:auto;
+  padding:0;
+  margin:0;
+  overflow:visible;
+  clip:auto;
+  white-space:normal;
+}
 
 /* Atoms */
 .eyebrow{

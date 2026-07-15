@@ -4,6 +4,8 @@ interface Props {
 }
 const { title } = Astro.props;
 import '../styles/print.css';
+const publicPathname = Astro.url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+const canonicalUrl = new URL(publicPathname, Astro.site ?? Astro.url.origin);
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -11,6 +13,7 @@ import '../styles/print.css';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/icon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/icon-180.png" />
