@@ -30,7 +30,16 @@
 
   .grain{ position:fixed; inset:0; z-index:5; pointer-events:none;
     background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
-    background-size:3px 3px; mix-blend-mode:overlay; opacity:.24; }
+    background-size:3px 3px; mix-blend-mode:overlay;
+    /* Subtle pointer / scroll drift — set by ambient.js; no-op when vars unset */
+    transform:translate3d(
+      calc(var(--amb-mx, 0) * 5px),
+      calc(var(--amb-my, 0) * 5px + var(--amb-sy, 0) * 0.02px),
+      0
+    );
+    opacity:calc(0.2 + min(0.1, var(--amb-sy, 0) * 0.00008));
+    will-change:transform, opacity;
+  }
 
   /* ── Atmospheric silhouette (bottom-right, faded) ────────────────
      A quiet ambient echo of the artist anchored in the lower-right
@@ -53,8 +62,13 @@
     /* let it dissolve toward the top/left so it melts into the page */
     -webkit-mask-image:linear-gradient(300deg, #000 34%, transparent 82%);
     mask-image:linear-gradient(300deg, #000 34%, transparent 82%);
-    animation:site-sil-breathe 13s ease-in-out infinite;
-    will-change:opacity, transform;
+    /* Scroll / pointer parallax on the shell; breathe stays on the img */
+    transform:translate3d(
+      calc(var(--amb-mx, 0) * -14px),
+      calc(var(--amb-my, 0) * -8px + var(--amb-sy, 0) * 0.06px),
+      0
+    );
+    will-change:transform;
   }
   .site-silhouette img{
     width:100%;
@@ -63,6 +77,8 @@
     object-fit:contain;      /* never crop the figure */
     mix-blend-mode:screen;
     filter:saturate(1.05) contrast(1.04) brightness(.9);
+    animation:site-sil-breathe 13s ease-in-out infinite;
+    will-change:opacity, transform;
   }
   @keyframes site-sil-breathe{
     0%,100%{ opacity:.44; transform:translateY(0) scale(1); }
@@ -99,7 +115,14 @@
   .ritual .kicker{ font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
 
-  .rings{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+  .rings{ position:absolute; inset:0; z-index:1; pointer-events:none;
+    transform:translate3d(
+      calc(var(--amb-mx, 0) * 12px),
+      calc(var(--amb-my, 0) * 8px + var(--amb-sy, 0) * -0.14px),
+      0
+    );
+    will-change:transform;
+  }
   @keyframes ring-pulse{ 0%,100%{opacity:.14;} 50%{opacity:.44;} }
   .rings circle{ animation: ring-pulse 3s ease-in-out infinite; }
   .rings circle:nth-child(1){ animation-delay: 0s; }
@@ -325,8 +348,26 @@
   }
   @media (prefers-reduced-motion:reduce){ .seam-word{ animation:none; } }
   @media (prefers-reduced-motion:reduce){
-    .site-silhouette{ animation:none !important; transform:none !important; }
+    .site-silhouette{ transform:none !important; }
+    .site-silhouette img{ animation:none !important; transform:none !important; }
+    .rings, .grain, .portrait-shared .circle{ transform:none !important; }
+    .will-reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
   }
+
+  /* Soft section entrances — ambient.js adds .is-in after intro */
+  .will-reveal{
+    opacity:0;
+    transform:translate3d(0, 22px, 0);
+    transition:opacity .95s cubic-bezier(.22,1,.36,1),
+                transform .95s cubic-bezier(.22,1,.36,1);
+  }
+  .will-reveal.is-in{
+    opacity:1;
+    transform:none;
+  }
+  .will-reveal-delay-1{ transition-delay:.1s; }
+  .will-reveal-delay-2{ transition-delay:.22s; }
+  .will-reveal-delay-3{ transition-delay:.34s; }
 
   /* L8 — timecode kickers */
   .seam-kicker{ position:absolute; z-index:7;
@@ -554,6 +595,12 @@
       0 0 60px rgba(181,34,26,.28),
       inset 0 0 40px rgba(0,0,0,.55);
     z-index:2;
+    transform:translate3d(
+      calc(var(--amb-mx, 0) * 10px),
+      calc(var(--amb-my, 0) * 6px + var(--amb-sy, 0) * -0.05px),
+      0
+    );
+    will-change:transform;
   }
   .portrait-shared .circle img{
     width:100%; height:100%; object-fit:cover;
