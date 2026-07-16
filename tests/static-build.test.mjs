@@ -17,6 +17,11 @@ const forbiddenWorkerArtifacts = [
   'dist/_redirects',
 ];
 
+const introAssetBudgets = new Map([
+  ['dist/assets/intro/intro.mp4', 3 * 1024 * 1024],
+  ['dist/assets/intro/intro-poster.jpg', 100 * 1024],
+]);
+
 const canonicalOrigin = 'https://patriciacheda.com';
 const socialMetadata = new Map([
   ['dist/index.html', {
@@ -68,6 +73,14 @@ test('does not emit Cloudflare Worker artifacts', async () => {
   }
 });
 
+test('keeps the cinematic intro inside its web delivery budget', async () => {
+  for (const [asset, maxBytes] of introAssetBudgets) {
+    const info = await stat(asset);
+    assert.equal(info.isFile(), true, `${asset} should be a regular file`);
+    assert.ok(info.size <= maxBytes, `${asset} should stay at or below ${maxBytes} bytes`);
+  }
+});
+
 test('renders approved production metadata and public identity', async () => {
   const home = await readFile('dist/index.html', 'utf8');
   const pressKit = await readFile('dist/press-kit.html', 'utf8');
@@ -79,6 +92,8 @@ test('renders approved production metadata and public identity', async () => {
   assert.match(home, /patriciavchedach@gmail\.com/);
   assert.match(home, /https:\/\/www\.instagram\.com\/patriciacheda_\//);
   assert.match(home, /https:\/\/soundcloud\.com\/patriciacheda/);
+  assert.match(home, /\/assets\/logo-patricia-blackletter-black\.png/);
+  assert.doesNotMatch(home, /logo-[^"']*-cream\.png/);
 
   assert.match(pressKit, /<title>CHÊDA · Patrícia Chêda · Press Kit A4<\/title>/);
   assert.match(pressKit, /name="description"\s+content="Press kit A4 — CHÊDA \/ Patrícia Chêda/);

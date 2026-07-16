@@ -90,7 +90,7 @@
     window.setTimeout(function () {
       try { mo.disconnect(); } catch (e) {}
       cb();
-    }, 12000);
+    }, 22000);
   }
 
   introDone(revealAll);

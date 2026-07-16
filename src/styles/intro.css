@@ -1,8 +1,8 @@
 /* ============================================================
    CHÊDA — site intro
 
-   The intro is a single baked 7s film (wordmark, red/black grade,
-   silhouette and hypnosis all inside the video). This stylesheet only
+   The intro is a single baked 18s film (wordmark, red/black grade,
+   portrait and hypnosis all inside the video). This stylesheet only
    frames it: true-black stage, the whole 16:9 frame shown uncropped
    (object-fit:contain) and centred, a discreet skip, an autoplay-
    fallback play control, and a smooth dissolve into the landing.
