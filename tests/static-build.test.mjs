@@ -87,9 +87,9 @@ test('renders approved production metadata and public identity', async () => {
 
   assert.equal(attributeValue(home, /<html\b[^>]*>/i, 'lang'), 'pt-BR');
   assert.match(home, /<title>CHÊDA · Patrícia Chêda<\/title>/);
-  assert.match(home, /<meta\s+name="description"\s+content="Patrícia Chêda — DJ e selectora/);
+  assert.match(home, /<meta\s+name="description"\s+content="Dona de uma presença magnética/);
   assert.match(home, /Patrícia Chêda/);
-  assert.match(home, /patriciavchedach@gmail\.com/);
+  assert.match(home, /booking@patriciacheda\.com/);
   assert.match(home, /https:\/\/www\.instagram\.com\/patriciacheda_\//);
   assert.match(home, /https:\/\/soundcloud\.com\/patriciacheda/);
   assert.match(home, /\/assets\/logo-patricia-blackletter-black\.png/);
@@ -122,8 +122,8 @@ test('renders valid approved JSON-LD in the press kit', async () => {
   assert.equal(data['@type'], 'Person');
   assert.equal(data.name, 'Patrícia Chêda');
   assert.equal(data.alternateName, 'CHÊDA');
-  assert.equal(data.jobTitle, 'DJ e selectora');
-  assert.equal(data.email, 'mailto:patriciavchedach@gmail.com');
+  assert.equal(data.jobTitle, 'DJ e seletora');
+  assert.equal(data.email, 'mailto:booking@patriciacheda.com');
   assert.equal(data.url, `${canonicalOrigin}/press-kit`);
   assert.deepEqual(data.sameAs, [
     'https://www.instagram.com/patriciacheda_/',

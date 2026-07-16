@@ -1,9 +1,5 @@
 (function(){
-  const labels=[
-    'Techno · Tech House','Noise · Hypnotic',
-    'Florianópolis · SC',
-    'Booking Direto','CHÊDA · 2026'
-  ];
+  const labels=['FOGO INTERIOR','RITUAL','PRESENÇA · MOVIMENTO','FORÇA','HOUSE · TECHNO'];
   const ring=document.getElementById('orbit-ring');
   if(!ring) return;
   labels.forEach((txt,i)=>{

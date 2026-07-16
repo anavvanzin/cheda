@@ -153,6 +153,14 @@
     font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase;
     color:rgba(181,34,26,.85); }
+  .r-lead{ max-width:46ch; margin:18px auto 0;
+    font-size:clamp(12px,1.2vw,15px); line-height:1.55;
+    color:rgba(233,224,206,.82); }
+  .r-booking{ display:inline-block; margin-top:14px;
+    font-family:var(--display-font); font-size:10px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--paper);
+    border-bottom:1px solid rgba(199,154,75,.65); padding-bottom:4px; }
+  .r-booking:hover{ color:var(--gold); border-color:var(--gold); }
 
   .sets-row{ position:absolute; bottom:3%; left:5%; right:5%;
     display:grid; grid-template-columns:repeat(3,1fr); gap:8px; z-index:10; }

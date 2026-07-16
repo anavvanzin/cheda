@@ -1,14 +1,7 @@
 /* Orbiting captions — trig-placed on a ring 66% wide,
    each rotated tangentially so the type curls around the portrait. */
 (function(){
-  const labels=[
-    'Techno · Tech House',
-    'Noise · Hypnotic',
-    'Florianópolis · SC',
-    'Ritual · não Playlist',
-    'Booking Direto',
-    'CHÊDA · 2026'
-  ];
+  const labels=['FOGO INTERIOR','RITUAL','PRESENÇA · MOVIMENTO','FORÇA','HOUSE · TECHNO'];
   const ring=document.getElementById('orbit-ring');
   labels.forEach((txt,i)=>{
     const angle=(i/labels.length)*360 - 90;   // start at top

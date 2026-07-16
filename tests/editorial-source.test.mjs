@@ -39,18 +39,18 @@ const consumers = new Map(
 );
 
 const officialBio =
-  'Patrícia Chêda — DJ e selectora — atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.';
+  'Dona de uma presença magnética, CHÊDA é DJ e seletora paranaense radicada em Florianópolis. Sua curadoria une House Music e Techno com técnica, carisma e identidade visual autoral.';
 
 const expectedContent = {
   identity: {
     stageName: 'CHÊDA',
     artistName: 'Patrícia Chêda',
-    rolePt: 'DJ e selectora',
+    rolePt: 'DJ e seletora',
     roleEn: 'DJ and selector',
   },
   contact: {
-    bookingEmail: 'patriciavchedach@gmail.com',
-    bookingMailto: 'mailto:patriciavchedach@gmail.com',
+    bookingEmail: 'booking@patriciacheda.com',
+    bookingMailto: 'mailto:booking@patriciacheda.com',
     instagramHandle: '@patriciacheda_',
     instagramUrl: 'https://www.instagram.com/patriciacheda_/',
     soundcloudUrl: 'https://soundcloud.com/patriciacheda',
@@ -75,24 +75,26 @@ const expectedContent = {
     officialShortBio: officialBio,
     manifesto:
       'Uma apresentação que transforma música em movimento e movimento em unidade. No meu projeto de DJ, ofereço mais do que música: um encontro de vibrações, uma troca de energia. O que sentimos juntos não é apenas ritmo — é pulsação. Aqui, cada batida ecoa o pulsar da própria vida.',
-    genres: ['techno', 'tech house', 'noise'],
+    genres: ['house music', 'techno'],
+    bioPt:
+      'Dona de uma presença magnética e de personalidade marcante, CHÊDA tem uma assinatura artística própria na música eletrônica.\n\nDJ e seletora paranaense radicada em Florianópolis, se destaca por sua curadoria musical criteriosa, identidade visual autoral e capacidade de conduzir a pista com técnica e naturalidade.\n\nCom um projeto iniciado em 2018, a artista desenvolve uma trajetória marcada pela pesquisa contínua e por oferecer além da música, um encontro de vibrações e troca de energia.\n\nSuas seleções transitam entre diferentes vertentes da House Music e do Techno, combinando profundidade melódica, progressão e impacto, criando continuidade entre diferentes texturas e níveis de energia.\n\nNo palco, domínio técnico e carisma se traduzem em apresentações envolventes conduzidas com atenção à energia da pista e às respostas do público.',
     tagline: 'som que invoca · cada set é um ritual',
   },
   pressKit: {
     title: 'CHÊDA · Patrícia Chêda · Press Kit A4',
     description:
-      'Press kit A4 — CHÊDA / Patrícia Chêda. DJ e selectora de techno denso e hipnótico, Florianópolis. Som que invoca: cada set é um ritual, não uma playlist.',
+      'Press kit A4 — CHÊDA / Patrícia Chêda. DJ e seletora paranaense radicada em Florianópolis. House Music e Techno, curadoria criteriosa, técnica e presença.',
     socialDescription:
-      'DJ e selectora de techno denso e hipnótico — Florianópolis, BR. Som que invoca.',
+      'DJ e seletora paranaense radicada em Florianópolis — House Music, Techno e presença de pista.',
     ogImage: '/assets/portrait-ritual.jpg',
     ogImageWidth: 1080,
     ogImageHeight: 1080,
     bioPt:
-      'Patrícia Chêda é DJ e selectora radicada em Florianópolis. Sets de techno densos e hipnóticos — ruído, groove e tensão em camadas que crescem sem pressa.',
+      'Dona de uma presença magnética e de personalidade marcante, CHÊDA tem uma assinatura artística própria na música eletrônica.\n\nDJ e seletora paranaense radicada em Florianópolis, se destaca por sua curadoria musical criteriosa, identidade visual autoral e capacidade de conduzir a pista com técnica e naturalidade.\n\nCom um projeto iniciado em 2018, a artista desenvolve uma trajetória marcada pela pesquisa contínua e por oferecer além da música, um encontro de vibrações e troca de energia.\n\nSuas seleções transitam entre diferentes vertentes da House Music e do Techno, combinando profundidade melódica, progressão e impacto, criando continuidade entre diferentes texturas e níveis de energia.\n\nNo palco, domínio técnico e carisma se traduzem em apresentações envolventes conduzidas com atenção à energia da pista e às respostas do público.',
     bioEn:
-      'DJ and selector based in Florianópolis, Brazil. Dense, hypnotic techno — noise, groove and tension layered with patience. Every set a ritual.',
+      'DJ and selector from Paraná, based in Florianópolis, with a distinct artistic signature in electronic music. Her sets move through House Music and Techno with careful curation, technical command and magnetic presence.',
     bioEnCompact:
-      'DJ and selector based in Florianópolis, Brazil. Dense, hypnotic techno — every set a ritual, not a playlist.',
+      'DJ and selector from Paraná, based in Florianópolis — House Music, Techno and magnetic presence.',
   },
 };
 
@@ -153,7 +155,7 @@ test('consumers import approved facts instead of owning editorial phrases', () =
   }
 
   for (const duplicatedContact of [
-    'patriciavchedach@gmail.com',
+    'booking@patriciacheda.com',
     'instagram.com/patriciacheda_',
     'soundcloud.com/patriciacheda',
   ]) {

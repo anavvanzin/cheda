@@ -1,10 +1,6 @@
 (function(){
   // Orbit captions — placed trigonometrically like on /print/ritual.html
-  const labels=[
-    'Techno · Tech House','Noise · Hypnotic',
-    'Florianópolis · SC',
-    'Booking Direto','CHÊDA · 2026'
-  ];
+  const labels=['FOGO INTERIOR','RITUAL','PRESENÇA · MOVIMENTO','FORÇA','HOUSE · TECHNO'];
   const ring=document.getElementById('orbit-ring');
   labels.forEach((txt,i)=>{
     const angle=(i/labels.length)*360 - 90;

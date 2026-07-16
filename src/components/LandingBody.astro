@@ -58,6 +58,8 @@ const posterTags = [
         <span class="r-name">{siteContent.identity.stageName}</span>
         <em class="r-serif">{siteContent.identity.artistName}</em>
         <div class="r-tagline">{siteContent.editorial.tagline}</div>
+        <p class="r-lead">{siteContent.editorial.bioPt.split('\n\n').slice(0, 2).join(' ')}</p>
+        <a class="r-booking" href={`${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`}>booking · {siteContent.contact.bookingEmail}</a>
     </div>
 
   </section>
