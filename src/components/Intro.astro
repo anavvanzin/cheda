@@ -12,16 +12,16 @@
  */
 ---
 <div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Abertura — Patrícia Chêda">
-  <!-- The film. Muted + playsinline for autoplay; plays once (no loop).
-       Poster is a representative frame from this exact file, so the
-       first paint already shows the composition even before playback. -->
+  <!-- The film. Muted + playsinline; started via play() from intro.js so
+       returning-session and reduced-motion visitors never auto-download the
+       clip. preload="metadata" keeps the first paint cheap (the poster is a
+       representative frame from this exact file). Plays once (no loop). -->
   <video
     class="intro__media"
     poster="/assets/intro/intro-poster.jpg"
-    autoplay
     muted
     playsinline
-    preload="auto"
+    preload="metadata"
     aria-hidden="true"
   >
     <source src="/assets/intro/intro.mp4" type="video/mp4" />

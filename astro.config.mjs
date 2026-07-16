@@ -1,9 +1,11 @@
 import { defineConfig } from 'astro/config';
 
-// No @astrojs/vercel adapter: canonical host is GitHub Pages.
-// The Vercel adapter forces build.format "directory", copies assets into
-// .vercel/output, and drops Astro redirect pages from dist/ — so Pages
-// never received /print/spread and clean URLs broke.
+// Canonical host is GitHub Pages (Cloudflare is DNS/CDN only). This is a
+// pure static build — no SSR adapter. The Cloudflare adapter forced the
+// build into "server" mode, emitting a dead dist/_worker.js bundle plus
+// _routes.json / _redirects into the Pages artifact and dropping the
+// static redirect page. The Vercel adapter is likewise avoided (it forces
+// build.format "directory" and drops redirect pages from dist/).
 export default defineConfig({
   site: 'https://patriciacheda.com',
   output: 'static',
