@@ -4,16 +4,19 @@
    The intro is a single baked 7s film. This controller:
    - Gates it per browser session (sessionStorage) so it never nags on
      internal navigation; a "reopen" affordance clears the gate.
-   - Autoplays muted + playsInline and dissolves into the site when the
-     video ENDS (plays once, no loop). A watchdog covers a missing
-     'ended' event.
+   - Plays muted + playsInline via play() and dissolves into the site
+     when the video ENDS (plays once, no loop). A watchdog covers a
+     missing 'ended' event.
    - If autoplay is blocked, reveals a tasteful explicit Play/Enter
      control over the poster frame.
    - Skips on the discreet Skip button, click/tap anywhere, or keyboard
-     (Enter / Space / Escape). Focus is never trapped: it is handed to
-     the page and the overlay is removed on exit.
+     (Enter / Space / Escape). Focus is never trapped: the underlying
+     page is inerted while the intro is up and restored on exit.
    - Respects prefers-reduced-motion: no playback, poster only, and
-     immediate entry is available (Enter/click/skip).
+     immediate dismissal is available (Enter/click/skip).
+
+   All dismissal listeners are wired exactly ONCE, independently of the
+   session gate, so reopening behaves identically to a first visit.
    ============================================================ */
 (function () {
   var SESSION_KEY = 'cheda:intro:seen';
@@ -27,6 +30,8 @@
   var reopenBtn = document.getElementById('intro-reopen');
   var exited = false;
   var endWatchdog = null;
+  var lastOpener = null;   // element to restore focus to on close (reopen path)
+  var inerted = [];        // background siblings we marked inert while active
 
   var reduceMotion = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -42,6 +47,26 @@
     if (endWatchdog) { window.clearTimeout(endWatchdog); endWatchdog = null; }
   }
 
+  // Make the underlying page truly non-interactive while the intro is up,
+  // so aria-modal is honest. Scripts, layout and animations are untouched
+  // (inert only affects focus / pointer / assistive tech).
+  function inertBackground() {
+    if (inerted.length) return;
+    var kids = document.body.children;
+    for (var i = 0; i < kids.length; i++) {
+      var el = kids[i];
+      if (el === intro || el === reopenBtn) continue;
+      if (el.tagName === 'SCRIPT') continue;
+      if (!el.hasAttribute('inert')) { el.setAttribute('inert', ''); inerted.push(el); }
+    }
+  }
+  function restoreBackground() {
+    for (var i = 0; i < inerted.length; i++) {
+      try { inerted[i].removeAttribute('inert'); } catch (e) {}
+    }
+    inerted = [];
+  }
+
   function removeIntro(instant) {
     if (exited) return;
     exited = true;
@@ -55,12 +80,22 @@
       intro.classList.add('is-gone');
       intro.setAttribute('aria-hidden', 'true');
       if (video) { try { video.pause(); } catch (e) {} }
+      restoreBackground();
       showReopen();
-      // hand focus to the top of the page — never trap it in the intro
-      var main = document.querySelector('main, .spread, body');
-      if (main) {
-        if (!main.hasAttribute('tabindex')) main.setAttribute('tabindex', '-1');
-        try { main.focus({ preventScroll: true }); } catch (e) { main.focus(); }
+
+      // Restore focus: to the control that opened the intro when there is
+      // one (reopen path); otherwise hand it to the top of the page. Focus
+      // is never trapped inside the intro.
+      var target = null;
+      if (lastOpener && document.body.contains(lastOpener) && !lastOpener.hidden) {
+        target = lastOpener;
+      } else {
+        target = document.querySelector('main, .spread, body');
+        if (target && !target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      }
+      lastOpener = null;
+      if (target) {
+        try { target.focus({ preventScroll: true }); } catch (e) { target.focus(); }
       }
     };
 
@@ -84,19 +119,28 @@
     window.setTimeout(onEnd, 1400); // safety net
   }
 
-  function openIntro() {
+  // Bring the intro on screen: used on first visit and on reopen. Never
+  // attaches listeners (those are wired once at init).
+  function activateIntro() {
     exited = false;
-    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
-    if (reopenBtn) reopenBtn.hidden = true;
-    hideFallback();
+    clearWatchdog();
     intro.classList.remove('is-gone', 'is-exiting');
     intro.style.transition = '';
     intro.style.opacity = '';
     intro.removeAttribute('aria-hidden');
     intro.classList.add('is-active');
     document.body.classList.add('intro-locked');
-    if (video) { try { video.currentTime = 0; } catch (e) {} }
+    inertBackground();
     startPlayback();
+  }
+
+  function openIntro(ev) {
+    lastOpener = (ev && ev.currentTarget) || reopenBtn || null;
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+    if (reopenBtn) reopenBtn.hidden = true;
+    hideFallback();
+    if (video) { try { video.currentTime = 0; } catch (e) {} }
+    activateIntro();
     if (skipBtn) { try { skipBtn.focus(); } catch (e) {} }
   }
 
@@ -104,7 +148,7 @@
     clearWatchdog();
     if (!video) return;
     // Dissolve shortly after the clip's natural length even if 'ended'
-    // is missed. Fall back to a fixed 7.4s if duration isn't known yet.
+    // is missed. Fall back to a fixed 7.0s if duration isn't known yet.
     var dur = (video.duration && isFinite(video.duration)) ? video.duration : 7.0;
     endWatchdog = window.setTimeout(function () {
       if (!exited) removeIntro(false);
@@ -113,8 +157,9 @@
 
   function startPlayback() {
     if (!video) return;
+    if (exited || intro.classList.contains('is-gone')) return; // never play a dismissed intro
     if (reduceMotion) {
-      // no motion: poster only, wait for an explicit entry gesture
+      // no motion: poster only, wait for an explicit dismissal gesture
       try { video.pause(); } catch (e) {}
       return;
     }
@@ -132,26 +177,17 @@
     }
   }
 
-  // ── Wire up ────────────────────────────────────────────────
-  if (alreadySeen) {
-    removeIntro(true);
-  } else {
-    intro.classList.add('is-active');
-    document.body.classList.add('intro-locked');
-
+  // ── Wire dismissal controls exactly once ───────────────────
+  function wireControls() {
     if (video) {
       video.addEventListener('ended', function () { removeIntro(false); });
-      video.addEventListener('error', showFallback);
-      video.addEventListener('loadedmetadata', function () {
-        if (!reduceMotion && !video.paused) armEndWatchdog();
+      video.addEventListener('error', function () {
+        if (!exited && !intro.classList.contains('is-gone')) showFallback();
       });
-      if (reduceMotion) {
-        try { video.pause(); } catch (e) {}
-        video.removeAttribute('autoplay');
-      } else {
-        video.addEventListener('loadeddata', startPlayback);
-        startPlayback();
-      }
+      video.addEventListener('loadedmetadata', function () {
+        if (!exited && !reduceMotion && !video.paused) armEndWatchdog();
+      });
+      video.addEventListener('loadeddata', startPlayback);
     }
 
     if (skipBtn) skipBtn.addEventListener('click', function (ev) {
@@ -196,7 +232,15 @@
         removeIntro(false);
       }
     });
+
+    if (reopenBtn) reopenBtn.addEventListener('click', openIntro);
   }
 
-  if (reopenBtn) reopenBtn.addEventListener('click', openIntro);
+  // ── Init ───────────────────────────────────────────────────
+  wireControls();
+  if (alreadySeen) {
+    removeIntro(true);
+  } else {
+    activateIntro();
+  }
 })();
