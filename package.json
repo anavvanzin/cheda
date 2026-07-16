@@ -7,11 +7,17 @@
     "dev": "astro dev --host 127.0.0.1 --port 8765",
     "build": "astro build",
     "build:preview": "astro build && node scripts/make-preview-build.mjs",
-    "preview": "astro preview --host 127.0.0.1 --port 8765",
+    "preview": "npm run build && wrangler dev",
     "test": "npm run build && node --test tests/*.test.mjs",
-    "test:dist": "node --test tests/static-build.test.mjs"
+    "test:dist": "node --test tests/static-build.test.mjs",
+    "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "12",
     "astro": "^5.12.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.111.0"
   }
 }
