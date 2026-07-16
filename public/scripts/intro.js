@@ -1,7 +1,7 @@
 /* ============================================================
    CHÊDA — intro controller (classic IIFE, is:inline)
 
-   The intro is a single baked 7s film. This controller:
+   The intro is a single baked 18s film. This controller:
    - Gates it per browser session (sessionStorage) so it never nags on
      internal navigation; a "reopen" affordance clears the gate.
    - Plays muted + playsInline via play() and dissolves into the site
@@ -148,8 +148,8 @@
     clearWatchdog();
     if (!video) return;
     // Dissolve shortly after the clip's natural length even if 'ended'
-    // is missed. Fall back to a fixed 7.0s if duration isn't known yet.
-    var dur = (video.duration && isFinite(video.duration)) ? video.duration : 7.0;
+    // is missed. Fall back to the current master length if metadata is late.
+    var dur = (video.duration && isFinite(video.duration)) ? video.duration : 18.0;
     endWatchdog = window.setTimeout(function () {
       if (!exited) removeIntro(false);
     }, Math.ceil(dur * 1000) + 500);

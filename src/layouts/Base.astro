@@ -1,16 +1,28 @@
 ---
+import { siteContent } from '../data/site';
+
 interface Props {
   title?: string;
   description?: string;
+  socialDescription?: string;
   ogImage?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   withCursor?: boolean;
 }
 const {
-  title = 'CHÊDA · Patrícia Chêda',
-  description = 'DJ e seletora paranaense radicada em Florianópolis, com curadoria autoral entre diferentes vertentes da House Music e do Techno.',
-  ogImage = 'https://patriciacheda.com/assets/favicon/og-image.jpg',
+  title = siteContent.site.defaultTitle,
+  description = siteContent.site.defaultDescription,
+  socialDescription = description,
+  ogImage = siteContent.site.ogImage,
+  ogImageWidth = siteContent.site.ogImageWidth,
+  ogImageHeight = siteContent.site.ogImageHeight,
   withCursor = false,
 } = Astro.props;
+const productionBase = Astro.site ?? new URL(siteContent.site.canonicalUrl);
+const publicPathname = Astro.url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+const canonicalUrl = new URL(publicPathname, productionBase);
+const socialImageUrl = new URL(ogImage, productionBase);
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -18,6 +30,8 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
 
     <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/icon-32.png" />
@@ -27,18 +41,18 @@ const {
     <meta name="theme-color" content="#0E0B0A" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="CHÊDA" />
+    <meta property="og:site_name" content={siteContent.identity.stageName} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content="https://patriciacheda.com/" />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content={socialDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:width" content={ogImageWidth} />
+    <meta property="og:image:height" content={ogImageHeight} />
     <meta property="og:locale" content="pt_BR" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:description" content={socialDescription} />
+    <meta name="twitter:image" content={socialImageUrl} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

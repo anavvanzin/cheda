@@ -1,15 +1,27 @@
+---
+import { siteContent } from '../data/site';
+
+const posterTags = [
+  'DJ',
+  ...siteContent.editorial.genres.map((genre) =>
+    genre.replace(/\b\w/g, (character) => character.toUpperCase())),
+  siteContent.location.displayShort,
+].join(' · ');
+---
+
 <nav class="switcher" aria-label="Layouts">
   <a href="/print/ritual">3a</a>
   <a href="/print/poster">3b</a>
-  <a class="on" href="/print/morph">morph</a>
+  <a class="on" href="/print/morph" aria-current="page">morph</a>
   <a href="/">spread</a>
 </nav>
 <nav class="morph-toggle" aria-label="Morph state">
-  <a id="btn-ritual" class="on">3a · Ritual</a>
-  <a id="btn-poster">3b · Poster</a>
+  <button type="button" id="btn-ritual" class="on" aria-pressed="true">3a · Ritual</button>
+  <button type="button" id="btn-poster" aria-pressed="false">3b · Poster</button>
 </nav>
 
-<div class="stage">
+<main class="stage">
+  <h1 class="sr-only">CHÊDA · Morph — A4</h1>
   <div class="a4-morph" id="a4">
 
     <svg class="rings-svg" viewBox="0 0 794 1123" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -48,35 +60,33 @@
       rotated plate at top-right. Only its geometry / mask / position change.
     -->
     <div class="portrait">
-      <img src="/assets/portrait-poster.jpg" alt="Patrícia Chêda — retrato editorial">
+      <img src="/assets/portrait-poster.jpg" alt={`${siteContent.identity.artistName} — retrato editorial`}>
     </div>
 
     <div class="orbit-ring" id="orbit-ring" aria-hidden="true"></div>
 
     <div class="ritual-title">
-      <span class="ritual-name">CHÊDA</span>
-      <em class="ritual-serif">Patrícia Chêda</em>
-      <div class="ritual-tagline">som que invoca · cada set é um ritual</div>
+      <span class="ritual-name">{siteContent.identity.stageName}</span>
+      <em class="ritual-serif">{siteContent.identity.artistName}</em>
+      <div class="ritual-tagline">{siteContent.editorial.tagline}</div>
     </div>
 
-    <!-- set cards removed — waiting on real mix titles -->
 
     <div class="content-card">
       <div class="poster-logo">
-        CHÊDA
-        <em class="poster-serif">Patrícia Chêda</em>
+        {siteContent.identity.stageName}
+        <em class="poster-serif">{siteContent.identity.artistName}</em>
       </div>
-      <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
+      <div class="poster-tags">{posterTags}</div>
       <div class="card-divider"></div>
       <p class="bio-text">
-        Patrícia Chêda &mdash; DJ e selectora &mdash; atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.
+        {siteContent.editorial.officialShortBio}
       </p>
-      <!-- track list removed — to be replaced with real mixes -->
     </div>
 
     <div class="poster-foot">
       <div class="panther-mark" aria-hidden="true"></div>
-      <span class="kicker">Booking · patriciavchedach@gmail.com · 2026</span>
+      <span class="kicker">Booking · {siteContent.contact.bookingEmail} · 2026</span>
     </div>
   </div>
-</div>
+</main>

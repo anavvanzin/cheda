@@ -294,12 +294,13 @@
   /* Morph state toggle — left side so it doesn't collide with layout switcher */
   .morph-toggle{ position:fixed; top:12px; left:12px; z-index:1000;
     display:flex; gap:6px; }
-  .morph-toggle a{
+  .morph-toggle button{
     font-family:var(--body-font); font-size:11px;
+    appearance:none; line-height:inherit; margin:0;
     letter-spacing:.32em; text-transform:uppercase;
     padding:8px 14px; border:1px solid rgba(233,224,206,.25);
     background:rgba(14,11,10,.85); color:rgba(233,224,206,.5);
     backdrop-filter:blur(8px); cursor:pointer; transition:all .2s;
   }
-  .morph-toggle a.on{ background:var(--blood); border-color:var(--blood); color:var(--paper); }
-  .morph-toggle a:hover:not(.on){ color:var(--cream); border-color:rgba(233,224,206,.6); }
+  .morph-toggle button.on{ background:var(--blood); border-color:var(--blood); color:var(--paper); }
+  .morph-toggle button:hover:not(.on){ color:var(--cream); border-color:rgba(233,224,206,.6); }

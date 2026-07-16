@@ -28,9 +28,11 @@
     if(state === 'poster'){
       a4.classList.add('is-poster');
       btnR.classList.remove('on'); btnP.classList.add('on');
+      btnR.setAttribute('aria-pressed','false'); btnP.setAttribute('aria-pressed','true');
     }else{
       a4.classList.remove('is-poster');
       btnP.classList.remove('on'); btnR.classList.add('on');
+      btnP.setAttribute('aria-pressed','false'); btnR.setAttribute('aria-pressed','true');
     }
   };
   btnR.addEventListener('click', () => goto('ritual'));

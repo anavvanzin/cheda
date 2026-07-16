@@ -2,6 +2,7 @@
 node_modules/
 .vercel/
 .astro/
+.wrangler/
 dist/
 preview-dist/
 qa-*.png

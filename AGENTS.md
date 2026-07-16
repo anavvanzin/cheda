@@ -21,7 +21,7 @@ npm run dev          # http://127.0.0.1:8765 — from repo root
 npm run build        # writes static HTML to dist/
 ```
 
-There is **no automated test suite**. Visual QA = open the pages (dev or preview) on desktop 1440×900 and mobile 390×844. See `DESIGN_SYSTEM.md` §6.
+`npm test` builds the site and verifies the static Pages artifact. Visual QA = open the pages (dev or preview) on desktop 1440×900 and mobile 390×844. See `DESIGN_SYSTEM.md` §6.
 
 ### Non-obvious notes
 
@@ -29,4 +29,4 @@ There is **no automated test suite**. Visual QA = open the pages (dev or preview
 - Client scripts are copied to `public/scripts/` and loaded with `is:inline` so they stay classic IIFEs (orbit captions, custom cursor, print helpers).
 - Legacy root `index.html` / `print/*.html` were removed after the Astro migration — do not recreate them at the repo root.
 - External integrations degrade gracefully: Google Fonts CDN, SoundCloud iframe, Instagram link.
-- Deploy path: push `main` → `.github/workflows/deploy-pages.yml` → GitHub Pages + Cloudflare. Canonical host: `https://patriciacheda.com`. Vercel (`cheda-six.vercel.app`) is legacy only — do **not** add `@astrojs/vercel` (it forces directory output and drops redirect pages from `dist/`).
+- Deploy path: push `main` → `.github/workflows/deploy-pages.yml` → GitHub Pages. GitHub Pages is the only deploy target. Cloudflare provides DNS/proxy only; there is no Cloudflare Worker. Canonical host: `https://patriciacheda.com`. Vercel (`cheda-six.vercel.app`) is legacy only — do **not** add `@astrojs/vercel` (it forces directory output and drops redirect pages from `dist/`).

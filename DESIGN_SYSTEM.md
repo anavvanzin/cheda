@@ -25,8 +25,10 @@ Techno, tech house, noise. Sets densos e hipnóticos, sem playlist fixa.
 
 **Deploy**:
 - Repo: `github.com/anavvanzin/cheda` (privado)
-- Domínio canônico: **`https://patriciacheda.com`** (GitHub Pages + Cloudflare; `CNAME` no repo)
-- Vercel legado: `cheda-six.vercel.app` (ainda existe, mas não é o destino — OG/links apontam para o domínio custom)
+- Deploy canônico único do repositório: **GitHub Pages**, via `.github/workflows/deploy-pages.yml`
+- Domínio canônico: **`https://patriciacheda.com`** (`public/CNAME`); por contrato, Cloudflare deve atuar apenas como DNS/proxy
+- Artefato verificado: o build estático não contém runtime nem arquivos de Cloudflare Worker; o estado externo do painel não é presumido
+- Vercel legado: `cheda-six.vercel.app` (não é destino de deploy — OG/links apontam para o domínio custom)
 
 ---
 
@@ -206,7 +208,7 @@ Estrutura em três seções empilhadas, com portrait circular apenas na Ritual:
 
 Cada uma é uma composição de imprensa A4 (794×1123px) independente, canvas fechado, exportável a PDF:
 
-- **`/print/ritual`** (3a) — 8 anéis concêntricos strobe, portrait circular, sets orbitando, três set cards ao pé. **Note**: essas set cards ainda contêm placeholders (Ritual Noturno, Som que Invoca, Pista Aberta) que a usuária pediu para remover na landing mas o A4 print não foi atualizado. Se essa página for revitalizada, remover os placeholders também.
+- **`/print/ritual`** (3a) — 8 anéis concêntricos strobe, portrait circular e composição A4 independente.
 - **`/print/poster`** (3b) — Type wall + photo plate + content card se conectam através de bleed gradient compartilhado e blood-red vertical spine.
 - **`/print/morph`** — Uma A4 que morpheia entre estado 3a e 3b via CSS `@property --t`. Toggle button ou `?loop=true` pra auto-scrub.
 
@@ -321,12 +323,15 @@ Sempre rodar QA visual em **desktop 1440×900** e **mobile 390×844** antes de d
 ### Deploy
 
 ```bash
-git add -A && git commit -m "…"
-git push origin main
-# Actions: npm ci → npm run build → upload dist/ → GitHub Pages
+npm ci
+npm test
+# Após revisão e merge/push em main:
+# Actions: npm ci → npm test → upload dist/ → GitHub Pages
 ```
 
-Domínio canônico: `patriciacheda.com` (GitHub Pages + Cloudflare via `CNAME`). Redirects de `/print/spread` vivem em `astro.config.mjs` (também espelhados em `vercel.json` só pro host legado). Vercel `cheda-six.vercel.app` (team `anavanzin`, project `cheda`) não deve aparecer em OG/canonical e não é o caminho de deploy.
+GitHub Pages é o único destino canônico de deploy do repositório. O domínio canônico é `patriciacheda.com`; `public/CNAME` entra em `dist/CNAME` e o workflow verifica o artefato estático antes de publicar. Por contrato, Cloudflare deve atuar somente como DNS/proxy. O fato verificado pelo repositório é mais restrito: o build estático não contém runtime nem arquivos de Cloudflare Worker. Redirects de `/print/spread` vivem em `astro.config.mjs` (também espelhados em `vercel.json` só para o host legado). Vercel `cheda-six.vercel.app` não deve aparecer em OG/canonical e não é o caminho canônico de deploy.
+
+Verificações externas de DNS/proxy, rotas/builds de Worker e Vercel são manuais, reversíveis e não fazem parte de uma mudança no repositório. Consultar [`docs/deployment-checklist.md`](docs/deployment-checklist.md); nenhum estado de dashboard é presumido por este documento.
 
 **Nota**: o proxy GitHub da Perplexity retorna 407 CONNECT tunnel failed intermitentemente. Se acontecer, esperar 5-10s e tentar de novo (3 tentativas costumam resolver).
 
@@ -443,12 +448,10 @@ Mudanças substantivas do dia, em ordem cronológica:
 4. **SoundCloud embed** — iframe do `w.soundcloud.com/player` apontando para `soundcloud.com/patriciacheda` (perfil inteiro, não faixa específica), color `#B5221A`, `visual=true`. Substitui o placeholder que aguardava URL.
 5. **Setlists inventados removidos** — os placeholders `Ritual Noturno / Som que Invoca / Pista Aberta` (com durações fake `58 min / 62 min / 74 min`) foram removidos de todos os quatro layouts: `index.html`, `print/ritual.html`, `print/poster.html`, `print/morph.html`. Também as duas orbit captions inventadas (`Som que Invoca`, `Ritual · não Playlist`). A frase filosófica `som que invoca · cada set é um ritual` fica preservada no subtítulo — é manifesto, não título de faixa. O CSS de `.sets-row` e `.sets-list` continua nos stylesheets para reintroduzir quando títulos reais chegarem.
 6. **`/print/spread` deletado** — arquivo removido, redirects `/print/spread{,.html} → /` em `astro.config.mjs` (Pages) e espelhados em `vercel.json` (legado), switchers dos outros A4 atualizados para apontar `spread` → `/`.
-7. **Vercel deployment protection desativada** — SSO Protection removida via API PATCH. Site publicamente acessível sem auth wall.
-8. **Email consolidado** — substituiu todo `pat@chdx.fm` (que era fake) por `patriciavchedach@gmail.com` (real) em `print/poster.html`, `print/morph.html`, index.
-9. **DESIGN_SYSTEM.md criado** — este documento, agora atualizado.
+7. **Email consolidado** — substituiu todo `pat@chdx.fm` (que era fake) por `patriciavchedach@gmail.com` (real) em `print/poster.html`, `print/morph.html`, index.
+8. **DESIGN_SYSTEM.md criado** — este documento, agora atualizado.
 
 **Anti-padrões catalogados neste ciclo**:
 - Vercel deployment protection deixada ligada por default (site aparece público no CLI mas está gated para tudo que não seja o proj owner)
 - Alpha channel invertido em PNG (branco opaco onde deveria ser transparente) — verificar contagem `alpha=0 vs alpha=255` após qualquer conversão
 - Placeholder "profissional-parecendo" (setlists com durações plausíveis) é pior que placeholder óbvio, porque parece verdade e passa pela revisão sem questionamento
-

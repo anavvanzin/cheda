@@ -536,7 +536,7 @@
   /* ═════════ SITE FOOTER ═════════
      Sits below the poster grid, spans full width, holds:
      LEFT   — booking kicker + email
-     RIGHT  — Patricia Chêda blackletter signature (soft, cream, low opacity)
+     RIGHT  — Patricia Chêda blackletter signature (pure white)
   */
   .site-footer{
     position:relative;
@@ -559,11 +559,11 @@
   .site-footer .foot-info a:hover{ border-bottom-color: var(--blood); }
   .site-footer .foot-signature{
     max-width: min(360px, 42vw);
-    opacity: .85;
+    opacity: 1;
   }
   .site-footer .foot-signature img{
     display:block; width:100%; height:auto;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
+    filter: brightness(0) invert(1) drop-shadow(0 2px 6px rgba(0,0,0,.5));
   }
 
   /* Old .poster-foot no longer used — kept as no-op to avoid legacy CSS hits */

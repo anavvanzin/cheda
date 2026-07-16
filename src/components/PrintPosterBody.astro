@@ -1,11 +1,23 @@
+---
+import { siteContent } from '../data/site';
+
+const posterTags = [
+  'DJ',
+  ...siteContent.editorial.genres.map((genre) =>
+    genre.replace(/\b\w/g, (character) => character.toUpperCase())),
+  siteContent.location.displayShort,
+].join(' · ');
+---
+
 <nav class="switcher" aria-label="Layouts">
   <a href="/print/ritual">3a</a>
-  <a class="on" href="/print/poster">3b</a>
+  <a class="on" href="/print/poster" aria-current="page">3b</a>
   <a href="/print/morph">morph</a>
   <a href="/">spread</a>
 </nav>
 
-<div class="stage">
+<main class="stage">
+  <h1 class="sr-only">CHÊDA · Poster — A4</h1>
   <div class="a4" id="poster-a4">
 
     <!-- Type wall — solid → stroke → fading, six rows across the full A4 -->
@@ -32,27 +44,26 @@
     -->
     <div class="poster-composite">
       <div class="photo-plate">
-        <img src="/assets/portrait-poster.jpg" alt="Patrícia Chêda — retrato editorial">
+        <img src="/assets/portrait-poster.jpg" alt={`${siteContent.identity.artistName} — retrato editorial`}>
       </div>
 
       <div class="content-card">
         <div class="poster-logo">
-          CHÊDA
-          <em class="poster-serif">Patrícia Chêda</em>
+          {siteContent.identity.stageName}
+          <em class="poster-serif">{siteContent.identity.artistName}</em>
         </div>
-        <div class="poster-tags">DJ · Techno · Tech House · Noise · Floripa</div>
+        <div class="poster-tags">{posterTags}</div>
         <div class="card-divider"></div>
         <p class="bio-text">
-          Patrícia Chêda &mdash; DJ e selectora &mdash; atravessa techno, tech house e noise com estética de xilogravura e serigrafia. Sem playlist fixa — leitura de pista em tempo real, camadas que crescem sem pressa. Som que invoca: cada set é um ritual, não uma playlist.
+          {siteContent.editorial.officialShortBio}
         </p>
-        <!-- track list removed — to be replaced with real mixes -->
       </div>
     </div>
 
     <div class="poster-foot">
       <div class="panther-mark" aria-hidden="true"></div>
-      <span class="kicker">Booking · patriciavchedach@gmail.com · 2026</span>
+      <span class="kicker">Booking · {siteContent.contact.bookingEmail} · 2026</span>
     </div>
 
   </div>
-</div>
+</main>
