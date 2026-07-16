@@ -163,15 +163,28 @@
     endWatchdog = window.setTimeout(onWatchdogFire, Math.ceil(remaining * 1000) + 400);
   }
 
+  function hasReachedMediaEnd() {
+    if (!video) return false;
+    var dur = (video.duration && isFinite(video.duration)) ? video.duration : null;
+    return video.ended ||
+      (dur !== null && video.currentTime >= dur - END_EPS);
+  }
+
   function onWatchdogFire() {
     endWatchdog = null;
     if (exited || !video) return;
-    var dur = (video.duration && isFinite(video.duration)) ? video.duration : null;
-    if (video.ended || (dur !== null && video.currentTime >= dur - END_EPS)) {
+    if (hasReachedMediaEnd()) {
       removeIntro(false);
       return;
     }
     scheduleWatchdog(); // still behind (buffering/stalled) — never cut early
+  }
+
+  function onPlaybackPause() {
+    clearWatchdog();
+    if (!exited && hasReachedMediaEnd()) {
+      removeIntro(false);
+    }
   }
 
   // Upgrade buffering only once we know the film will actually play. The
@@ -225,7 +238,7 @@
       });
       video.addEventListener('waiting', clearWatchdog);
       video.addEventListener('stalled', clearWatchdog);
-      video.addEventListener('pause', clearWatchdog);
+      video.addEventListener('pause', onPlaybackPause);
       document.addEventListener('visibilitychange', function () {
         if (document.hidden) {
           clearWatchdog();
