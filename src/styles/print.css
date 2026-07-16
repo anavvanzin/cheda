@@ -186,6 +186,7 @@ body{ overflow-x:hidden; }
   display:flex; align-items:center; white-space:nowrap;
   user-select:none; line-height:.86;
   transform-origin:left center;
+  translate:0 var(--fall-offset, 0);
 }
 .tw-word{
   font-family:var(--display-font); font-weight:500;
@@ -204,6 +205,26 @@ body{ overflow-x:hidden; }
 .tw-row:nth-child(5) .tw-word{ font-size:150px; color:transparent; -webkit-text-stroke:.8px var(--gold); opacity:.22; }
 .tw-row:nth-child(6){ transform:rotate(var(--tA)); padding-left:2%; }
 .tw-row:nth-child(6) .tw-word{ font-size:150px; color:transparent; -webkit-text-stroke:.5px var(--paper); opacity:.08; }
+
+/* CHÊDA / queda — the echoes arrive as a controlled vertical fall. */
+@media (prefers-reduced-motion: no-preference){
+  .type-wall .tw-row{
+    --fall-offset:-96px;
+    animation:type-fall 1.45s cubic-bezier(.2,.82,.24,1) forwards;
+  }
+  .type-wall .tw-row:nth-child(1){ animation-delay:.08s; }
+  .type-wall .tw-row:nth-child(2){ --fall-offset:-132px; animation-delay:.16s; }
+  .type-wall .tw-row:nth-child(3){ --fall-offset:-168px; animation-delay:.24s; }
+  .type-wall .tw-row:nth-child(4){ --fall-offset:-204px; animation-delay:.32s; }
+  .type-wall .tw-row:nth-child(5){ --fall-offset:-240px; animation-delay:.40s; }
+  .type-wall .tw-row:nth-child(6){ --fall-offset:-276px; animation-delay:.48s; }
+
+  @keyframes type-fall{
+    0%{ translate:0 var(--fall-offset); }
+    72%{ translate:0 7px; }
+    100%{ translate:0 0; }
+  }
+}
 
 /* The overlap composite: photo plate + content card share a spine */
 .poster-composite{
