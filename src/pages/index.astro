@@ -2,10 +2,15 @@
 import Base from '../layouts/Base.astro';
 import Intro from '../components/Intro.astro';
 import LandingBody from '../components/LandingBody.astro';
+import { assetVersion } from '../lib/asset-version';
 import '../styles/tokens.css';
 import '../styles/cursor.css';
 import '../styles/landing.css';
 import '../styles/intro.css';
+
+// Keep the preload href byte-identical to the poster the intro requests,
+// so the hint warms the same cache entry instead of double-fetching.
+const posterSrc = `/assets/intro/intro-poster.jpg?v=${assetVersion('assets/intro/intro-poster.jpg')}`;
 ---
 <Base>
   <Fragment slot="head">
@@ -15,7 +20,7 @@ import '../styles/intro.css';
       #intro{position:fixed;inset:0;z-index:9000;background:#000;}
       #intro.is-gone{display:none;}
     </style>
-    <link rel="preload" as="image" href="/assets/intro/intro-poster.jpg" />
+    <link rel="preload" as="image" href={posterSrc} />
   </Fragment>
 
   <Intro />
