@@ -10,21 +10,34 @@
  * Rendered server-side (no client framework, no hydration). Behaviour
  * lives in /scripts/intro.js loaded is:inline as a classic IIFE.
  */
+import { assetVersion } from '../lib/asset-version';
+
+// Content-hash cache-bust: the query changes only when the bytes change,
+// so a CDN/browser can never serve a stale earlier cut after a swap.
+const videoSrc = `/assets/intro/intro.mp4?v=${assetVersion('assets/intro/intro.mp4')}`;
+const posterSrc = `/assets/intro/intro-poster.jpg?v=${assetVersion('assets/intro/intro-poster.jpg')}`;
 ---
 <div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Abertura — Patrícia Chêda">
+  <!-- Atmospheric backdrop: the EXACT poster, blurred and dimmed, filling
+       the stage behind the contained film. On portrait phones this turns
+       the letterbox bars into an intentional red-black haze instead of flat
+       black; it is a single CSS background image (no second video decode)
+       and is hidden on landscape/desktop where the film already fills. -->
+  <div class="intro__backdrop" aria-hidden="true" style={`--intro-poster:url("${posterSrc}")`}></div>
+
   <!-- The film. Muted + playsinline; started via play() from intro.js so
        returning-session and reduced-motion visitors never auto-download the
        clip. preload="metadata" keeps the first paint cheap (the poster is a
        representative frame from this exact file). Plays once (no loop). -->
   <video
     class="intro__media"
-    poster="/assets/intro/intro-poster.jpg"
+    poster={posterSrc}
     muted
     playsinline
     preload="metadata"
     aria-hidden="true"
   >
-    <source src="/assets/intro/intro.mp4" type="video/mp4" />
+    <source src={videoSrc} type="video/mp4" />
   </video>
 
   <!-- Discreet skip, tucked in the corner so it never covers the art -->

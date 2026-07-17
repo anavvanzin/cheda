@@ -5,8 +5,10 @@
    - Gates it per browser session (sessionStorage) so it never nags on
      internal navigation; a "reopen" affordance clears the gate.
    - Plays muted + playsInline via play() and dissolves into the site
-     when the video ENDS (plays once, no loop). A watchdog covers a
-     missing 'ended' event.
+     when the video ENDS (plays once, no loop). A media-progress-aware
+     watchdog covers a missing 'ended' event: it only dismisses once the
+     media has actually reached its end, never while it is still
+     buffering/stalled behind the wall clock.
    - If autoplay is blocked, reveals a tasteful explicit Play/Enter
      control over the poster frame.
    - Skips on the discreet Skip button, click/tap anywhere, or keyboard
@@ -30,6 +32,7 @@
   var reopenBtn = document.getElementById('intro-reopen');
   var exited = false;
   var endWatchdog = null;
+  var END_EPS = 0.35;      // seconds: treat currentTime within this of end as "ended"
   var lastOpener = null;   // element to restore focus to on close (reopen path)
   var inerted = [];        // background siblings we marked inert while active
 
@@ -144,15 +147,56 @@
     if (skipBtn) { try { skipBtn.focus(); } catch (e) {} }
   }
 
-  function armEndWatchdog() {
+  // Progress-aware end watchdog. Instead of a fixed wall-clock timeout
+  // (which dismisses mid-film whenever playback buffers/stalls behind the
+  // clock), we schedule for the media time REMAINING and, when it fires,
+  // dismiss only if the film truly reached its end. Otherwise we re-arm for
+  // the new remaining time — so buffered/stalled playback is never cut early.
+  function scheduleWatchdog() {
     clearWatchdog();
+    if (!video || exited) return;
+    if (video.paused) return; // paused/stalled: re-armed by the 'playing' event
+    var dur = (video.duration && isFinite(video.duration)) ? video.duration : null;
+    var remaining = (dur !== null)
+      ? Math.max(0, dur - (video.currentTime || 0))
+      : 1.0; // duration unknown yet: poll again shortly
+    endWatchdog = window.setTimeout(onWatchdogFire, Math.ceil(remaining * 1000) + 400);
+  }
+
+  function hasReachedMediaEnd() {
+    if (!video) return false;
+    var dur = (video.duration && isFinite(video.duration)) ? video.duration : null;
+    return video.ended ||
+      (dur !== null && video.currentTime >= dur - END_EPS);
+  }
+
+  function onWatchdogFire() {
+    endWatchdog = null;
+    if (exited || !video) return;
+    if (hasReachedMediaEnd()) {
+      removeIntro(false);
+      return;
+    }
+    scheduleWatchdog(); // still behind (buffering/stalled) — never cut early
+  }
+
+  function onPlaybackPause() {
+    clearWatchdog();
+    if (!exited && hasReachedMediaEnd()) {
+      removeIntro(false);
+    }
+  }
+
+  // Upgrade buffering only once we know the film will actually play. The
+  // markup keeps preload="metadata" so returning-session and reduced-motion
+  // visitors never auto-download the clip; here (first play only) we switch
+  // to eager buffering so real-network playback doesn't stall.
+  function ensureEagerBuffering() {
     if (!video) return;
-    // Dissolve shortly after the clip's natural length even if 'ended'
-    // is missed. Fall back to the current master length if metadata is late.
-    var dur = (video.duration && isFinite(video.duration)) ? video.duration : 18.0;
-    endWatchdog = window.setTimeout(function () {
-      if (!exited) removeIntro(false);
-    }, Math.ceil(dur * 1000) + 500);
+    if (video.preload !== 'auto') {
+      video.preload = 'auto';
+      if (video.readyState === 0) { try { video.load(); } catch (e) {} }
+    }
   }
 
   function startPlayback() {
@@ -163,17 +207,18 @@
       try { video.pause(); } catch (e) {}
       return;
     }
+    ensureEagerBuffering();
     var p = video.play ? video.play() : null;
     if (p && typeof p.catch === 'function') {
       p.then(function () {
         hideFallback();
-        armEndWatchdog();
+        scheduleWatchdog();
       }).catch(function () {
         // autoplay blocked → offer an explicit play/enter control
         showFallback();
       });
     } else {
-      armEndWatchdog();
+      scheduleWatchdog();
     }
   }
 
@@ -184,10 +229,23 @@
       video.addEventListener('error', function () {
         if (!exited && !intro.classList.contains('is-gone')) showFallback();
       });
-      video.addEventListener('loadedmetadata', function () {
-        if (!exited && !reduceMotion && !video.paused) armEndWatchdog();
-      });
       video.addEventListener('loadeddata', startPlayback);
+      // Keep the watchdog tied to real playback progress: arm/re-arm when the
+      // media is actually advancing, and stand down whenever it isn't so a
+      // stall or pause can never trip an early dismissal.
+      video.addEventListener('playing', function () {
+        if (!exited && !reduceMotion) scheduleWatchdog();
+      });
+      video.addEventListener('waiting', clearWatchdog);
+      video.addEventListener('stalled', clearWatchdog);
+      video.addEventListener('pause', onPlaybackPause);
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          clearWatchdog();
+        } else if (!exited && !reduceMotion && video && !video.paused) {
+          scheduleWatchdog();
+        }
+      });
     }
 
     if (skipBtn) skipBtn.addEventListener('click', function (ev) {
@@ -201,11 +259,12 @@
       ev.stopPropagation();
       hideFallback();
       if (video && !reduceMotion) {
+        ensureEagerBuffering();
         var p = video.play ? video.play() : null;
         if (p && typeof p.catch === 'function') {
-          p.then(armEndWatchdog).catch(function () { removeIntro(false); });
+          p.then(scheduleWatchdog).catch(function () { removeIntro(false); });
         } else {
-          armEndWatchdog();
+          scheduleWatchdog();
         }
       } else {
         removeIntro(false);
