@@ -27,6 +27,16 @@
   }
   .switcher a:hover{ color:var(--cream); border-color:rgba(233,224,206,.6); }
   .switcher a.on{ background:var(--blood); border-color:var(--blood); color:var(--paper); }
+  /* Compact the switcher on phones so it no longer spans the full top edge and
+     crowds the brand wordmark that sits just below it — the tighter footprint
+     pulls its left edge clear of the brand. */
+  @media (max-width:720px){
+    .switcher{ gap:4px; top:10px; right:10px; }
+    .switcher a{ padding:6px 9px; letter-spacing:.2em; }
+  }
+  @media (max-width:400px){
+    .switcher a{ padding:5px 7px; font-size:10px; letter-spacing:.12em; }
+  }
 
   .grain{ position:fixed; inset:0; z-index:5; pointer-events:none;
     background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
@@ -484,11 +494,17 @@
        cream E9E0CE=233,224,206 · paper F2EAD9=242,234,217
        blood B5221A=181,34,26   · gold  C79A4B=199,154,75 */
 
-  /* Fixed-height band → reserves its box from first paint (zero layout shift) */
+  /* Fixed-height band → reserves its box from first paint (zero layout shift).
+     content-visibility:auto lets the browser skip rendering AND animating the
+     40 bars while the band is scrolled offscreen (most of this long page),
+     saving GPU/battery on mobile; contain-intrinsic-size keeps the reserved
+     box so there's still no shift. Ignored (harmlessly) on older browsers. */
   .sc-slot .sc-analysis{
     height:70px;                 /* fixed */
     margin-bottom:10px;          /* same rhythm as .sc-meta's margin-bottom */
     display:flex; flex-direction:column; justify-content:flex-end;
+    content-visibility:auto;
+    contain-intrinsic-size:auto 70px;
   }
 
   /* Caption row — subordinate to .sc-meta (smaller, tighter) */
@@ -552,8 +568,9 @@
   /* Warm palette — cream/paper mass, periodic blood beat, sparing gold.
      nth-child accents (0,3,0) outrank the base bar (0,2,0); among themselves
      specificity is equal, so SOURCE ORDER decides shared positions — keep
-     blood/gold LAST so they win. All accent positions are ODD ⇒ they survive
-     the <=480px "hide every other bar" thin-out. Never clinical white. */
+     blood/gold LAST so they win. At <=480px every 2nd bar is hidden; blood
+     (7,21,35) and gold (5,31) keep odd-position instances, so both accents
+     still show on phones. Never clinical white. */
   .sc-slot .wf-bar:nth-child(4n+1){ background:linear-gradient(to top, rgba(233,224,206,.22), rgba(233,224,206,.82)); } /* brighter cream */
   .sc-slot .wf-bar:nth-child(6n+3){ background:linear-gradient(to top, rgba(242,234,217,.30), rgba(242,234,217,.92)); } /* paper highlight (sparse) */
   .sc-slot .wf-bar:nth-child(7n){   background:linear-gradient(to top, rgba(181,34,26,.30),  rgba(181,34,26,.92));  } /* BLOOD — every 7th, per reference */
