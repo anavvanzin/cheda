@@ -147,9 +147,10 @@
     font-size:clamp(48px,10vw,96px); letter-spacing:.01em;
     color:transparent; -webkit-text-stroke:1.5px var(--paper);
     line-height:1; display:inline-block;
-    transition:color .5s cubic-bezier(.23,1,.32,1),
-                -webkit-text-stroke-color .5s cubic-bezier(.23,1,.32,1); }
-  .r-name:hover{ color:var(--blood); -webkit-text-stroke-color:var(--blood); }
+    /* Stays hollow on hover so the portrait keeps showing through the
+       letters — only the outline warms from paper to blood. */
+    transition:-webkit-text-stroke-color .5s cubic-bezier(.23,1,.32,1); }
+  .r-name:hover{ -webkit-text-stroke-color:var(--blood); }
   .r-serif{ display:block; margin-top:10px;
     font-family:var(--serif-font); font-style:italic;
     font-size:clamp(14px,1.6vw,18px); color:var(--gold); letter-spacing:.02em; }
