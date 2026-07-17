@@ -144,8 +144,12 @@
   .r-title{ position:absolute; bottom:14%; left:0; right:0;
     text-align:center; z-index:9; padding:0 16px; }
   .r-name{ font-family:var(--display-font); font-weight:500;
-    font-size:clamp(48px,10vw,96px); letter-spacing:.04em;
-    color:var(--paper); line-height:1; display:inline-block; }
+    font-size:clamp(48px,10vw,96px); letter-spacing:.01em;
+    color:transparent; -webkit-text-stroke:1.5px var(--paper);
+    line-height:1; display:inline-block;
+    transition:color .5s cubic-bezier(.23,1,.32,1),
+                -webkit-text-stroke-color .5s cubic-bezier(.23,1,.32,1); }
+  .r-name:hover{ color:var(--blood); -webkit-text-stroke-color:var(--blood); }
   .r-serif{ display:block; margin-top:10px;
     font-family:var(--serif-font); font-style:italic;
     font-size:clamp(14px,1.6vw,18px); color:var(--gold); letter-spacing:.02em; }

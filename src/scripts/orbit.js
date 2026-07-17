@@ -1,9 +1,12 @@
 (function(){
-  const labels=['FOGO INTERIOR','RITUAL','PRESENÇA · MOVIMENTO','FORÇA','HOUSE · TECHNO'];
+  // Three captions, kept in the upper hemisphere of the ring so they
+  // never cross the tagline / bio / booking link stacked underneath.
+  const labels=['FOGO INTERIOR','HOUSE · TECHNO','RITUAL'];
+  const angles=[-90,-150,-30];
   const ring=document.getElementById('orbit-ring');
   if(!ring) return;
   labels.forEach((txt,i)=>{
-    const angle=(i/labels.length)*360 - 90;
+    const angle=angles[i];
     const rad=angle*Math.PI/180;
     const r=50;
     const x=50+r*Math.cos(rad);
