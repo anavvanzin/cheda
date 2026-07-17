@@ -58,7 +58,7 @@ const posterTags = [
         <span class="r-name">{siteContent.identity.stageName}</span>
         <em class="r-serif">{siteContent.identity.artistName}</em>
         <div class="r-tagline">{siteContent.editorial.tagline}</div>
-        <p class="r-lead">{siteContent.editorial.bioPt.split('\n\n').slice(0, 2).join(' ')}</p>
+        <p class="r-lead">{siteContent.editorial.officialShortBio}</p>
         <a class="r-booking" href={`${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`}>booking · {siteContent.contact.bookingEmail}</a>
     </div>
 
@@ -105,6 +105,19 @@ const posterTags = [
         <div class="sc-meta">
           <span>SoundCloud · Featured Set</span>
           <span class="listen">▶ Listen</span>
+        </div>
+        <!-- Decorative live-analysis readout — a warm re-skin of the reference
+             "AUDIO ANALYSIS / LIVE" equalizer. It visualizes nothing real, so the
+             whole band is aria-hidden; the genuine listen affordance stays the
+             untouched "▶ Listen" above and the SoundCloud iframe below. -->
+        <div class="sc-analysis" aria-hidden="true">
+          <div class="wf-cap">
+            <span>Audio Analysis</span>
+            <span class="wf-live"><i class="wf-live-dot"></i>Live</span>
+          </div>
+          <div class="wf">
+            {Array.from({ length: 40 }).map(() => <i class="wf-bar"></i>)}
+          </div>
         </div>
         <div class="sc-frame" id="sc-frame">
           <iframe scrolling="no" frameborder="no" allow="autoplay"

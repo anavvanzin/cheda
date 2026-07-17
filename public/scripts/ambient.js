@@ -53,8 +53,14 @@
     }, { passive: true });
   }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  // Scroll-driven parallax repaints full-screen mix-blend layers (grain,
+  // silhouette) every frame. On touch / coarse-pointer devices that is the
+  // main source of scroll jank, so limit it to true fine-pointer devices —
+  // the same gate the custom cursor uses. Mobile keeps the one-shot reveals.
+  if (finePointer) {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 
   function revealAll() {
     var nodes = document.querySelectorAll('.will-reveal');

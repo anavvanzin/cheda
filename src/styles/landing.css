@@ -27,6 +27,16 @@
   }
   .switcher a:hover{ color:var(--cream); border-color:rgba(233,224,206,.6); }
   .switcher a.on{ background:var(--blood); border-color:var(--blood); color:var(--paper); }
+  /* Compact the switcher on phones so it no longer spans the full top edge and
+     crowds the brand wordmark that sits just below it — the tighter footprint
+     pulls its left edge clear of the brand. */
+  @media (max-width:720px){
+    .switcher{ gap:4px; top:10px; right:10px; }
+    .switcher a{ padding:6px 9px; letter-spacing:.2em; }
+  }
+  @media (max-width:400px){
+    .switcher a{ padding:5px 7px; font-size:10px; letter-spacing:.12em; }
+  }
 
   .grain{ position:fixed; inset:0; z-index:5; pointer-events:none;
     background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
@@ -144,8 +154,13 @@
   .r-title{ position:absolute; bottom:14%; left:0; right:0;
     text-align:center; z-index:9; padding:0 16px; }
   .r-name{ font-family:var(--display-font); font-weight:500;
-    font-size:clamp(48px,10vw,96px); letter-spacing:.04em;
-    color:var(--paper); line-height:1; display:inline-block; }
+    font-size:clamp(48px,10vw,96px); letter-spacing:.01em;
+    color:transparent; -webkit-text-stroke:1.5px var(--paper);
+    line-height:1; display:inline-block;
+    /* Stays hollow on hover so the portrait keeps showing through the
+       letters — only the outline warms from paper to blood. */
+    transition:-webkit-text-stroke-color .5s cubic-bezier(.23,1,.32,1); }
+  .r-name:hover{ -webkit-text-stroke-color:var(--blood); }
   .r-serif{ display:block; margin-top:10px;
     font-family:var(--serif-font); font-style:italic;
     font-size:clamp(14px,1.6vw,18px); color:var(--gold); letter-spacing:.02em; }
@@ -470,6 +485,152 @@
     color:var(--gold);
   }
   .sc-slot .sc-meta .listen{ color:var(--blood); }
+
+  /* ═════════ SOUNDCLOUD · LIVE ANALYSIS BAND ═════════
+     Warm re-skin of a clinical "AUDIO ANALYSIS / LIVE" equalizer readout: a
+     tiny gold/blood caption row riding a fixed-height rail of gradient bars.
+     Pure CSS — transform:scaleY only (compositor, never reflow) ⇒ no layout
+     shift, no JS. Token literals inlined for the rgba() alpha ramps:
+       cream E9E0CE=233,224,206 · paper F2EAD9=242,234,217
+       blood B5221A=181,34,26   · gold  C79A4B=199,154,75 */
+
+  /* Fixed-height band → reserves its box from first paint (zero layout shift).
+     content-visibility:auto lets the browser skip rendering AND animating the
+     40 bars while the band is scrolled offscreen (most of this long page),
+     saving GPU/battery on mobile; contain-intrinsic-size keeps the reserved
+     box so there's still no shift. Ignored (harmlessly) on older browsers. */
+  .sc-slot .sc-analysis{
+    height:70px;                 /* fixed */
+    margin-bottom:10px;          /* same rhythm as .sc-meta's margin-bottom */
+    display:flex; flex-direction:column; justify-content:flex-end;
+    content-visibility:auto;
+    contain-intrinsic-size:auto 70px;
+  }
+
+  /* Caption row — subordinate to .sc-meta (smaller, tighter) */
+  .sc-slot .wf-cap{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:8px;
+    font-family:var(--display-font); font-weight:500;
+    font-size:8px; letter-spacing:.34em; text-transform:uppercase;
+    color:rgba(199,154,75,.85);              /* gold */
+  }
+  .sc-slot .wf-cap .wf-live{
+    display:inline-flex; align-items:center; gap:6px;
+    color:var(--blood);
+  }
+  .sc-slot .wf-live-dot{
+    width:5px; height:5px; border-radius:50%;
+    background:var(--blood);
+    animation:wf-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes wf-pulse{ 0%,100%{ opacity:.35; } 50%{ opacity:1; } }
+
+  /* Bar rail — fixed 40px tall, hairline gold axis seats the bars */
+  .sc-slot .wf{
+    display:flex; align-items:flex-end; gap:3px;
+    width:100%; height:40px;
+    border-bottom:1px solid rgba(199,154,75,.20);
+  }
+
+  /* Bars — animate transform:scaleY only (compositor, never reflow).
+     Gradient fill: warm body, tip dissolves into the card. */
+  .sc-slot .wf-bar{
+    flex:1 1 0; min-width:0; align-self:stretch;
+    transform-origin:bottom center;
+    transform:scaleY(.4);                    /* resting / reduced-motion fallback */
+    background:linear-gradient(to top,
+      rgba(233,224,206,.14), rgba(233,224,206,.55));   /* dim cream, fading tip */
+    animation:wf-b 1.2s ease-in-out infinite;          /* overridden per bucket */
+  }
+
+  /* Organic desync via co-prime nth-child buckets — 3 shapes × 5 tempos × 7
+     phases (LCM 105 > 40 bars ⇒ no visible repeat). Negative delays start every
+     bar mid-cycle, so nothing "pops" synchronized on reveal. */
+  .sc-slot .wf-bar:nth-child(3n+1){ animation-name:wf-a; }
+  .sc-slot .wf-bar:nth-child(3n+2){ animation-name:wf-b; }
+  .sc-slot .wf-bar:nth-child(3n+3){ animation-name:wf-c; }
+
+  .sc-slot .wf-bar:nth-child(5n+1){ animation-duration:1.05s; }
+  .sc-slot .wf-bar:nth-child(5n+2){ animation-duration:1.35s; }
+  .sc-slot .wf-bar:nth-child(5n+3){ animation-duration:1.15s; }
+  .sc-slot .wf-bar:nth-child(5n+4){ animation-duration:1.55s; }
+  .sc-slot .wf-bar:nth-child(5n+5){ animation-duration:1.25s; }
+
+  .sc-slot .wf-bar:nth-child(7n+1){ animation-delay:-0.10s; }
+  .sc-slot .wf-bar:nth-child(7n+2){ animation-delay:-0.55s; }
+  .sc-slot .wf-bar:nth-child(7n+3){ animation-delay:-0.30s; }
+  .sc-slot .wf-bar:nth-child(7n+4){ animation-delay:-0.80s; }
+  .sc-slot .wf-bar:nth-child(7n+5){ animation-delay:-0.45s; }
+  .sc-slot .wf-bar:nth-child(7n+6){ animation-delay:-0.20s; }
+  .sc-slot .wf-bar:nth-child(7n+7){ animation-delay:-0.68s; }
+
+  /* Warm palette — cream/paper mass, periodic blood beat, sparing gold.
+     nth-child accents (0,3,0) outrank the base bar (0,2,0); among themselves
+     specificity is equal, so SOURCE ORDER decides shared positions — keep
+     blood/gold LAST so they win. At <=480px every 2nd bar is hidden; blood
+     (7,21,35) and gold (5,31) keep odd-position instances, so both accents
+     still show on phones. Never clinical white. */
+  .sc-slot .wf-bar:nth-child(4n+1){ background:linear-gradient(to top, rgba(233,224,206,.22), rgba(233,224,206,.82)); } /* brighter cream */
+  .sc-slot .wf-bar:nth-child(6n+3){ background:linear-gradient(to top, rgba(242,234,217,.30), rgba(242,234,217,.92)); } /* paper highlight (sparse) */
+  .sc-slot .wf-bar:nth-child(7n){   background:linear-gradient(to top, rgba(181,34,26,.30),  rgba(181,34,26,.92));  } /* BLOOD — every 7th, per reference */
+  .sc-slot .wf-bar:nth-child(13n+5){ background:linear-gradient(to top, rgba(199,154,75,.26), rgba(199,154,75,.85)); } /* GOLD — sparing (~2-3 bars) */
+
+  /* Bar motion shapes */
+  @keyframes wf-a{
+    0%,100%{ transform:scaleY(.16); }
+    22%    { transform:scaleY(.62); }
+    46%    { transform:scaleY(.30); }
+    70%    { transform:scaleY(.86); }
+    88%    { transform:scaleY(.40); }
+  }
+  @keyframes wf-b{
+    0%,100%{ transform:scaleY(.28); }
+    26%    { transform:scaleY(.90); }
+    54%    { transform:scaleY(.20); }
+    82%    { transform:scaleY(.64); }
+  }
+  @keyframes wf-c{
+    0%,100%{ transform:scaleY(.48); }
+    18%    { transform:scaleY(.22); }
+    42%    { transform:scaleY(.78); }
+    66%    { transform:scaleY(.34); }
+    90%    { transform:scaleY(.70); }
+  }
+
+  /* Freeze to a static, staggered equalizer skyline — still reads as a waveform
+     (never flat, never all-equal), zero animation — and stop the Live dot.
+     Matches the site's existing animation:none reduced-motion idiom. */
+  @media (prefers-reduced-motion:reduce){
+    /* !important so this beats the per-bar animation-name/-duration longhand
+       overrides above (which are more specific at (0,3,0)); matches the site's
+       existing .will-reveal reduced-motion idiom. Guarantees zero motion. */
+    .sc-slot .wf-bar{ animation:none !important; }
+    .sc-slot .wf-live-dot{ animation:none !important; opacity:.9; }
+    .sc-slot .wf-bar:nth-child(8n+1){ transform:scaleY(.30); }
+    .sc-slot .wf-bar:nth-child(8n+2){ transform:scaleY(.70); }
+    .sc-slot .wf-bar:nth-child(8n+3){ transform:scaleY(.45); }
+    .sc-slot .wf-bar:nth-child(8n+4){ transform:scaleY(.88); }
+    .sc-slot .wf-bar:nth-child(8n+5){ transform:scaleY(.52); }
+    .sc-slot .wf-bar:nth-child(8n+6){ transform:scaleY(.26); }
+    .sc-slot .wf-bar:nth-child(8n+7){ transform:scaleY(.64); }
+    .sc-slot .wf-bar:nth-child(8n+8){ transform:scaleY(.40); }
+  }
+
+  /* Tablet: slot is already full-width (poster is 1 col ≤960px), give the rail
+     a touch more air. Phone: 40 bars would become hairlines — hide every other
+     one (→ ~20 wider, elegant bars; blood/gold sit on odd positions so both
+     accents survive) and shrink the band. */
+  @media (max-width:960px){
+    .sc-slot .wf{ gap:4px; }
+  }
+  @media (max-width:480px){
+    .sc-slot .sc-analysis{ height:60px; }
+    .sc-slot .wf{ height:34px; gap:2px; }
+    .sc-slot .wf-bar:nth-child(2n){ display:none; }   /* 40 → ~20 wider bars */
+    .sc-slot .wf-cap{ font-size:7.5px; letter-spacing:.28em; }
+  }
+
   /* 16:9 iframe / placeholder well */
   .sc-slot .sc-frame{
     position:relative; width:100%; aspect-ratio: 16/9;

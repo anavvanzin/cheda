@@ -1,9 +1,15 @@
 (function(){
-  const labels=['FOGO INTERIOR','RITUAL','PRESENÇA · MOVIMENTO','FORÇA','HOUSE · TECHNO'];
+  // Three captions, kept in the upper hemisphere of the ring so they
+  // never cross the tagline / bio / booking link stacked underneath.
+  // Text + angle stay coupled in one list so neither can drift out of sync.
+  const captions=[
+    { txt:'FOGO INTERIOR',  angle:-90 },
+    { txt:'HOUSE · TECHNO', angle:-150 },
+    { txt:'RITUAL',         angle:-30 },
+  ];
   const ring=document.getElementById('orbit-ring');
   if(!ring) return;
-  labels.forEach((txt,i)=>{
-    const angle=(i/labels.length)*360 - 90;
+  captions.forEach(({txt,angle})=>{
     const rad=angle*Math.PI/180;
     const r=50;
     const x=50+r*Math.cos(rad);
