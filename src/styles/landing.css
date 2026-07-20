@@ -205,8 +205,8 @@
   .reel{ position:relative; width:100%; overflow:hidden; background:var(--ink);
     height:clamp(340px, 60vh, 660px); }
   .reel-video{ position:absolute; inset:0; width:100%; height:100%;
-    object-fit:cover; display:block;
-    filter:grayscale(1) contrast(1.05) brightness(.6); }
+    object-fit:cover; object-position:50% 46%; display:block;
+    filter:grayscale(1) contrast(1.04) brightness(.68); }
   .reel-shade{ position:absolute; inset:0; pointer-events:none;
     background:
       linear-gradient(180deg, var(--ink) 0%, rgba(14,11,10,.28) 24%,
