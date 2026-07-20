@@ -82,6 +82,21 @@ const posterTags = ['DJ', genreLabel, siteContent.location.displayShort].join(' 
     </div>
   </section>
 
+  <!-- SHADED REEL — muted, grayscale, darkened loop in its own band.
+       Plays only when in view and motion is allowed (reel.js); falls back to
+       the poster still. Drop /assets/reel.mp4 in to light it up. -->
+  <section class="reel" aria-label="Reel">
+    <video class="reel-video" muted loop playsinline preload="none"
+           poster="/assets/foto-editorial.jpg" aria-hidden="true">
+      <source src="/assets/reel.mp4" type="video/mp4">
+    </video>
+    <div class="reel-shade" aria-hidden="true"></div>
+    <div class="reel-cap will-reveal">
+      <span class="kicker">Reel · Loop</span>
+      <em class="reel-tag">som que invoca</em>
+    </div>
+  </section>
+
   <!-- VHS TRACKING SEAM -->
   <section class="seam" aria-label="Ritual → Poster tracking transition">
     <div class="seam-kicker will-reveal">▶ play · vhs · 3a → 3b · tracking</div>

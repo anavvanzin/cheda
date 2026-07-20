@@ -198,6 +198,31 @@
     .ed-shot{ flex:0 0 68%; scroll-snap-align:start; }
   }
 
+  /* ═══════════ SHADED REEL — atmospheric video band ═══════════
+     Full-bleed muted loop, graded to grayscale and darkened so it sits back
+     into the warm-black palette; the shade layer melts its top and bottom
+     edges into the page so it reads as atmosphere, not a dropped-in clip. */
+  .reel{ position:relative; width:100%; overflow:hidden; background:var(--ink);
+    height:clamp(340px, 60vh, 660px); }
+  .reel-video{ position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; display:block;
+    filter:grayscale(1) contrast(1.05) brightness(.6); }
+  .reel-shade{ position:absolute; inset:0; pointer-events:none;
+    background:
+      linear-gradient(180deg, var(--ink) 0%, rgba(14,11,10,.28) 24%,
+        rgba(14,11,10,.28) 76%, var(--ink) 100%),
+      radial-gradient(130% 84% at 50% 46%, transparent 38%, rgba(14,11,10,.62)); }
+  .reel-shade::after{ content:''; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,.045) 1px, transparent 1.4px);
+    background-size:3px 3px; mix-blend-mode:overlay; opacity:.55; }
+  .reel-cap{ position:absolute; left:clamp(22px,5vw,60px);
+    bottom:clamp(20px,4vh,42px); z-index:2;
+    display:flex; flex-direction:column; gap:8px; }
+  .reel .kicker{ font-family:var(--display-font); font-weight:500; font-size:9px;
+    letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+  .reel-tag{ font-family:var(--serif-font); font-style:italic;
+    font-size:clamp(18px,2.4vw,30px); color:var(--paper); letter-spacing:.01em; }
+
   /* ═══════════ VHS TRACKING SEAM ═══════════
      Real VHS-tracking-error vocabulary, not generic "glitch":
 
