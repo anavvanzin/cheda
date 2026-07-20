@@ -2,12 +2,10 @@
 import { siteContent } from '../data/site';
 
 const soundcloudEmbedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComponent(siteContent.contact.soundcloudUrl)}&color=%23B5221A&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`;
-const posterTags = [
-  'DJ',
-  ...siteContent.editorial.genres.map((genre) =>
-    genre.replace(/\b\w/g, (character) => character.toUpperCase())),
-  siteContent.location.displayShort,
-].join(' · ');
+const genreLabel = siteContent.editorial.genres
+  .map((genre) => genre.replace(/\b\w/g, (character) => character.toUpperCase()))
+  .join(' · ');
+const posterTags = ['DJ', genreLabel, siteContent.location.displayShort].join(' · ');
 ---
 
 <!-- Custom cursor layers — hidden on touch/coarse via cursor.css -->
@@ -33,35 +31,34 @@ const posterTags = [
 <main class="spread">
   <h1 class="sr-only">{siteContent.site.defaultTitle}</h1>
 
-  <!-- 3a RITUAL -->
-  <section class="ritual" aria-label="3a Ritual">
-    <svg class="rings" viewBox="0 0 794 1123" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="397" cy="620" r="180" fill="none" stroke="#B5221A" stroke-width="1.4"/>
-      <circle cx="397" cy="620" r="270" fill="none" stroke="#E9E0CE" stroke-width="1.1"/>
-      <circle cx="397" cy="620" r="370" fill="none" stroke="#C79A4B" stroke-width=".9"/>
-      <circle cx="397" cy="620" r="480" fill="none" stroke="#E9E0CE" stroke-width=".7"/>
-      <circle cx="397" cy="620" r="600" fill="none" stroke="#B5221A" stroke-width=".55"/>
-      <circle cx="397" cy="620" r="730" fill="none" stroke="#E9E0CE" stroke-width=".4"/>
-    </svg>
-
+  <!-- HERO — hollow, interlocking wordmark (the whole first screen) -->
+  <section class="ritual" aria-label={siteContent.identity.stageName}>
     <div class="r-header will-reveal will-reveal-delay-1">
-      <div class="brand">
-        <img class="brand-logo" src="/assets/logo-cheda-white-alpha.png" alt={siteContent.identity.stageName} width="246" height="65">
-        <span class="sr">CHÊDA</span>
-      </div>
-      <span class="kicker">Digital Press Kit · 2026 · 3a Ritual</span>
+      <span class="kicker">Digital Press Kit · 2026</span>
     </div>
-
-    <div class="orbit-ring" id="orbit-ring" aria-hidden="true"></div>
 
     <div class="r-title will-reveal will-reveal-delay-2">
-        <span class="r-name">{siteContent.identity.stageName}</span>
+      <span class="r-name">{siteContent.identity.stageName}</span>
+      <span class="r-sub">
         <em class="r-serif">{siteContent.identity.artistName}</em>
-        <div class="r-tagline">{siteContent.editorial.tagline}</div>
-        <p class="r-lead">{siteContent.editorial.officialShortBio}</p>
-        <a class="r-booking" href={`${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`}>booking · {siteContent.contact.bookingEmail}</a>
+        <span class="r-tagline">{siteContent.editorial.tagline}</span>
+      </span>
     </div>
+  </section>
 
+  <!-- ARTIST — portrait now lives in its own section, below the hero -->
+  <section class="artist" aria-label={siteContent.identity.artistName}>
+    <div class="artist-portrait will-reveal">
+      <img src="/assets/portrait-ritual.jpg"
+           alt={`${siteContent.identity.artistName} — retrato editorial`}
+           width="1080" height="1080" loading="lazy" decoding="async">
+    </div>
+    <div class="artist-copy will-reveal will-reveal-delay-1">
+      <span class="kicker">DJ · {siteContent.location.displayShort}</span>
+      <em class="artist-name">{siteContent.identity.artistName}</em>
+      <p>{siteContent.editorial.officialShortBio}</p>
+      <a class="booking-link" href={`${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`}>booking · {siteContent.contact.bookingEmail}</a>
+    </div>
   </section>
 
   <!-- VHS TRACKING SEAM -->
@@ -140,15 +137,6 @@ const posterTags = [
     </div>
   </section>
 
-  <!-- SHARED PORTRAIT -->
-  <div class="portrait-shared" aria-hidden="true">
-    <div class="plate">
-      <img src="/assets/portrait-poster.jpg" alt="">
-    </div>
-    <div class="circle">
-      <img src="/assets/portrait-ritual.jpg" alt={`${siteContent.identity.artistName} — retrato editorial`}>
-    </div>
-  </div>
 </main>
 
 <!-- ═══ SITE FOOTER (blackletter signature) ═══ -->

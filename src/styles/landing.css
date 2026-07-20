@@ -95,102 +95,73 @@
     50%{     opacity:.56; transform:translateY(-6px) scale(1.012); }
   }
 
-  .spread{ position:relative; z-index:1; width:100%; display:grid;
-    /* z-index:1 keeps all real content above the ambient silhouette (z-0)
-      Ritual: capped so tall screens don't sprout vertical whitespace
-      Seam:   VHS transition is a passage, not a room — keep it lean
-      Poster: intrinsic; content decides the height
-    */
-    grid-template-rows:
-      min(720px, 82vh)
-      min(340px, 36vh)
-      auto;
-  }
+  /* Normal block flow now — sections size themselves. z-index:1 keeps all real
+     content above the ambient silhouette (z-0). The hero owns the first screen;
+     the artist / seam / poster sections stack beneath it. */
+  .spread{ position:relative; z-index:1; width:100%; }
 
-  /* ═══════════ RITUAL ═══════════ */
-  .ritual{ position:relative; overflow:hidden;
-    padding:clamp(24px,4vw,64px) clamp(20px,4vw,60px);
+  /* ═══════════ HERO — interlocking hollow wordmark ═══════════
+     The whole first screen: a big geometric CHÊDA drawn as a hairline outline
+     with heavy negative tracking, so the letters overlap and their strokes
+     weave through each other. Everything else (portrait, bio, sets, sound)
+     lives below the fold — the wordmark breathes here on its own. */
+  .ritual{ position:relative; overflow:hidden; min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:clamp(72px,12vh,132px) clamp(20px,5vw,60px);
     background:var(--ink);
   }
-  .ritual .r-header{ position:relative; z-index:12;
-    display:flex; justify-content:space-between; align-items:center;
-    gap:16px; flex-wrap:wrap; }
-  .ritual .brand{ display:flex; align-items:center; gap:14px; }
-  /* Official Chêda logotype PNG — white alpha, sits inline as brand mark. */
-  .ritual .brand-logo{
-    height:22px; width:auto; display:block;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,.4));
-  }
-  .ritual .brand .sr{ position:absolute; left:-9999px; }
+  .ritual .r-header{ position:absolute; top:clamp(18px,3vh,28px); left:clamp(20px,4vw,42px);
+    z-index:12; }
   .ritual .kicker{ font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
 
-  .rings{ position:absolute; inset:0; z-index:1; pointer-events:none;
-    transform:translate3d(
-      calc(var(--amb-mx, 0) * 12px),
-      calc(var(--amb-my, 0) * 8px + var(--amb-sy, 0) * -0.14px),
-      0
-    );
-    will-change:transform;
-  }
-  @keyframes ring-pulse{ 0%,100%{opacity:.14;} 50%{opacity:.44;} }
-  .rings circle{ animation: ring-pulse 3s ease-in-out infinite; }
-  .rings circle:nth-child(1){ animation-delay: 0s; }
-  .rings circle:nth-child(2){ animation-delay: .25s; }
-  .rings circle:nth-child(3){ animation-delay: .5s; }
-  .rings circle:nth-child(4){ animation-delay: .75s; }
-  .rings circle:nth-child(5){ animation-delay: 1s; }
-  .rings circle:nth-child(6){ animation-delay: 1.25s; opacity:.09; }
-  @media (prefers-reduced-motion:reduce){ .rings circle{ animation:none; } }
-
-  .orbit-ring{ position:absolute; left:50%; top:64%;
-    transform:translate(-50%,-50%);
-    width:min(560px, 78vw); aspect-ratio:1; z-index:8; pointer-events:none; }
-  .orbit-caption{ position:absolute;
-    font-family:var(--display-font); font-weight:500;
-    font-size:9px; letter-spacing:.32em; text-transform:uppercase;
-    color:rgba(233,224,206,.55); white-space:nowrap; }
-
-  .r-title{ position:absolute; bottom:14%; left:0; right:0;
-    text-align:center; z-index:9; padding:0 16px; }
-  .r-name{ font-family:var(--display-font); font-weight:500;
-    font-size:clamp(48px,10vw,96px); letter-spacing:.01em;
-    color:transparent; -webkit-text-stroke:1.5px var(--paper);
-    line-height:1; display:inline-block;
-    /* Stays hollow on hover so the portrait keeps showing through the
-       letters — only the outline warms from paper to blood. */
-    transition:-webkit-text-stroke-color .5s cubic-bezier(.23,1,.32,1); }
+  .r-title{ position:relative; z-index:9;
+    display:flex; flex-direction:column; align-items:center; }
+  /* The hairline, overlapping wordmark. Negative tracking pulls the glyphs into
+     each other; the trailing padding gives back the advance the last letter
+     loses so the whole mark stays optically centred. */
+  .r-name{ font-family:var(--wordmark-font); font-weight:200;
+    font-size:clamp(3.4rem,20vw,15rem); line-height:1;
+    letter-spacing:-.20em; padding-right:.20em;
+    color:transparent; -webkit-text-stroke:1.25px var(--paper);
+    white-space:nowrap;
+    transition:-webkit-text-stroke-color .6s cubic-bezier(.23,1,.32,1); }
   .r-name:hover{ -webkit-text-stroke-color:var(--blood); }
-  .r-serif{ display:block; margin-top:10px;
+  .r-sub{ margin-top:clamp(26px,4.5vh,52px); }
+  .r-serif{ display:block;
     font-family:var(--serif-font); font-style:italic;
-    font-size:clamp(14px,1.6vw,18px); color:var(--gold); letter-spacing:.02em; }
-  .r-tagline{ margin-top:10px;
+    font-size:clamp(15px,1.8vw,21px); color:var(--gold); letter-spacing:.02em; }
+  .r-tagline{ display:block; margin-top:10px;
     font-family:var(--display-font); font-weight:500;
     font-size:9px; letter-spacing:.42em; text-transform:uppercase;
-    color:rgba(181,34,26,.85); }
-  .r-lead{ max-width:46ch; margin:18px auto 0;
-    font-size:clamp(12px,1.2vw,15px); line-height:1.55;
-    color:rgba(233,224,206,.82); }
-  .r-booking{ display:inline-block; margin-top:14px;
+    color:rgba(181,34,26,.9); }
+
+  /* ═══════════ ARTIST — portrait + bio (below the hero) ═══════════ */
+  .artist{ position:relative; z-index:1; background:var(--ink);
+    display:grid; grid-template-columns:minmax(0,300px) 1fr;
+    gap:clamp(28px,5vw,64px); align-items:center;
+    max-width:1080px; margin:0 auto;
+    padding:clamp(56px,10vh,120px) clamp(24px,5vw,60px); }
+  .artist-portrait img{ width:100%; aspect-ratio:1; object-fit:cover;
+    object-position:52% 30%; border-radius:50%;
+    border:2px solid rgba(181,34,26,.5);
+    box-shadow:0 0 0 1px rgba(199,154,75,.3),
+      0 0 60px rgba(181,34,26,.22), inset 0 0 40px rgba(0,0,0,.5);
+    filter:contrast(1.08) brightness(.98); }
+  .artist-copy .kicker{ font-family:var(--display-font); font-weight:500;
+    font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+  .artist-name{ display:block; margin:12px 0 18px;
+    font-family:var(--serif-font); font-style:italic;
+    font-size:clamp(24px,3.4vw,40px); color:var(--paper); letter-spacing:.01em; }
+  .artist-copy p{ font-family:var(--body-font);
+    font-size:clamp(13px,1.2vw,15px); line-height:1.7; color:var(--soft);
+    max-width:52ch; margin:0; }
+  .booking-link{ display:inline-block; margin-top:20px;
     font-family:var(--display-font); font-size:10px; letter-spacing:.16em;
     text-transform:uppercase; color:var(--paper);
     border-bottom:1px solid rgba(199,154,75,.65); padding-bottom:4px; }
-  .r-booking:hover{ color:var(--gold); border-color:var(--gold); }
-
-  .sets-row{ position:absolute; bottom:3%; left:5%; right:5%;
-    display:grid; grid-template-columns:repeat(3,1fr); gap:8px; z-index:10; }
-  .set-card{ background:rgba(14,11,10,.82); border:1px solid var(--gold);
-    padding:10px 12px; backdrop-filter:blur(6px);
-    transform-origin:50% 50%; }
-  .set-card:nth-child(odd){ transform:rotate(var(--tA)); }
-  .set-card:nth-child(even){ transform:rotate(var(--tB)); }
-  .set-card .num{ font-family:var(--display-font); font-weight:500;
-    font-size:20px; color:var(--blood); line-height:1; }
-  .set-card .name{ font-family:var(--display-font); font-weight:500;
-    font-size:10px; letter-spacing:.04em; text-transform:uppercase;
-    color:var(--paper); margin-top:4px; }
-  .set-card .meta{ font-size:8.5px; letter-spacing:.12em;
-    color:var(--soft); margin-top:2px; }
+  .booking-link:hover{ color:var(--gold); border-color:var(--gold); }
 
   /* ═══════════ VHS TRACKING SEAM ═══════════
      Real VHS-tracking-error vocabulary, not generic "glitch":
@@ -208,6 +179,8 @@
      L8  timecode-style kickers top/bottom
   */
   .seam{ position:relative; overflow:hidden; isolation:isolate;
+    /* Explicit height now that .spread is normal flow (was a grid row). */
+    height:min(320px, 34vh);
     background:
       radial-gradient(80% 40% at 50% 50%, rgba(120,140,93,.08), transparent 70%),
       linear-gradient(180deg,
@@ -373,7 +346,7 @@
   @media (prefers-reduced-motion:reduce){
     .site-silhouette{ transform:none !important; }
     .site-silhouette img{ animation:none !important; transform:none !important; }
-    .rings, .grain, .portrait-shared .circle{ transform:none !important; }
+    .grain, .artist-portrait img{ transform:none !important; }
     .will-reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
   }
 
@@ -738,47 +711,6 @@
   /* Old .poster-foot no longer used — kept as no-op to avoid legacy CSS hits */
   .poster-foot{ display:none; }
 
-  /* ═══════════ RITUAL PORTRAIT (embedded, not shared) ═══════════
-     In the compressed spread landing, the shared portrait created too
-     much overlap with the sets row + the ritual wordmark. Cleaner:
-     place a modest circular portrait inside the ritual section only,
-     let the type wall on the poster side carry the visual weight.
-     The rectangular plate lives in /print/poster for the A4 print. */
-  /* Portrait is absolutely positioned relative to .spread. Ritual section
-     is min(720px, 82vh), so place the portrait CENTER at ~44% of that. */
-  .portrait-shared{
-    position:absolute; z-index:8;
-    left:50%;
-    top: calc(min(720px, 82vh) * 0.44);
-    transform:translate(-50%, -50%);
-    width:min(220px, 26vw);
-    aspect-ratio:1;
-    pointer-events:none;
-  }
-  .portrait-shared .circle{
-    position:absolute; inset:0;
-    border-radius:50%; overflow:hidden;
-    border:2px solid rgba(181,34,26,.55);
-    box-shadow:
-      0 0 0 1px rgba(199,154,75,.35),
-      0 0 60px rgba(181,34,26,.28),
-      inset 0 0 40px rgba(0,0,0,.55);
-    z-index:2;
-    transform:translate3d(
-      calc(var(--amb-mx, 0) * 10px),
-      calc(var(--amb-my, 0) * 6px + var(--amb-sy, 0) * -0.05px),
-      0
-    );
-    will-change:transform;
-  }
-  .portrait-shared .circle img{
-    width:100%; height:100%; object-fit:cover;
-    object-position:52% 30%;
-    filter:contrast(1.1) brightness(.98);
-  }
-  /* Plate ghost hidden on the compressed landing — lives in /print/poster */
-  .portrait-shared .plate{ display:none; }
-
   /* ═══════════ RESPONSIVE ═══════════ */
   @media (max-width:960px){
     /* Poster colapsa em 1 coluna. Type-wall vira decoração de fundo
@@ -799,23 +731,18 @@
     .site-silhouette{ width:clamp(150px, 42vw, 240px); opacity:.36;
       max-height:56vh; }
     .site-silhouette img{ max-height:56vh; }
-    .spread{ grid-template-rows:
-      min(560px, 80vh)
-      min(240px, 28vh)
-      auto; }
-    .portrait-shared{ width:min(190px, 40vw); top: calc(min(560px, 80vh) * 0.42); }
-    .r-title{ bottom:20%; }
+    /* Artist section stacks: portrait centred above the copy. */
+    .artist{ grid-template-columns:1fr; justify-items:center; text-align:center;
+      gap:clamp(24px,6vw,40px); }
+    .artist-portrait{ width:min(220px, 60vw); }
+    .artist-copy p{ margin-inline:auto; }
     .tw-word{ font-size: clamp(52px, 14vw, 88px); }
   }
   @media (max-width:480px){
     .site-silhouette{ width:clamp(130px, 44vw, 190px); opacity:.3; }
-    .spread{ grid-template-rows:
-      min(520px, 78vh)
-      min(200px, 24vh)
-      auto; }
-    .r-header .kicker{ display:none; }
-    .r-title{ bottom:18%; }
-    .portrait-shared{ width:min(160px, 42vw); top: calc(min(520px, 78vh) * 0.40); }
+    /* Hero: drop the top kicker so the wordmark owns the whole screen and
+       nothing crowds the switcher / reopen controls. */
+    .ritual .r-header{ display:none; }
     .seam-word .word{ font-size:clamp(56px, 18vw, 120px); }
     .site-footer .foot-signature{ max-width: 220px; }
   }
