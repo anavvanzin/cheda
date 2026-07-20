@@ -61,6 +61,27 @@ const posterTags = ['DJ', genreLabel, siteContent.location.displayShort].join(' 
     </div>
   </section>
 
+  <!-- EDITORIAL — press photo gallery (swipeable on phones) -->
+  <section class="editorial" aria-label="Editorial">
+    <div class="editorial-head will-reveal">
+      <span class="kicker">Editorial · Press</span>
+    </div>
+    <div class="editorial-grid">
+      <figure class="ed-shot will-reveal">
+        <img src="/assets/foto-editorial.jpg" alt={`${siteContent.identity.artistName} — editorial`}
+             width="1080" height="1440" loading="lazy" decoding="async">
+      </figure>
+      <figure class="ed-shot will-reveal will-reveal-delay-1">
+        <img src="/assets/foto-lattice.jpg" alt={`${siteContent.identity.artistName} — editorial`}
+             width="1080" height="1440" loading="lazy" decoding="async">
+      </figure>
+      <figure class="ed-shot will-reveal will-reveal-delay-2">
+        <img src="/assets/foto-steps.jpg" alt={`${siteContent.identity.artistName} — editorial`}
+             width="1080" height="1440" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
   <!-- VHS TRACKING SEAM -->
   <section class="seam" aria-label="Ritual → Poster tracking transition">
     <div class="seam-kicker will-reveal">▶ play · vhs · 3a → 3b · tracking</div>

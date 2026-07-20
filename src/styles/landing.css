@@ -163,6 +163,40 @@
     border-bottom:1px solid rgba(199,154,75,.65); padding-bottom:4px; }
   .booking-link:hover{ color:var(--gold); border-color:var(--gold); }
 
+  /* ═══════════ EDITORIAL — press gallery ═══════════
+     The editorial shots that used to live only on the press-kit now feature on
+     the landing too: a triptych on desktop, a swipeable strip on phones. */
+  .editorial{ position:relative; z-index:1; background:var(--ink);
+    max-width:1080px; margin:0 auto;
+    padding:clamp(16px,4vh,40px) clamp(24px,5vw,60px) clamp(56px,10vh,110px); }
+  .editorial-head{ margin-bottom:clamp(16px,3vh,26px); }
+  .editorial .kicker{ font-family:var(--display-font); font-weight:500;
+    font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+  .editorial-grid{ display:grid; grid-template-columns:repeat(3,1fr);
+    gap:clamp(10px,1.6vw,18px); }
+  .ed-shot{ margin:0; position:relative; overflow:hidden;
+    border:1px solid rgba(199,154,75,.22); background:#0b0908; }
+  .ed-shot img{ width:100%; aspect-ratio:3/4; object-fit:cover; display:block;
+    filter:contrast(1.06) saturate(1.02) brightness(.96);
+    transition:transform .8s cubic-bezier(.22,1,.36,1), filter .6s ease; }
+  .ed-shot:hover img{ transform:scale(1.04);
+    filter:contrast(1.1) saturate(1.08) brightness(1); }
+  /* blood keyline sweeps in on hover, echoing the site accent */
+  .ed-shot::after{ content:''; position:absolute; inset:0; pointer-events:none;
+    box-shadow:inset 0 0 0 1px rgba(181,34,26,0); transition:box-shadow .5s ease; }
+  .ed-shot:hover::after{ box-shadow:inset 0 0 0 2px rgba(181,34,26,.55); }
+  @media (prefers-reduced-motion:reduce){
+    .ed-shot img{ transition:none; } .ed-shot:hover img{ transform:none; }
+  }
+  /* Phones: swipeable scroll-snap strip so the photos stay large. The strip
+     scrolls inside its own box, so the page never scrolls sideways. */
+  @media (max-width:600px){
+    .editorial-grid{ display:flex; grid-template-columns:none;
+      gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch; padding-bottom:8px; }
+    .ed-shot{ flex:0 0 68%; scroll-snap-align:start; }
+  }
+
   /* ═══════════ VHS TRACKING SEAM ═══════════
      Real VHS-tracking-error vocabulary, not generic "glitch":
 
