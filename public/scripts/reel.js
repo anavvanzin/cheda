@@ -10,7 +10,9 @@
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return;                       // stay on the poster; no motion
 
-  if (!('IntersectionObserver' in window)) { v.play().catch(function () {}); return; }
+  // No way to tell when the band is on screen → stay on the poster rather than
+  // autoplay a clip that lives well below the fold.
+  if (!('IntersectionObserver' in window)) return;
 
   // Play only once at least 25% of the band is on screen; pause below that.
   // Gate on intersectionRatio (isIntersecting is true at a single pixel, which
