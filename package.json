@@ -12,6 +12,6 @@
     "test:dist": "node --test tests/static-build.test.mjs"
   },
   "dependencies": {
-    "astro": "^5.12.0"
+    "astro": "^6.4.6"
   }
 }
