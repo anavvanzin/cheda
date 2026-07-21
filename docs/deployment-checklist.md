@@ -1,41 +1,36 @@
 # Deployment checklist
 
-GitHub Pages is the only canonical repository deployment target for
-`patriciacheda.com`. The contract requires Cloudflare to provide DNS/proxy only;
-Vercel is legacy infrastructure. The repository verifies the static artifact,
-not the current external dashboard state. This checklist separates those
-guarantees from external actions that require an explicit manual handoff.
+GitHub is the source of truth and the Vercel project `cheda` is the canonical
+deployment target for `patriciacheda.com`.
 
-## Repository checks already automated
+## Automated path
 
-The repository and `.github/workflows/deploy-pages.yml` already enforce these
-checks. `npm test` builds `dist/` and verifies the same static contract before
-the Pages artifact is uploaded.
+- Pull requests to `main` run `.github/workflows/ci.yml` and receive a Vercel
+  Preview Deployment.
+- Pushes to `main` run the same static checks and trigger a Vercel Production
+  Deployment.
+- `npm test` builds `dist/`, verifies every public route, metadata, media
+  budget, accessibility landmark and script mirror.
+- `vercel.json` owns production redirects and security headers.
+- The built artifact contains no Cloudflare Worker runtime.
 
-- `npm test` completes successfully.
-- Pull requests to `main` build and test without deploying; pushes to `main`
-  build, test, and deploy through GitHub Pages.
-- `dist/CNAME` exists and contains exactly `patriciacheda.com`.
-- Required static routes exist: `/`, `/press-kit`, `/print/ritual`,
-  `/print/poster`, `/print/morph`, and the `/print/spread` redirect artifact.
-- The built artifact contains no Cloudflare Worker runtime; the forbidden files
-  `dist/_worker.js`, `dist/_routes.json`, and `dist/_redirects` do not exist.
+## Preview review
 
-## Manual dashboard checks — not completed by this change
+- [ ] Open the Preview Deployment from the pull request.
+- [ ] Review `/` at 1440×900 and 390×844.
+- [ ] Confirm the short first-visit opening, then use `↺ Abertura` to watch the
+  complete film.
+- [ ] Test “Ouvir”, “Fotos”, “Press kit” and “Booking”.
+- [ ] Confirm the SoundCloud widget loads and the booking email opens the mail
+  client.
+- [ ] Check `/press-kit` and the three `/print/*` routes.
 
-The repository does not verify the current DNS, proxy, Worker-route,
-Worker-build, or Vercel dashboard state. The items below are external, manual,
-and reversible. None is authorized or marked complete by this repository
-change. Record the current dashboard state before changing it so each action
-can be restored if necessary.
+## Production and rollback
 
-- [ ] In Cloudflare DNS, confirm that the records for `patriciacheda.com` point
-  to GitHub Pages and that Cloudflare is acting only as DNS/proxy. Reversal:
-  restore the recorded DNS targets and proxy state.
-- [ ] In Cloudflare Workers, check for any Worker route or Worker build attached
-  to `patriciacheda.com`; disable it if present. Reversal: re-enable the recorded
-  route/build configuration.
-- [ ] In Vercel, first confirm that the legacy preview at
-  `cheda-six.vercel.app` is no longer needed; only then disconnect Git
-  auto-deploy. Reversal: reconnect the repository/integration using the recorded
-  project settings.
+- [ ] Merge only after preview approval and green CI.
+- [ ] Confirm the resulting Production Deployment is `READY` and assigned to
+  `patriciacheda.com`.
+- [ ] If production regresses, use Vercel's rollback/promote flow to restore the
+  previous READY deployment, then fix forward through a new branch.
+- [ ] Keep the unused `cheda-site` Vercel project detached from the domain so it
+  cannot compete with `cheda`.

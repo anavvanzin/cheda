@@ -1,6 +1,6 @@
 # CHÊDA — Design System & Development Prompt
 
-**Version 1.0 · July 2026 · Patrícia Chêda / Digital Press Kit**
+**Version 1.1 · July 2026 · Patrícia Chêda / Digital Press Kit**
 
 > Este documento é dupla função:
 > 1. **Referência de design** para humanos que forem editar o repositório
@@ -10,8 +10,8 @@
 
 ## 0 · Contexto do projeto
 
-**Artista**: Patrícia Chêda — DJ e selectora, radicada em Florianópolis, SC.
-Techno, tech house, noise. Sets densos e hipnóticos, sem playlist fixa.
+**Artista**: Patrícia Chêda — DJ e seletora, radicada em Florianópolis, SC.
+House Music e Techno, com pesquisa contínua e presença magnética de pista.
 
 **Manifesto artístico** (voz da artista, preservar sem reescrever):
 > "Uma apresentação que transforma **música em movimento** e movimento em unidade. No meu projeto de DJ, ofereço mais do que música: um encontro de vibrações, uma troca de energia. O que sentimos juntos não é apenas ritmo — é pulsação. Aqui, cada batida ecoa o pulsar da própria vida."
@@ -19,16 +19,16 @@ Techno, tech house, noise. Sets densos e hipnóticos, sem playlist fixa.
 **Tagline curta**: *som que invoca · cada set é um ritual*
 
 **Contato**:
-- Email: `patriciavchedach@gmail.com`
+- Email: `booking@patriciacheda.com`
 - Instagram: [@patriciacheda_](https://www.instagram.com/patriciacheda_/)
 - SoundCloud: [soundcloud.com/patriciacheda](https://soundcloud.com/patriciacheda)
 
 **Deploy**:
-- Repo: `github.com/anavvanzin/cheda` (privado)
-- Deploy canônico único do repositório: **GitHub Pages**, via `.github/workflows/deploy-pages.yml`
-- Domínio canônico: **`https://patriciacheda.com`** (`public/CNAME`); por contrato, Cloudflare deve atuar apenas como DNS/proxy
-- Artefato verificado: o build estático não contém runtime nem arquivos de Cloudflare Worker; o estado externo do painel não é presumido
-- Vercel legado: `cheda-six.vercel.app` (não é destino de deploy — OG/links apontam para o domínio custom)
+- Repo: `github.com/anavvanzin/cheda` (público)
+- Deploy canônico: projeto **`cheda` no Vercel**, conectado à branch `main`
+- Pull requests/branches: Vercel Preview Deployment; `main`: Production Deployment
+- Domínio canônico: **`https://patriciacheda.com`**
+- GitHub Actions (`.github/workflows/ci.yml`) valida o build, mas não publica uma segunda produção
 
 ---
 
@@ -40,7 +40,7 @@ O projeto tem um nome interno que resume a atitude: **"straightforward and impre
 - **Preto e vermelho, mas criativo.** Nunca cair em "cartaz de festa techno anos 2000". Elegância + peso, não força bruta.
 - **Nome real acima de marca.** Ela é *Patrícia Chêda*. Uma vez tentamos "CHDX" como abreviação — foi rejeitado. O logotipo dela escreve **CHÊDA**, com Ê. Nunca CHDX.
 - **Nada de dados inventados.** Setlists, títulos de faixas, minutagens — só existem se a usuária confirmou. Não preencher com placeholder plausível.
-- **A landing é a porta, não o museu.** Uma tela (2-2.3 telas de scroll no máximo), três rotas claras. Toda densidade de informação técnica mora em páginas de "print" (A4 layouts).
+- **A landing é a porta, não o museu.** Cada tela tem uma ideia dominante e a sequência pública é inequívoca: identidade, artista, escuta, imagem e booking. A densidade técnica continua nas páginas de press kit/print.
 
 ### Anti-padrões (o que evitamos, aprendido de tentativas rejeitadas)
 
@@ -48,7 +48,7 @@ O projeto tem um nome interno que resume a atitude: **"straightforward and impre
 |---|---|
 | Oswald bold | Comprimido demais, "techno anos 2000" |
 | Letter-spacing largo (`.14em+`) em display | Calibrado pra fontes comprimidas — no Montserrat vira "sparse and preachy" |
-| Hierarquia com 5+ seções (bio, fotos, mixes, contact, decide, etc) empilhadas na landing | Faz a landing perder o impacto do morph/spread |
+| Seções duplicadas ou sem função de decisão | Alongam a landing sem ajudar contratantes; cada bloco precisa responder a uma pergunta pública |
 | Set cards inventados como placeholder | Parece profissional mas mente |
 | Cross-fade genérico entre 3a e 3b | Chamamos de "morph" numa iteração; foi ok mas o **VHS tracking error seam** é a linguagem que se firmou |
 | RGB-split simétrico como "glitch" | Vira aparência de screen-tear datamoshing, não VHS. VHS é *chroma lag assimétrico* (vermelho +6px direita, cyan -3px esquerda) |
@@ -165,7 +165,7 @@ Os três layouts A4 (`print/ritual`, `print/poster`, `print/morph`) recebem só 
 
 ```
 cheda/
-├── src/pages/index.astro    ← LANDING. Ritual → VHS seam → Poster
+├── src/pages/index.astro    ← LANDING. Hero → artista → VHS → escuta → imagem → booking
 ├── src/pages/press-kit.astro
 ├── src/pages/print/         ← ritual / poster / morph (A4)
 ├── src/styles/
@@ -175,34 +175,26 @@ cheda/
 │   ├── print.css            ← Skin dos A4
 │   └── press-kit.css        ← Press kit multi-folha
 ├── public/assets/           ← Portraits, logos, favicon/PWA
-├── vercel.json              ← LEGACY only (cheda-six.vercel.app); Pages ignores this
-├── .github/workflows/deploy-pages.yml  ← deploy canônico → GitHub Pages
+├── vercel.json              ← redirects e headers do deploy canônico
+├── .github/workflows/ci.yml ← validação de build/teste (sem deploy)
 └── DESIGN_SYSTEM.md         ← este arquivo
 ```
 
 ### A landing (`/index.html`)
 
-Estrutura em três seções empilhadas, com portrait circular apenas na Ritual:
+Estrutura pública orientada a contratantes:
 
-1. **Ritual** — `min(720px, 82vh)`
-   - Header: logo oficial (esquerda) + kicker "Digital Press Kit · 2026 · 3a Ritual" (direita)
-   - Rings SVG concêntricos, ring-pulse staggered 3s
-   - Portrait circular centrado (embedded, não shared)
-   - Orbit captions curvadas em torno do portrait (JavaScript trig-placement)
-   - Wordmark "CHÊDA" gigante em Montserrat
-   - Subtítulo italic Cormorant "Patrícia Chêda"
-   - Tagline blood: "som que invoca · cada set é um ritual"
+1. **Hero** — primeiro viewport inteiro
+   - CHÊDA vazado monumental, função, gêneros e localização.
+   - CTA primário “Consultar disponibilidade”; CTA secundário “Ouvir agora”.
+   - Navegação pública: Ouvir, Fotos, Press kit e Booking.
+2. **Artista** — retrato editorial retangular, bio oficial curta, fatos rápidos e link para o press kit.
+3. **VHS Tracking Seam** — assinatura de transição preservada; ver seção 4.
+4. **Escuta** — contexto curto + widget do perfil SoundCloud. Não nomear “featured set” sem uma faixa real confirmada.
+5. **Imagem** — três retratos selecionados com crops estáveis; o acervo completo continua no press kit.
+6. **Booking** — superfície paper de alto contraste, email dominante e rotas auxiliares.
 
-2. **VHS Tracking Seam** — `min(340px, 36vh)`
-   - Ver seção 4 abaixo.
-
-3. **Poster** — `padding-block clamp(48px,7vw,96px)` (altura intrínseca)
-   - Type wall: 6 rows de "CHÊDA" cascateando solid → red → cream stroke → red ghost → gold whisper → paper trace
-   - SoundCloud embed 16:9 (widget do perfil `soundcloud.com/patriciacheda`, color `#B5221A`)
-   - Content card: logo pequeno + manifesto bio + tags
-   - Foot: logo + email + ano
-
-**Altura total**: ~2.3 telas desktop, ~1.6 telas mobile.
+A abertura mostra aproximadamente 9,25s na primeira visita. O botão fixo `↺ Abertura` reproduz o filme integral de 18s.
 
 ### Páginas A4 (`/print/*`)
 
@@ -326,18 +318,18 @@ Sempre rodar QA visual em **desktop 1440×900** e **mobile 390×844** antes de d
 npm ci
 npm test
 # Após revisão e merge/push em main:
-# Actions: npm ci → npm test → upload dist/ → GitHub Pages
+# Vercel Git integration → Production Deployment
 ```
 
-GitHub Pages é o único destino canônico de deploy do repositório. O domínio canônico é `patriciacheda.com`; `public/CNAME` entra em `dist/CNAME` e o workflow verifica o artefato estático antes de publicar. Por contrato, Cloudflare deve atuar somente como DNS/proxy. O fato verificado pelo repositório é mais restrito: o build estático não contém runtime nem arquivos de Cloudflare Worker. Redirects de `/print/spread` vivem em `astro.config.mjs` (também espelhados em `vercel.json` só para o host legado). Vercel `cheda-six.vercel.app` não deve aparecer em OG/canonical e não é o caminho canônico de deploy.
+GitHub é a fonte do código; o projeto Vercel `cheda` é o destino canônico. Pull requests e branches recebem previews; `main` publica produção em `patriciacheda.com`. `.github/workflows/ci.yml` executa `npm test` sem deploy concorrente. Redirects e headers de produção vivem em `vercel.json`; `astro.config.mjs` mantém o artefato estático portátil.
 
-Verificações externas de DNS/proxy, rotas/builds de Worker e Vercel são manuais, reversíveis e não fazem parte de uma mudança no repositório. Consultar [`docs/deployment-checklist.md`](docs/deployment-checklist.md); nenhum estado de dashboard é presumido por este documento.
+Consultar [`docs/deployment-checklist.md`](docs/deployment-checklist.md) para revisão do preview, promoção e rollback.
 
 **Nota**: o proxy GitHub da Perplexity retorna 407 CONNECT tunnel failed intermitentemente. Se acontecer, esperar 5-10s e tentar de novo (3 tentativas costumam resolver).
 
 ### Regra do `index.html` regenerado a partir de `print/spread.html`
 
-**Descontinuado.** A landing agora é canonicamente `index.html` na raiz. Não existe mais `print/spread.html` — deletado, com redirect configurado em `astro.config.mjs` (e espelhado em `vercel.json` só pro host legado). Se um agente futuro tentar recriar `print/spread.html`, **não fazer**: quebra o redirect e duplica conteúdo.
+**Descontinuado.** A landing agora é canonicamente `index.html` na raiz. Não existe mais fonte `print/spread.astro`; o redirect é configurado em `astro.config.mjs` e `vercel.json`. Se um agente futuro tentar recriar a página, **não fazer**: quebra o redirect e duplica conteúdo.
 
 ---
 
@@ -345,7 +337,7 @@ Verificações externas de DNS/proxy, rotas/builds de Worker e Vercel são manua
 
 Quando a usuária voltar, esses são os fios soltos:
 
-- **Domínios alternativos** — ela mencionou `cheda.press` ou `cheda.fm` mas não confirmou. O canônico atual já é `patriciacheda.com` (Pages + Cloudflare).
+- **Domínios alternativos** — ela mencionou `cheda.press` ou `cheda.fm` mas não confirmou. O canônico atual é `patriciacheda.com` no Vercel.
 - **Set list real** — placeholders foram removidos. Aguardando títulos/durações/links reais de mixes específicos pra reintroduzir a estrutura `.sets-row` + `.sets-list` (CSS já existe no `print.css`).
 - **Foto adicional** — usuária mencionou upload `photos-1784006617332.jpg` que nunca chegou; se aparecer, provavelmente é candidata a hero portrait.
 - **Instagram embed opcional** — se a usuária quiser mostrar feed dela ao lado do SoundCloud, dá pra plugar um Instagram basic display embed no mesmo padrão do `.sc-slot`.
@@ -357,7 +349,7 @@ Quando a usuária voltar, esses são os fios soltos:
 
 Se você é uma sessão AI nova entrando neste projeto, cole este bloco no início:
 
-> Estou desenvolvendo o site da DJ **Patrícia Chêda** (nome completo, com Ê — nunca CHDX). Repo `github.com/anavvanzin/cheda` (privado), deploy canônico em `patriciacheda.com`.
+> Estou desenvolvendo o site da DJ **Patrícia Chêda** (nome completo, com Ê — nunca CHDX). Repo `github.com/anavvanzin/cheda`, deploy canônico no projeto Vercel `cheda`, domínio `patriciacheda.com`.
 >
 > **Antes de qualquer edição**:
 > 1. Ler `DESIGN_SYSTEM.md` (este arquivo) — contém tokens, arquitetura, regras de linguagem e o registro completo do "VHS Tracking Seam" que é a peça mais idiossincrática.
@@ -367,7 +359,7 @@ Se você é uma sessão AI nova entrando neste projeto, cole este bloco no iníc
 > **Princípios não-negociáveis**:
 > - Nome real "CHÊDA" (Ê acentuado), sem abreviação.
 > - Preto e vermelho, mas criativo — nunca cair em "techno cartaz genérico".
-> - Uma ideia dominante por tela. Landing tem 3 seções (Ritual → Seam → Poster) e nada mais.
+> - Uma ideia dominante por tela. Landing segue Hero → Artista → VHS → Escuta → Imagem → Booking.
 > - Nunca inventar dados (setlists, minutagens, títulos). Se a informação não está confirmada, remover ou usar placeholder explicitamente marcado.
 > - Montserrat medium (500) para display, letter-spacing tight (`.04-.05em`). Nunca Oswald bold nem letter-spacing largo.
 >
@@ -380,6 +372,15 @@ Se você é uma sessão AI nova entrando neste projeto, cole este bloco no iníc
 ---
 
 ## Changelog
+
+### 21 jul 2026 — Landing pública e Vercel canônico
+
+- Substituídos os rótulos internos `3a / 3b / morph / spread` por navegação pública: Ouvir, Fotos, Press kit e Booking.
+- Hero agora comunica função, gêneros, localização e disponibilidade no primeiro viewport.
+- Bio curta, escuta, retratos e booking foram organizados como uma sequência editorial sem repetir o mesmo texto.
+- Primeira visita recebe um corte de 9,25s da abertura; `↺ Abertura` preserva o filme integral de 18s.
+- Vercel `cheda` passou a ser o deploy canônico; GitHub Actions ficou responsável apenas por CI.
+- QA visual confirmado em 1440×900 e 390×844, sem overflow horizontal.
 
 ### 14 jul 2026 (fim da tarde) — Favicon + OG image
 
@@ -452,6 +453,6 @@ Mudanças substantivas do dia, em ordem cronológica:
 8. **DESIGN_SYSTEM.md criado** — este documento, agora atualizado.
 
 **Anti-padrões catalogados neste ciclo**:
-- Vercel deployment protection deixada ligada por default (site aparece público no CLI mas está gated para tudo que não seja o proj owner)
+- Em previews protegidos, usar o acesso autenticado do Vercel para QA; produção em `patriciacheda.com` deve permanecer pública
 - Alpha channel invertido em PNG (branco opaco onde deveria ser transparente) — verificar contagem `alpha=0 vs alpha=255` após qualquer conversão
 - Placeholder "profissional-parecendo" (setlists com durações plausíveis) é pior que placeholder óbvio, porque parece verdade e passa pela revisão sem questionamento
