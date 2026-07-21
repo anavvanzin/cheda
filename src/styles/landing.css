@@ -86,13 +86,15 @@
     max-height:82vh;
     object-fit:contain;      /* never crop the figure */
     mix-blend-mode:screen;
-    filter:saturate(1.05) contrast(1.04) brightness(.9);
+    /* grayscale + dimmed so it reads as a faint shadow, not a red figure that
+       competes with the reel — one coherent black-and-white presence */
+    filter:grayscale(1) contrast(1.04) brightness(.8);
     animation:site-sil-breathe 13s ease-in-out infinite;
     will-change:opacity, transform;
   }
   @keyframes site-sil-breathe{
-    0%,100%{ opacity:.44; transform:translateY(0) scale(1); }
-    50%{     opacity:.56; transform:translateY(-6px) scale(1.012); }
+    0%,100%{ opacity:.3; transform:translateY(0) scale(1); }
+    50%{     opacity:.4; transform:translateY(-6px) scale(1.012); }
   }
 
   /* Normal block flow now — sections size themselves. z-index:1 keeps all real
@@ -193,11 +195,12 @@
             mask-image:radial-gradient(72% 82% at 50% 42%, #000 30%, transparent 82%); }
   .reel-video{ position:absolute; inset:0; width:100%; height:100%;
     object-fit:cover; object-position:50% 30%; display:block;
-    filter:grayscale(1) contrast(1.02) brightness(.72); opacity:.66; }
-  /* dark vignette sinks the edges into the page (so a bright clip never reads as
-     a glowing rectangle) + faint film grain — both fade with the same mask */
+    filter:grayscale(1) contrast(1.14) brightness(.56); opacity:.72; }
+  /* strong dark vignette sinks everything but the very centre into the page's
+     black, so even a lit clip reads as a figure emerging from black (a true
+     black-background clip needs almost none of this) + faint film grain */
   .reel-shade{ position:absolute; inset:0; pointer-events:none;
-    background:radial-gradient(78% 74% at 50% 42%, transparent 34%, rgba(14,11,10,.9) 92%); }
+    background:radial-gradient(66% 62% at 50% 40%, transparent 12%, rgba(14,11,10,.72) 55%, rgba(14,11,10,1) 88%); }
   .reel-shade::after{ content:''; position:absolute; inset:0;
     background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
     background-size:3px 3px; mix-blend-mode:overlay; opacity:.4; }
