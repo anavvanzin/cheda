@@ -163,17 +163,19 @@
     border-bottom:1px solid rgba(199,154,75,.65); padding-bottom:4px; }
   .booking-link:hover{ color:var(--gold); border-color:var(--gold); }
 
-  /* ═══════════ REEL — a shaded presence, coexisting to the side ═══════════
-     The muted loop lives as a tall panel beside the manifesto — graded to
-     grayscale and darkened so the figure reads as an atmospheric presence, not
-     a played clip. reel.js plays it only while on screen; otherwise it rests on
-     the poster still. */
-  .reel{ position:relative; z-index:1; background:var(--ink);
-    max-width:1080px; margin:0 auto;
-    padding:clamp(56px,10vh,120px) clamp(24px,5vw,60px);
-    display:grid; grid-template-columns:1fr minmax(0, 300px);
-    gap:clamp(30px,5vw,64px); align-items:center; }
-  .reel-copy{ max-width:46ch; }
+  /* ═══════════ REEL — a presence that floats, half-there, beside the words ═══
+     Not a framed player. The muted loop hovers to the side as a grayscale,
+     semi-transparent shadow: no border, no fill, its dark background dropped by
+     `screen` blend over the near-black page and its edges dissolved by a soft
+     mask, so the figure just *emerges* from the dark and the words coexist with
+     it. reel.js plays it only while on screen; otherwise it rests on the (also
+     grayscale) poster still. */
+  .reel{ position:relative; z-index:1; background:transparent;
+    max-width:1120px; margin:0 auto;
+    padding:clamp(56px,12vh,140px) clamp(24px,5vw,60px);
+    display:grid; grid-template-columns:1fr minmax(0, 360px);
+    gap:clamp(30px,6vw,80px); align-items:center; }
+  .reel-copy{ position:relative; z-index:2; max-width:46ch; }
   .reel .kicker{ font-family:var(--display-font); font-weight:500; font-size:9px;
     letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
   .reel-manifesto{ margin:16px 0 0; font-family:var(--serif-font); font-style:italic;
@@ -182,17 +184,23 @@
   .reel-tag{ display:inline-block; margin-top:18px; font-style:normal;
     font-family:var(--display-font); font-weight:500; font-size:9px;
     letter-spacing:.42em; text-transform:uppercase; color:rgba(181,34,26,.9); }
-  .reel-media{ position:relative; aspect-ratio:3/4; overflow:hidden;
-    border:1px solid rgba(199,154,75,.22); background:#0b0908; }
+  /* Frameless: the media is only its masked, faded content — a soft radial mask
+     erases the rectangle so nothing reads as a "box", and the video is graded
+     grayscale + darkened + semi-transparent so it hangs half-there over the
+     page regardless of whether the clip itself is bright or dark. */
+  .reel-media{ position:relative; aspect-ratio:3/4;
+    -webkit-mask-image:radial-gradient(72% 82% at 50% 42%, #000 30%, transparent 82%);
+            mask-image:radial-gradient(72% 82% at 50% 42%, #000 30%, transparent 82%); }
   .reel-video{ position:absolute; inset:0; width:100%; height:100%;
     object-fit:cover; object-position:50% 30%; display:block;
-    filter:grayscale(1) contrast(1.04) brightness(.72); }
+    filter:grayscale(1) contrast(1.02) brightness(.72); opacity:.66; }
+  /* dark vignette sinks the edges into the page (so a bright clip never reads as
+     a glowing rectangle) + faint film grain — both fade with the same mask */
   .reel-shade{ position:absolute; inset:0; pointer-events:none;
-    background:radial-gradient(120% 92% at 50% 38%, transparent 40%, rgba(14,11,10,.66));
-    box-shadow:inset 0 0 60px rgba(14,11,10,.72); }
+    background:radial-gradient(78% 74% at 50% 42%, transparent 34%, rgba(14,11,10,.9) 92%); }
   .reel-shade::after{ content:''; position:absolute; inset:0;
-    background-image:radial-gradient(rgba(255,255,255,.045) 1px, transparent 1.4px);
-    background-size:3px 3px; mix-blend-mode:overlay; opacity:.5; }
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+    background-size:3px 3px; mix-blend-mode:overlay; opacity:.4; }
   @media (max-width:760px){
     .reel{ grid-template-columns:1fr; gap:clamp(24px,6vw,40px); }
     .reel-media{ order:-1; width:100%; max-width:300px; margin-inline:auto; }
