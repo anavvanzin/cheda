@@ -86,8 +86,8 @@
     max-height:82vh;
     object-fit:contain;      /* never crop the figure */
     mix-blend-mode:screen;
-    /* grayscale + dimmed so it reads as a faint shadow, not a red figure that
-       competes with the reel — one coherent black-and-white presence */
+    /* grayscale + dimmed so it reads as a faint shadow, not a red figure —
+       one coherent black-and-white presence */
     filter:grayscale(1) contrast(1.04) brightness(.8);
     animation:site-sil-breathe 13s ease-in-out infinite;
     will-change:opacity, transform;
@@ -168,54 +168,6 @@
     text-transform:uppercase; color:var(--paper);
     border-bottom:1px solid rgba(199,154,75,.65); padding-bottom:4px; }
   .booking-link:hover{ color:var(--gold); border-color:var(--gold); }
-
-  /* ═══════════ REEL — a presence that floats, half-there, beside the words ═══
-     Not a framed player. The muted loop hovers to the side as a grayscale,
-     semi-transparent shadow: no border, no fill, its dark background dropped by
-     `screen` blend over the near-black page and its edges dissolved by a soft
-     mask, so the figure just *emerges* from the dark and the words coexist with
-     it. reel.js plays it only while on screen; otherwise it rests on the (also
-     grayscale) poster still. */
-  .reel{ position:relative; z-index:1; background:transparent;
-    max-width:1120px; margin:0 auto;
-    padding:clamp(56px,12vh,140px) clamp(24px,5vw,60px);
-    display:grid; grid-template-columns:1fr minmax(0, 360px);
-    gap:clamp(30px,6vw,80px); align-items:center; }
-  .reel-copy{ position:relative; z-index:2; max-width:46ch; }
-  .reel .kicker{ font-family:var(--display-font); font-weight:500; font-size:9px;
-    letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
-  .reel-manifesto{ margin:16px 0 0; font-family:var(--serif-font); font-style:italic;
-    font-size:clamp(17px,1.9vw,23px); line-height:1.5; color:var(--cream);
-    letter-spacing:.01em; }
-  .reel-tag{ display:inline-block; margin-top:18px; font-style:normal;
-    font-family:var(--display-font); font-weight:500; font-size:9px;
-    letter-spacing:.42em; text-transform:uppercase; color:rgba(181,34,26,.9); }
-  /* Frameless: the media is only its masked, faded content — a soft radial mask
-     erases the rectangle so nothing reads as a "box", and the video is graded
-     grayscale + darkened + semi-transparent so it hangs half-there over the
-     page regardless of whether the clip itself is bright or dark. */
-  .reel-media{ position:relative; aspect-ratio:3/4;
-    -webkit-mask-image:radial-gradient(72% 82% at 50% 42%, #000 30%, transparent 82%);
-            mask-image:radial-gradient(72% 82% at 50% 42%, #000 30%, transparent 82%); }
-  .reel-video{ position:absolute; inset:0; width:100%; height:100%;
-    object-fit:cover; object-position:50% 30%; display:block;
-    filter:grayscale(1) contrast(1.06); opacity:.72; mix-blend-mode:screen; }
-  /* `screen` drops the clip's dark background straight into the page's black,
-     so the lit figure emerges from black with no rectangle and no white glow.
-     This needs a clip that is a *lit figure on a dark/black background*; a
-     bright-room / backlit clip would instead read as a white halo. Faint grain
-     only — the black comes from the clip + page, not a vignette. */
-  .reel-shade{ position:absolute; inset:0; pointer-events:none;
-    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
-    background-size:3px 3px; mix-blend-mode:overlay; opacity:.4; }
-  .reel-shade::after{ content:''; position:absolute; inset:0;
-    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
-    background-size:3px 3px; mix-blend-mode:overlay; opacity:.4; }
-  @media (max-width:760px){
-    .reel{ grid-template-columns:1fr; gap:clamp(24px,6vw,40px); }
-    .reel-media{ order:-1; width:100%; max-width:300px; margin-inline:auto; }
-    .reel-copy{ max-width:none; }
-  }
 
   /* ═══════════ VHS TRACKING SEAM ═══════════
      Real VHS-tracking-error vocabulary, not generic "glitch":

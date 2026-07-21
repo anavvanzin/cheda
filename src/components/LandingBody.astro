@@ -62,25 +62,6 @@ const posterTags = ['DJ', genreLabel, siteContent.location.displayShort].join(' 
     </div>
   </section>
 
-  <!-- REEL — a shaded presence coexisting to the side of the manifesto.
-       The muted loop plays only when in view and motion is allowed (reel.js),
-       otherwise it rests on the poster still. -->
-  <section class="reel" aria-label="Reel">
-    <div class="reel-copy will-reveal">
-      <span class="kicker">ruído · devoção</span>
-      <p class="reel-manifesto">{siteContent.editorial.manifesto}</p>
-      <em class="reel-tag">som que invoca</em>
-    </div>
-    <div class="reel-media will-reveal will-reveal-delay-1">
-      <video class="reel-video" muted loop playsinline preload="none"
-             poster="/assets/reel-poster.jpg" aria-hidden="true">
-        <source src="/assets/reel.webm" type="video/webm">
-        <source src="/assets/reel.mp4" type="video/mp4">
-      </video>
-      <div class="reel-shade" aria-hidden="true"></div>
-    </div>
-  </section>
-
   <!-- VHS TRACKING SEAM -->
   <section class="seam" aria-label="Ritual → Poster tracking transition">
     <div class="seam-kicker will-reveal">▶ play · vhs · 3a → 3b · tracking</div>
