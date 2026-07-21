@@ -19,8 +19,10 @@
   --display-font: 'Montserrat', 'Helvetica Neue', sans-serif;
   --serif-font:   'Cormorant Garamond', 'Times New Roman', serif;
   --body-font:    'Hanken Grotesk', system-ui, sans-serif;
-  /* Geometric thin used only for the hollow, interlocking hero wordmark. */
-  --wordmark-font: 'Poppins', 'Montserrat', sans-serif;
+  /* Heavy geometric brutalist face for the hollow hero wordmark. */
+  --wordmark-font: 'Unbounded', 'Montserrat', sans-serif;
+  /* Mono used for the hero's brutalist accents (flags, kicker). */
+  --mono-font: 'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
 
   /* Display weight — Montserrat medium (500) por padrão; alguns
      lugares específicos usam 600 quando o Ê acentuado precisa de mais peso.

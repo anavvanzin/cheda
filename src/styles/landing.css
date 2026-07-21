@@ -86,13 +86,15 @@
     max-height:82vh;
     object-fit:contain;      /* never crop the figure */
     mix-blend-mode:screen;
-    filter:saturate(1.05) contrast(1.04) brightness(.9);
+    /* grayscale + dimmed so it reads as a faint shadow, not a red figure that
+       competes with the reel — one coherent black-and-white presence */
+    filter:grayscale(1) contrast(1.04) brightness(.8);
     animation:site-sil-breathe 13s ease-in-out infinite;
     will-change:opacity, transform;
   }
   @keyframes site-sil-breathe{
-    0%,100%{ opacity:.44; transform:translateY(0) scale(1); }
-    50%{     opacity:.56; transform:translateY(-6px) scale(1.012); }
+    0%,100%{ opacity:.3; transform:translateY(0) scale(1); }
+    50%{     opacity:.4; transform:translateY(-6px) scale(1.012); }
   }
 
   /* Normal block flow now — sections size themselves. z-index:1 keeps all real
@@ -111,31 +113,35 @@
     padding:clamp(72px,12vh,132px) clamp(20px,5vw,60px);
     background:var(--ink);
   }
+  /* Top-left system tag — mono, brutalist. */
   .ritual .r-header{ position:absolute; top:clamp(18px,3vh,28px); left:clamp(20px,4vw,42px);
     z-index:12; }
-  .ritual .kicker{ font-family:var(--display-font); font-weight:500;
-    font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+  .ritual .kicker{ font-family:var(--mono-font); font-weight:700;
+    font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:var(--mute); }
 
   .r-title{ position:relative; z-index:9;
     display:flex; flex-direction:column; align-items:center; }
-  /* The hairline, overlapping wordmark. Negative tracking pulls the glyphs into
-     each other; the trailing padding gives back the advance the last letter
-     loses so the whole mark stays optically centred. */
-  .r-name{ font-family:var(--wordmark-font); font-weight:200;
-    font-size:clamp(3.4rem,20vw,15rem); line-height:1;
-    letter-spacing:-.20em; padding-right:.20em;
-    color:transparent; -webkit-text-stroke:1.25px var(--paper);
-    white-space:nowrap;
-    transition:-webkit-text-stroke-color .6s cubic-bezier(.23,1,.32,1); }
-  .r-name:hover{ -webkit-text-stroke-color:var(--blood); }
-  .r-sub{ margin-top:clamp(26px,4.5vh,52px); }
-  .r-serif{ display:block;
-    font-family:var(--serif-font); font-style:italic;
-    font-size:clamp(15px,1.8vw,21px); color:var(--gold); letter-spacing:.02em; }
-  .r-tagline{ display:block; margin-top:10px;
-    font-family:var(--display-font); font-weight:500;
-    font-size:9px; letter-spacing:.42em; text-transform:uppercase;
-    color:rgba(181,34,26,.9); }
+  /* Heavy hollow wordmark — Unbounded 900 drawn as an outline. Hovering fills
+     it blood-red and shears it, the way the reference title reacts. */
+  .r-name{ font-family:var(--wordmark-font); font-weight:900;
+    font-size:clamp(3rem,17vw,13rem); line-height:.82;
+    letter-spacing:-.045em;
+    color:transparent; -webkit-text-stroke:1.5px var(--paper);
+    white-space:nowrap; display:inline-block;
+    transition:color .5s cubic-bezier(.23,1,.32,1),
+               -webkit-text-stroke-color .5s cubic-bezier(.23,1,.32,1),
+               transform .5s cubic-bezier(.23,1,.32,1); }
+  .r-name:hover{ color:var(--blood); -webkit-text-stroke-color:var(--blood);
+    transform:skewX(-9deg); }
+  /* Bottom-anchored, right-aligned brutalist caption block. */
+  .r-sub{ position:absolute; right:clamp(20px,5vw,60px); bottom:clamp(40px,9vh,96px);
+    z-index:12; text-align:right; max-width:min(400px,72vw); }
+  .r-flag{ margin:0; font-family:var(--mono-font); font-weight:700;
+    font-size:clamp(11px,1.2vw,13px); letter-spacing:.14em; text-transform:uppercase;
+    color:var(--blood); }
+  .r-desc{ margin:8px 0 0; font-family:var(--mono-font); font-weight:400;
+    font-size:clamp(11px,1.15vw,13px); line-height:1.45; letter-spacing:.02em;
+    color:var(--soft); text-transform:uppercase; }
 
   /* ═══════════ ARTIST — portrait + bio (below the hero) ═══════════ */
   .artist{ position:relative; z-index:1; background:var(--ink);
@@ -162,6 +168,54 @@
     text-transform:uppercase; color:var(--paper);
     border-bottom:1px solid rgba(199,154,75,.65); padding-bottom:4px; }
   .booking-link:hover{ color:var(--gold); border-color:var(--gold); }
+
+  /* ═══════════ REEL — a presence that floats, half-there, beside the words ═══
+     Not a framed player. The muted loop hovers to the side as a grayscale,
+     semi-transparent shadow: no border, no fill, its dark background dropped by
+     `screen` blend over the near-black page and its edges dissolved by a soft
+     mask, so the figure just *emerges* from the dark and the words coexist with
+     it. reel.js plays it only while on screen; otherwise it rests on the (also
+     grayscale) poster still. */
+  .reel{ position:relative; z-index:1; background:transparent;
+    max-width:1120px; margin:0 auto;
+    padding:clamp(56px,12vh,140px) clamp(24px,5vw,60px);
+    display:grid; grid-template-columns:1fr minmax(0, 360px);
+    gap:clamp(30px,6vw,80px); align-items:center; }
+  .reel-copy{ position:relative; z-index:2; max-width:46ch; }
+  .reel .kicker{ font-family:var(--display-font); font-weight:500; font-size:9px;
+    letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+  .reel-manifesto{ margin:16px 0 0; font-family:var(--serif-font); font-style:italic;
+    font-size:clamp(17px,1.9vw,23px); line-height:1.5; color:var(--cream);
+    letter-spacing:.01em; }
+  .reel-tag{ display:inline-block; margin-top:18px; font-style:normal;
+    font-family:var(--display-font); font-weight:500; font-size:9px;
+    letter-spacing:.42em; text-transform:uppercase; color:rgba(181,34,26,.9); }
+  /* Frameless: the media is only its masked, faded content — a soft radial mask
+     erases the rectangle so nothing reads as a "box", and the video is graded
+     grayscale + darkened + semi-transparent so it hangs half-there over the
+     page regardless of whether the clip itself is bright or dark. */
+  .reel-media{ position:relative; aspect-ratio:3/4;
+    -webkit-mask-image:radial-gradient(72% 82% at 50% 42%, #000 30%, transparent 82%);
+            mask-image:radial-gradient(72% 82% at 50% 42%, #000 30%, transparent 82%); }
+  .reel-video{ position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:50% 30%; display:block;
+    filter:grayscale(1) contrast(1.06); opacity:.72; mix-blend-mode:screen; }
+  /* `screen` drops the clip's dark background straight into the page's black,
+     so the lit figure emerges from black with no rectangle and no white glow.
+     This needs a clip that is a *lit figure on a dark/black background*; a
+     bright-room / backlit clip would instead read as a white halo. Faint grain
+     only — the black comes from the clip + page, not a vignette. */
+  .reel-shade{ position:absolute; inset:0; pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+    background-size:3px 3px; mix-blend-mode:overlay; opacity:.4; }
+  .reel-shade::after{ content:''; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+    background-size:3px 3px; mix-blend-mode:overlay; opacity:.4; }
+  @media (max-width:760px){
+    .reel{ grid-template-columns:1fr; gap:clamp(24px,6vw,40px); }
+    .reel-media{ order:-1; width:100%; max-width:300px; margin-inline:auto; }
+    .reel-copy{ max-width:none; }
+  }
 
   /* ═══════════ VHS TRACKING SEAM ═══════════
      Real VHS-tracking-error vocabulary, not generic "glitch":
@@ -296,6 +350,10 @@
   @media (prefers-reduced-motion:reduce){
     .seam::after{ display:none; }
     .wobble-band, .head-hash, .dropout{ animation:none; }
+    /* Hero wordmark: keep the red fill on hover, drop the shear + its transition
+       so no motion is introduced for reduced-motion visitors. */
+    .r-name{ transition:color .01ms; }
+    .r-name:hover{ transform:none; }
   }
 
   /* L7 — seam wordmark with chroma bleed */

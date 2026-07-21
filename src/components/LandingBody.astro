@@ -31,18 +31,19 @@ const posterTags = ['DJ', genreLabel, siteContent.location.displayShort].join(' 
 <main class="spread">
   <h1 class="sr-only">{siteContent.site.defaultTitle}</h1>
 
-  <!-- HERO — hollow, interlocking wordmark (the whole first screen) -->
+  <!-- HERO — heavy hollow wordmark, brutalist caption (the whole first screen) -->
   <section class="ritual" aria-label={siteContent.identity.stageName}>
     <div class="r-header will-reveal will-reveal-delay-1">
-      <span class="kicker">Digital Press Kit · 2026</span>
+      <span class="kicker">[ Digital Press Kit · 2026 ]</span>
     </div>
 
     <div class="r-title will-reveal will-reveal-delay-2">
       <span class="r-name">{siteContent.identity.stageName}</span>
-      <span class="r-sub">
-        <em class="r-serif">{siteContent.identity.artistName}</em>
-        <span class="r-tagline">{siteContent.editorial.tagline}</span>
-      </span>
+    </div>
+
+    <div class="r-sub will-reveal will-reveal-delay-3">
+      <p class="r-flag">// {siteContent.identity.artistName}</p>
+      <p class="r-desc">{siteContent.editorial.tagline}</p>
     </div>
   </section>
 
@@ -58,6 +59,25 @@ const posterTags = ['DJ', genreLabel, siteContent.location.displayShort].join(' 
       <em class="artist-name">{siteContent.identity.artistName}</em>
       <p>{siteContent.editorial.officialShortBio}</p>
       <a class="booking-link" href={`${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`}>booking · {siteContent.contact.bookingEmail}</a>
+    </div>
+  </section>
+
+  <!-- REEL — a shaded presence coexisting to the side of the manifesto.
+       The muted loop plays only when in view and motion is allowed (reel.js),
+       otherwise it rests on the poster still. -->
+  <section class="reel" aria-label="Reel">
+    <div class="reel-copy will-reveal">
+      <span class="kicker">ruído · devoção</span>
+      <p class="reel-manifesto">{siteContent.editorial.manifesto}</p>
+      <em class="reel-tag">som que invoca</em>
+    </div>
+    <div class="reel-media will-reveal will-reveal-delay-1">
+      <video class="reel-video" muted loop playsinline preload="none"
+             poster="/assets/reel-poster.jpg" aria-hidden="true">
+        <source src="/assets/reel.webm" type="video/webm">
+        <source src="/assets/reel.mp4" type="video/mp4">
+      </video>
+      <div class="reel-shade" aria-hidden="true"></div>
     </div>
   </section>
 
