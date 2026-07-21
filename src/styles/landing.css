@@ -113,31 +113,35 @@
     padding:clamp(72px,12vh,132px) clamp(20px,5vw,60px);
     background:var(--ink);
   }
+  /* Top-left system tag — mono, brutalist. */
   .ritual .r-header{ position:absolute; top:clamp(18px,3vh,28px); left:clamp(20px,4vw,42px);
     z-index:12; }
-  .ritual .kicker{ font-family:var(--display-font); font-weight:500;
-    font-size:9px; letter-spacing:.42em; text-transform:uppercase; color:var(--gold); }
+  .ritual .kicker{ font-family:var(--mono-font); font-weight:700;
+    font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:var(--mute); }
 
   .r-title{ position:relative; z-index:9;
     display:flex; flex-direction:column; align-items:center; }
-  /* The hairline, overlapping wordmark. Negative tracking pulls the glyphs into
-     each other; the trailing padding gives back the advance the last letter
-     loses so the whole mark stays optically centred. */
-  .r-name{ font-family:var(--wordmark-font); font-weight:200;
-    font-size:clamp(3.4rem,20vw,15rem); line-height:1;
-    letter-spacing:-.20em; padding-right:.20em;
-    color:transparent; -webkit-text-stroke:1.25px var(--paper);
-    white-space:nowrap;
-    transition:-webkit-text-stroke-color .6s cubic-bezier(.23,1,.32,1); }
-  .r-name:hover{ -webkit-text-stroke-color:var(--blood); }
-  .r-sub{ margin-top:clamp(26px,4.5vh,52px); }
-  .r-serif{ display:block;
-    font-family:var(--serif-font); font-style:italic;
-    font-size:clamp(15px,1.8vw,21px); color:var(--gold); letter-spacing:.02em; }
-  .r-tagline{ display:block; margin-top:10px;
-    font-family:var(--display-font); font-weight:500;
-    font-size:9px; letter-spacing:.42em; text-transform:uppercase;
-    color:rgba(181,34,26,.9); }
+  /* Heavy hollow wordmark — Unbounded 900 drawn as an outline. Hovering fills
+     it blood-red and shears it, the way the reference title reacts. */
+  .r-name{ font-family:var(--wordmark-font); font-weight:900;
+    font-size:clamp(3rem,17vw,13rem); line-height:.82;
+    letter-spacing:-.045em;
+    color:transparent; -webkit-text-stroke:1.5px var(--paper);
+    white-space:nowrap; display:inline-block;
+    transition:color .5s cubic-bezier(.23,1,.32,1),
+               -webkit-text-stroke-color .5s cubic-bezier(.23,1,.32,1),
+               transform .5s cubic-bezier(.23,1,.32,1); }
+  .r-name:hover{ color:transparent; -webkit-text-stroke-color:var(--blood);
+    transform:skewX(-9deg); }
+  /* Bottom-anchored, right-aligned brutalist caption block. */
+  .r-sub{ position:absolute; right:clamp(20px,5vw,60px); bottom:clamp(40px,9vh,96px);
+    z-index:12; text-align:right; max-width:min(400px,72vw); }
+  .r-flag{ margin:0; font-family:var(--mono-font); font-weight:700;
+    font-size:clamp(11px,1.2vw,13px); letter-spacing:.14em; text-transform:uppercase;
+    color:var(--blood); }
+  .r-desc{ margin:8px 0 0; font-family:var(--mono-font); font-weight:400;
+    font-size:clamp(11px,1.15vw,13px); line-height:1.45; letter-spacing:.02em;
+    color:var(--soft); text-transform:uppercase; }
 
   /* ═══════════ ARTIST — portrait + bio (below the hero) ═══════════ */
   .artist{ position:relative; z-index:1; background:var(--ink);

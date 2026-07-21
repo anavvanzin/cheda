@@ -31,18 +31,19 @@ const posterTags = ['DJ', genreLabel, siteContent.location.displayShort].join(' 
 <main class="spread">
   <h1 class="sr-only">{siteContent.site.defaultTitle}</h1>
 
-  <!-- HERO — hollow, interlocking wordmark (the whole first screen) -->
+  <!-- HERO — heavy hollow wordmark, brutalist caption (the whole first screen) -->
   <section class="ritual" aria-label={siteContent.identity.stageName}>
     <div class="r-header will-reveal will-reveal-delay-1">
-      <span class="kicker">Digital Press Kit · 2026</span>
+      <span class="kicker">[ Digital Press Kit · 2026 ]</span>
     </div>
 
     <div class="r-title will-reveal will-reveal-delay-2">
       <span class="r-name">{siteContent.identity.stageName}</span>
-      <span class="r-sub">
-        <em class="r-serif">{siteContent.identity.artistName}</em>
-        <span class="r-tagline">{siteContent.editorial.tagline}</span>
-      </span>
+    </div>
+
+    <div class="r-sub will-reveal will-reveal-delay-3">
+      <p class="r-flag">// {siteContent.identity.artistName}</p>
+      <p class="r-desc">{siteContent.editorial.tagline}</p>
     </div>
   </section>
 
