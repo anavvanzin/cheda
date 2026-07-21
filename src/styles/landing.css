@@ -131,7 +131,7 @@
     transition:color .5s cubic-bezier(.23,1,.32,1),
                -webkit-text-stroke-color .5s cubic-bezier(.23,1,.32,1),
                transform .5s cubic-bezier(.23,1,.32,1); }
-  .r-name:hover{ color:transparent; -webkit-text-stroke-color:var(--blood);
+  .r-name:hover{ color:var(--blood); -webkit-text-stroke-color:var(--blood);
     transform:skewX(-9deg); }
   /* Bottom-anchored, right-aligned brutalist caption block. */
   .r-sub{ position:absolute; right:clamp(20px,5vw,60px); bottom:clamp(40px,9vh,96px);
@@ -199,12 +199,15 @@
             mask-image:radial-gradient(72% 82% at 50% 42%, #000 30%, transparent 82%); }
   .reel-video{ position:absolute; inset:0; width:100%; height:100%;
     object-fit:cover; object-position:50% 30%; display:block;
-    filter:grayscale(1) contrast(1.14) brightness(.56); opacity:.72; }
-  /* strong dark vignette sinks everything but the very centre into the page's
-     black, so even a lit clip reads as a figure emerging from black (a true
-     black-background clip needs almost none of this) + faint film grain */
+    filter:grayscale(1) contrast(1.06); opacity:.72; mix-blend-mode:screen; }
+  /* `screen` drops the clip's dark background straight into the page's black,
+     so the lit figure emerges from black with no rectangle and no white glow.
+     This needs a clip that is a *lit figure on a dark/black background*; a
+     bright-room / backlit clip would instead read as a white halo. Faint grain
+     only — the black comes from the clip + page, not a vignette. */
   .reel-shade{ position:absolute; inset:0; pointer-events:none;
-    background:radial-gradient(66% 62% at 50% 40%, transparent 12%, rgba(14,11,10,.72) 55%, rgba(14,11,10,1) 88%); }
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+    background-size:3px 3px; mix-blend-mode:overlay; opacity:.4; }
   .reel-shade::after{ content:''; position:absolute; inset:0;
     background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
     background-size:3px 3px; mix-blend-mode:overlay; opacity:.4; }
@@ -347,6 +350,10 @@
   @media (prefers-reduced-motion:reduce){
     .seam::after{ display:none; }
     .wobble-band, .head-hash, .dropout{ animation:none; }
+    /* Hero wordmark: keep the red fill on hover, drop the shear + its transition
+       so no motion is introduced for reduced-motion visitors. */
+    .r-name{ transition:color .01ms; }
+    .r-name:hover{ transform:none; }
   }
 
   /* L7 — seam wordmark with chroma bleed */
