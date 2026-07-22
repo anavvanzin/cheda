@@ -159,12 +159,26 @@ const gallery = [
 
   <section class="gallery-section" id="fotos" aria-labelledby="gallery-title">
     <div class="gallery-heading will-reveal">
-      <p class="section-index">03 · Imagem</p>
+      <p class="section-index">03 · Cena</p>
       <h2 id="gallery-title">Presença<br />em cena</h2>
-      <p>Retratos selecionados para divulgação. O material completo está reunido no press kit.</p>
+      <p>Um registro em movimento e retratos selecionados. O material completo está reunido no press kit.</p>
     </div>
 
     <div class="gallery-grid">
+      <figure class="ritual-video will-reveal">
+        <video
+          muted
+          loop
+          playsinline
+          controls
+          preload="metadata"
+          poster="/assets/ritual-video-poster.jpg"
+          aria-label={`${siteContent.identity.artistName} tocando em apresentação intimista`}
+        >
+          <source src="/assets/ritual-video.mp4" type="video/mp4" />
+        </video>
+        <figcaption>Ritual · Registro ao vivo</figcaption>
+      </figure>
       {gallery.map((photo, index) => (
         <figure class={`gallery-item gallery-item-${index + 1} will-reveal`}>
           <img
@@ -185,6 +199,16 @@ const gallery = [
   <section class="booking-section" id="booking" aria-labelledby="booking-title">
     <div class="booking-type" aria-hidden="true">
       <span>CHÊDA</span><span>CHÊDA</span><span>CHÊDA</span>
+    </div>
+    <div class="booking-flash" aria-hidden="true">
+      <img
+        src="/assets/panther-flash.png"
+        alt=""
+        width="1122"
+        height="1402"
+        loading="lazy"
+        decoding="async"
+      />
     </div>
     <div class="booking-content will-reveal">
       <p class="section-index">04 · Booking</p>

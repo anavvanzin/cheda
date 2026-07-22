@@ -191,7 +191,7 @@ Estrutura pública orientada a contratantes:
 2. **Artista** — retrato editorial retangular, bio oficial curta, fatos rápidos e link para o press kit.
 3. **VHS Tracking Seam** — assinatura de transição preservada; ver seção 4.
 4. **Escuta** — contexto curto + widget do perfil SoundCloud. Não nomear “featured set” sem uma faixa real confirmada.
-5. **Imagem** — três retratos selecionados com crops estáveis; o acervo completo continua no press kit.
+5. **Cena** — vídeo vertical de 51s como peça principal, cercado por três retratos em composição editorial assimétrica; o acervo completo continua no press kit.
 6. **Booking** — superfície paper de alto contraste, email dominante e rotas auxiliares.
 
 A abertura mostra aproximadamente 9,25s na primeira visita. O botão fixo `↺ Abertura` reproduz o filme integral de 18s.
