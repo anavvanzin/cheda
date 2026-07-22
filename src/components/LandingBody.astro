@@ -44,11 +44,12 @@ const gallery = [
 
 <header class="site-header">
   <a class="site-mark" href="/" aria-current="page" aria-label={`${siteContent.identity.stageName} — início`}>
-    {siteContent.identity.stageName}
+    <strong>{siteContent.identity.stageName}</strong>
+    <span>Ateliê / Pista</span>
   </a>
   <nav class="public-nav" aria-label="Navegação principal">
-    <a href="#ouvir">Ouvir</a>
-    <a href="#fotos">Fotos</a>
+    <a href="#ouvir">Música</a>
+    <a href="#fotos">Arte</a>
     <a href="/press-kit">Press kit</a>
     <a class="nav-booking" href="#booking">Booking</a>
   </nav>
@@ -56,23 +57,41 @@ const gallery = [
 
 <main class="spread" id="conteudo">
   <section class="hero" aria-labelledby="hero-title">
-    <p class="hero-kicker will-reveal will-reveal-delay-1">Digital press kit · 2026</p>
+    <figure class="hero-portrait will-reveal" aria-label={`${siteContent.identity.artistName} — retrato em pixel art`}>
+      <img
+        src="/assets/portrait-pixel.webp"
+        alt={`${siteContent.identity.artistName} — autorretrato em pixel art`}
+        width="1122"
+        height="1402"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </figure>
 
-    <h1 class="hero-title will-reveal will-reveal-delay-2" id="hero-title">
-      <span>{siteContent.identity.stageName}</span>
-    </h1>
-
-    <div class="hero-meta will-reveal will-reveal-delay-3">
-      <p class="hero-role">{siteContent.identity.rolePt} · {genreLabel}</p>
-      <p class="hero-location">{siteContent.location.displayPt}</p>
+    <div class="hero-copy">
+      <div class="hero-sigil will-reveal will-reveal-delay-1" aria-hidden="true">
+        <span>✦</span><i></i><span>☾</span>
+      </div>
+      <p class="hero-kicker will-reveal will-reveal-delay-1">Arte visual · DJ · Florianópolis</p>
+      <h1 class="hero-title will-reveal will-reveal-delay-2" id="hero-title">
+        <span class="hero-title-atelier">Ateliê</span>
+        <span class="hero-title-pista">/ Pista</span>
+      </h1>
+      <p class="hero-tagline will-reveal will-reveal-delay-3">Tinta nas mãos.<br />Som na alma.</p>
+      <div class="hero-actions will-reveal will-reveal-delay-3">
+        <a class="button button-primary" href="#ouvir"><span aria-hidden="true">☾</span> Entrar na pista</a>
+        <a class="button button-quiet" href="#fotos"><span aria-hidden="true">◉</span> Entrar no ateliê</a>
+      </div>
+      <div class="hero-meta will-reveal will-reveal-delay-3">
+        <p class="hero-role">{genreLabel}</p>
+        <p class="hero-location">{siteContent.location.displayPt} · Desde 2018</p>
+      </div>
     </div>
 
-    <div class="hero-actions will-reveal will-reveal-delay-3">
-      <a class="button button-primary" href={bookingHref}>Consultar disponibilidade</a>
-      <a class="button button-quiet" href="#ouvir">Ouvir agora <span aria-hidden="true">↓</span></a>
-    </div>
-
-    <p class="hero-tagline will-reveal will-reveal-delay-3">{siteContent.editorial.tagline}</p>
+    <figure class="hero-panther will-reveal will-reveal-delay-2" aria-hidden="true">
+      <img src="/assets/panther-cutout.webp" alt="" width="1122" height="1402" decoding="async" />
+      <figcaption>Intuição · Disciplina · Instinto</figcaption>
+    </figure>
   </section>
 
   <section class="artist" aria-labelledby="artist-title">
@@ -89,8 +108,8 @@ const gallery = [
     </figure>
 
     <div class="artist-copy will-reveal will-reveal-delay-1">
-      <p class="section-index">01 · Artista</p>
-      <h2 id="artist-title">{siteContent.identity.artistName}</h2>
+      <p class="section-index">01 · Manifesto</p>
+      <h2 id="artist-title">Duas práticas.<br />Uma presença.</h2>
       <p class="artist-bio">{siteContent.editorial.officialShortBio}</p>
 
       <dl class="artist-facts" aria-label="Informações rápidas">
@@ -202,7 +221,7 @@ const gallery = [
     </div>
     <div class="booking-flash" aria-hidden="true">
       <img
-        src="/assets/panther-flash.png"
+        src="/assets/panther-cutout.webp"
         alt=""
         width="1122"
         height="1402"

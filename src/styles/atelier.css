@@ -1,0 +1,719 @@
+/* ============================================================
+   CHÊDA — ATELIÊ / PISTA concept branch
+   Visual thesis: aged paper, tattoo flash, print-shop typography and
+   black editorial bands. The approved contractor-first information
+   architecture, ritual film, gallery and booking remain intact.
+   ============================================================ */
+
+:root {
+  --atelier-paper: #e8dcc3;
+  --atelier-paper-light: #f0e6d1;
+  --atelier-ink: #171412;
+  --atelier-black: #121212;
+  --atelier-red: #a1261a;
+  --atelier-gold: #b8872e;
+  --atelier-line: rgba(23, 20, 18, .28);
+  --atelier-paper-line: rgba(232, 220, 195, .22);
+  --atelier-display: 'IM Fell English SC', 'Cormorant Garamond', serif;
+  --atelier-typewriter: 'Special Elite', 'Space Mono', monospace;
+}
+
+html,
+body {
+  background: var(--atelier-paper);
+  color: var(--atelier-ink);
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, .32), transparent 25%),
+    radial-gradient(circle at 82% 38%, rgba(125, 83, 38, .08), transparent 30%),
+    repeating-linear-gradient(0deg, rgba(75, 51, 25, .018) 0 1px, transparent 1px 4px);
+}
+
+.grain {
+  opacity: .28;
+  background-image:
+    radial-gradient(rgba(23, 20, 18, .17) .65px, transparent .8px),
+    radial-gradient(rgba(255, 255, 255, .14) .65px, transparent .85px);
+  background-position: 0 0, 2px 2px;
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+}
+
+.site-silhouette { display: none; }
+
+.spread {
+  z-index: 1;
+  background: transparent;
+}
+
+/* ── Navigation as a slim print masthead ─────────────────── */
+.site-header {
+  min-height: 78px;
+  padding: 10px clamp(18px, 3vw, 44px);
+  color: var(--atelier-ink);
+  background: rgba(232, 220, 195, .94);
+  border-bottom: 1px solid rgba(23, 20, 18, .45);
+  box-shadow: 0 4px 0 rgba(23, 20, 18, .06);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.site-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3px;
+  height: 1px;
+  background: rgba(23, 20, 18, .14);
+}
+
+.site-mark {
+  display: grid;
+  gap: 1px;
+  color: var(--atelier-ink);
+  -webkit-text-stroke: 0;
+  line-height: 1;
+}
+
+.site-mark strong {
+  font-family: var(--wordmark-font);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -.05em;
+}
+
+.site-mark span {
+  font-family: var(--atelier-typewriter);
+  font-size: 8px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--atelier-red);
+}
+
+.public-nav { gap: clamp(14px, 2.2vw, 34px); }
+
+.public-nav a {
+  padding: 8px 0 6px;
+  font-family: var(--atelier-typewriter);
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-transform: none;
+  color: rgba(23, 20, 18, .78);
+  border-bottom: 1px solid transparent;
+}
+
+.public-nav a:hover,
+.public-nav a:focus-visible {
+  color: var(--atelier-red);
+  border-color: currentColor;
+}
+
+.public-nav .nav-booking {
+  padding: 9px 14px 7px;
+  color: var(--atelier-paper-light);
+  background: var(--atelier-ink);
+  border: 1px solid var(--atelier-ink);
+  box-shadow: 3px 3px 0 rgba(161, 38, 26, .28);
+}
+
+.public-nav .nav-booking:hover,
+.public-nav .nav-booking:focus-visible {
+  color: var(--atelier-paper-light);
+  background: var(--atelier-red);
+  border-color: var(--atelier-red);
+}
+
+/* ── Hero: portrait / title / panther triptych ───────────── */
+.hero {
+  min-height: min(900px, 100svh);
+  padding: 78px clamp(18px, 2.7vw, 42px) 0;
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(380px, 1.08fr) minmax(260px, 1fr);
+  grid-template-rows: minmax(640px, 1fr);
+  gap: 0;
+  align-items: stretch;
+  color: var(--atelier-ink);
+  overflow: hidden;
+  border-bottom: 8px solid var(--atelier-ink);
+  isolation: isolate;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 78px 0 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg, transparent 32%, rgba(23, 20, 18, .12) 32% 32.1%, transparent 32.1% 67.9%, rgba(23, 20, 18, .12) 67.9% 68%, transparent 68%),
+    repeating-linear-gradient(90deg, rgba(23, 20, 18, .022) 0 1px, transparent 1px 11px);
+}
+
+.hero::after {
+  left: clamp(18px, 2.7vw, 42px);
+  right: clamp(18px, 2.7vw, 42px);
+  bottom: 18px;
+  height: 1px;
+  background: rgba(23, 20, 18, .32);
+}
+
+.hero-portrait,
+.hero-panther {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.hero-portrait {
+  align-self: stretch;
+  margin-right: -11%;
+  z-index: 2;
+}
+
+.hero-portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 72%, var(--atelier-paper) 100%);
+}
+
+.hero-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left bottom;
+  mix-blend-mode: multiply;
+  image-rendering: pixelated;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 4;
+  padding: clamp(64px, 8vh, 96px) 12px 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-sigil {
+  width: min(210px, 64%);
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  color: var(--atelier-gold);
+}
+
+.hero-sigil i {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+}
+
+.hero-sigil span:first-child { font-size: 19px; }
+.hero-sigil span:last-child { font-size: 23px; }
+
+.hero-kicker,
+.section-index {
+  color: var(--atelier-red);
+  font-family: var(--atelier-typewriter);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .13em;
+}
+
+.hero-title {
+  margin: 12px 0 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--atelier-ink);
+  line-height: .78;
+  text-align: center;
+  filter: drop-shadow(3px 3px 0 rgba(161, 38, 26, .09));
+}
+
+.hero-title span {
+  display: block;
+  white-space: nowrap;
+  color: var(--atelier-ink);
+  font-family: var(--atelier-display);
+  font-size: clamp(75px, 7.2vw, 122px);
+  font-weight: 400;
+  line-height: .78;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+  -webkit-text-stroke: 0;
+  transition: transform .35s ease, color .35s ease;
+}
+
+.hero-title .hero-title-pista {
+  margin-top: 17px;
+  color: var(--atelier-red);
+  font-size: clamp(65px, 6.3vw, 106px);
+  letter-spacing: -.025em;
+}
+
+.hero-title span:hover {
+  color: inherit;
+  transform: translateY(-2px) rotate(-.4deg);
+}
+
+.hero-tagline {
+  margin: 14px 0 25px;
+  color: var(--atelier-ink);
+  font-family: var(--atelier-typewriter);
+  font-size: clamp(12px, 1.05vw, 16px);
+  font-style: normal;
+  line-height: 1.45;
+  letter-spacing: .07em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.hero-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.button {
+  min-height: 43px;
+  padding: 12px 16px 10px;
+  font-family: var(--atelier-typewriter);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: .05em;
+  box-shadow: 3px 3px 0 rgba(23, 20, 18, .18);
+}
+
+.button-primary {
+  color: var(--atelier-paper-light);
+  background: var(--atelier-ink);
+  border-color: var(--atelier-ink);
+}
+
+.button-primary:hover { background: var(--atelier-red); border-color: var(--atelier-red); }
+
+.button-quiet {
+  color: var(--atelier-ink);
+  background: rgba(232, 220, 195, .52);
+  border-color: var(--atelier-ink);
+}
+
+.button-quiet:hover { color: var(--atelier-paper-light); background: var(--atelier-ink); }
+
+.hero-meta {
+  margin-top: 28px;
+  align-self: center;
+  display: grid;
+  gap: 5px;
+}
+
+.hero-role,
+.hero-location {
+  margin: 0 !important;
+  color: rgba(23, 20, 18, .72);
+  font-family: var(--atelier-typewriter);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hero-location { color: var(--atelier-red); }
+
+.hero-panther {
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.hero-panther::before {
+  content: '';
+  position: absolute;
+  width: min(33vw, 470px);
+  aspect-ratio: 1;
+  z-index: -1;
+  border: 1px solid rgba(184, 135, 46, .6);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 18px rgba(184, 135, 46, .04),
+    0 0 0 19px rgba(184, 135, 46, .28),
+    0 0 0 52px rgba(184, 135, 46, .025);
+}
+
+.hero-panther img {
+  width: min(34vw, 520px);
+  mix-blend-mode: multiply;
+  filter: contrast(1.1) saturate(1.03);
+  transform: rotate(2deg);
+}
+
+.hero-panther figcaption {
+  position: absolute;
+  right: 14px;
+  bottom: 44px;
+  font-family: var(--atelier-typewriter);
+  font-size: 8px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--atelier-red);
+  writing-mode: vertical-rl;
+}
+
+/* ── Manifesto band ──────────────────────────────────────── */
+.artist {
+  max-width: none;
+  margin: 0;
+  padding: clamp(64px, 7vw, 100px) clamp(24px, 7vw, 108px);
+  grid-template-columns: minmax(230px, 340px) minmax(0, 1fr);
+  gap: clamp(48px, 8vw, 120px);
+  color: var(--atelier-paper-light);
+  background:
+    radial-gradient(circle at 10% 50%, rgba(184, 135, 46, .09), transparent 24%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .012) 0 1px, transparent 1px 4px),
+    var(--atelier-black);
+  border-top: 1px solid rgba(184, 135, 46, .42);
+  border-bottom: 1px solid rgba(184, 135, 46, .42);
+}
+
+.artist-portrait {
+  max-width: 320px;
+  justify-self: end;
+  padding: 10px;
+  border: 1px solid rgba(232, 220, 195, .32);
+  box-shadow: 8px 8px 0 rgba(161, 38, 26, .38);
+  transform: rotate(-1.2deg);
+}
+
+.artist-portrait::before {
+  inset: -16px 13px 15px -16px;
+  border-color: rgba(184, 135, 46, .44);
+  transform: rotate(2deg);
+}
+
+.artist-portrait img {
+  aspect-ratio: 4 / 5;
+  object-position: 52% 26%;
+  filter: grayscale(.9) sepia(.18) contrast(1.12) brightness(.82);
+}
+
+.artist-portrait figcaption,
+.gallery-item figcaption {
+  font-family: var(--atelier-typewriter);
+}
+
+.artist-copy { max-width: 760px; }
+
+.artist-copy h2,
+.listen-heading h2,
+.gallery-heading h2,
+.booking-content h2 {
+  font-family: var(--atelier-display);
+  font-weight: 400;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.artist-copy h2 {
+  margin-top: 13px;
+  color: var(--atelier-paper-light);
+  font-size: clamp(48px, 6.2vw, 88px);
+  line-height: .86;
+}
+
+.artist-bio { color: rgba(240, 230, 209, .72); }
+
+.artist-facts {
+  border-color: rgba(232, 220, 195, .18);
+}
+
+.artist-facts div + div { border-color: rgba(232, 220, 195, .18); }
+.artist-facts dt { color: var(--atelier-gold); font-family: var(--atelier-typewriter); }
+.artist-facts dd { color: var(--atelier-paper-light); }
+
+.text-link {
+  color: var(--atelier-paper-light);
+  font-family: var(--atelier-typewriter);
+  font-weight: 400;
+  border-color: var(--atelier-red);
+}
+
+.text-link:hover { color: var(--atelier-gold); border-color: var(--atelier-gold); }
+
+/* ── VHS seam remains the moving hinge ───────────────────── */
+.seam {
+  height: clamp(220px, 27vh, 300px);
+  border-top: 6px solid var(--atelier-paper);
+  border-bottom: 6px solid var(--atelier-paper);
+}
+
+.seam-word .word {
+  font-family: var(--atelier-display);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.seam-kicker { font-family: var(--atelier-typewriter); }
+
+/* ── Music band ──────────────────────────────────────────── */
+.listen-section {
+  padding: clamp(74px, 9vw, 126px) clamp(24px, 7vw, 108px);
+  color: var(--atelier-paper-light);
+  background:
+    linear-gradient(90deg, rgba(161, 38, 26, .08), transparent 35%),
+    var(--atelier-black);
+  border-bottom: 1px solid rgba(184, 135, 46, .38);
+}
+
+.listen-heading h2 {
+  color: var(--atelier-paper-light);
+  font-size: clamp(55px, 7.2vw, 102px);
+}
+
+.listen-heading p:not(.section-index) { color: rgba(240, 230, 209, .66); }
+
+.soundcloud-card {
+  background: #0b0b0b;
+  border-color: rgba(184, 135, 46, .62);
+  box-shadow: 9px 9px 0 rgba(161, 38, 26, .28), inset 0 0 0 5px var(--atelier-black);
+}
+
+.soundcloud-meta { font-family: var(--atelier-typewriter); color: var(--atelier-gold); }
+.waveform i { background: linear-gradient(to top, rgba(232, 220, 195, .12), var(--atelier-gold)); }
+.waveform i:nth-child(7n) { background: linear-gradient(to top, rgba(161, 38, 26, .35), var(--atelier-red)); }
+
+/* ── Gallery as a print-shop works table ─────────────────── */
+.gallery-section {
+  padding: clamp(76px, 9vw, 128px) clamp(24px, 6vw, 92px) clamp(96px, 10vw, 150px);
+  color: var(--atelier-ink);
+  background:
+    linear-gradient(rgba(255, 255, 255, .12), rgba(255, 255, 255, .12)),
+    repeating-linear-gradient(90deg, rgba(23, 20, 18, .018) 0 1px, transparent 1px 8px),
+    var(--atelier-paper);
+}
+
+.gallery-section::before {
+  content: 'OBRAS SELECIONADAS  →';
+  position: absolute;
+  top: 30px;
+  left: clamp(24px, 6vw, 92px);
+  color: var(--atelier-red);
+  font-family: var(--atelier-typewriter);
+  font-size: 10px;
+  letter-spacing: .11em;
+}
+
+.gallery-heading h2 {
+  color: var(--atelier-ink);
+  font-size: clamp(58px, 7vw, 100px);
+}
+
+.gallery-heading p:not(.section-index) { color: rgba(23, 20, 18, .7); }
+
+.gallery-grid {
+  padding: clamp(12px, 1.7vw, 24px);
+  gap: clamp(12px, 1.7vw, 24px);
+  background: rgba(240, 230, 209, .5);
+  border: 1px solid var(--atelier-line);
+  box-shadow: 10px 10px 0 rgba(23, 20, 18, .1);
+}
+
+.ritual-video,
+.gallery-item {
+  border: 1px solid rgba(23, 20, 18, .58);
+  box-shadow: inset 0 0 0 5px rgba(232, 220, 195, .12);
+}
+
+.ritual-video video { filter: sepia(.18) saturate(.8) contrast(1.08) brightness(.88); }
+.gallery-item img { filter: sepia(.22) saturate(.66) contrast(1.08); }
+.gallery-item:hover img { filter: sepia(.05) saturate(.92) contrast(1.03); }
+
+/* ── Booking close: black poster with panther seal ───────── */
+.booking-section {
+  min-height: 76svh;
+  padding: clamp(88px, 12vw, 164px) clamp(24px, 8vw, 120px);
+  color: var(--atelier-paper-light);
+  background:
+    radial-gradient(circle at 85% 50%, rgba(184, 135, 46, .12), transparent 27%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .012) 0 1px, transparent 1px 5px),
+    var(--atelier-black);
+  border-top: 7px solid var(--atelier-red);
+}
+
+.booking-type { opacity: .08; }
+.booking-type span {
+  color: transparent;
+  font-family: var(--atelier-display);
+  font-weight: 400;
+  -webkit-text-stroke-color: var(--atelier-gold);
+}
+
+.booking-flash {
+  right: clamp(-80px, -3vw, -32px);
+  width: clamp(360px, 38vw, 620px);
+}
+
+.booking-flash img {
+  mix-blend-mode: screen;
+  filter: invert(1) sepia(1) saturate(.45) contrast(1.7) brightness(.8);
+  opacity: .22;
+}
+
+.booking-content .section-index { color: var(--atelier-gold); }
+.booking-content h2 {
+  color: var(--atelier-paper-light);
+  font-size: clamp(58px, 8.6vw, 126px);
+}
+
+.booking-content > p:not(.section-index) { color: rgba(240, 230, 209, .66); }
+.booking-email { color: var(--atelier-red); font-family: var(--atelier-typewriter); }
+.booking-email:hover { color: var(--atelier-gold); }
+.booking-links a { font-family: var(--atelier-typewriter); }
+.booking-links a:hover { color: var(--atelier-gold); }
+
+.site-footer {
+  min-height: 125px;
+  padding-block: 24px;
+  color: var(--atelier-paper-light);
+  background: var(--atelier-black);
+  border-top-color: rgba(232, 220, 195, .15);
+}
+
+.site-footer img { filter: invert(1) sepia(.2); }
+.site-footer p { font-family: var(--atelier-typewriter); color: rgba(240, 230, 209, .54); }
+
+.intro-reopen {
+  color: rgba(240, 230, 209, .66);
+  background: rgba(18, 18, 18, .9);
+  border-radius: 0;
+  font-family: var(--atelier-typewriter);
+}
+
+/* ── Responsive composition ──────────────────────────────── */
+@media (max-width: 1100px) {
+  .hero {
+    grid-template-columns: minmax(230px, .88fr) minmax(350px, 1.2fr) minmax(220px, .88fr);
+  }
+
+  .hero-actions { flex-direction: column; width: min(280px, 100%); }
+  .hero-actions .button { width: 100%; }
+  .hero-panther figcaption { display: none; }
+}
+
+@media (max-width: 820px) {
+  .site-header { min-height: 68px; padding: 9px 16px; }
+  .site-mark strong { font-size: 16px; }
+  .public-nav a:nth-child(3) { display: none; }
+
+  .hero {
+    min-height: auto;
+    padding: 90px 18px 0;
+    grid-template-columns: 1.08fr .92fr;
+    grid-template-rows: auto minmax(390px, 58svh);
+  }
+
+  .hero::before { inset: 68px 0 0; }
+
+  .hero-copy {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding: 40px 10px 20px;
+  }
+
+  .hero-title span { font-size: clamp(70px, 16vw, 105px); }
+  .hero-title .hero-title-pista { font-size: clamp(62px, 14vw, 94px); }
+  .hero-tagline { margin-bottom: 18px; }
+  .hero-actions { flex-direction: row; width: 100%; }
+  .hero-actions .button { width: auto; flex: 1; }
+  .hero-meta { margin-top: 20px; }
+
+  .hero-portrait {
+    grid-column: 1;
+    grid-row: 2;
+    margin-right: -15%;
+  }
+
+  .hero-panther {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .hero-panther img { width: min(52vw, 420px); }
+  .hero-panther::before { width: min(48vw, 390px); }
+
+  .artist { grid-template-columns: minmax(190px, 280px) minmax(0, 1fr); gap: 44px; }
+  .artist-copy h2 { font-size: clamp(48px, 8.5vw, 72px); }
+}
+
+@media (max-width: 620px) {
+  .public-nav { gap: 9px; }
+  .public-nav a { font-size: 9px; }
+  .public-nav a:nth-child(2) { display: none; }
+  .public-nav .nav-booking { padding: 8px 10px 6px; }
+
+  .hero {
+    grid-template-rows: auto minmax(330px, 48svh);
+    padding-inline: 10px;
+  }
+
+  .hero-copy { padding: 28px 8px 18px; }
+  .hero-sigil { margin-bottom: 3px; }
+  .hero-kicker { font-size: 8px; letter-spacing: .08em; }
+  .hero-title { margin-top: 9px; }
+  .hero-title span { font-size: clamp(62px, 20vw, 88px); }
+  .hero-title .hero-title-pista { margin-top: 13px; font-size: clamp(56px, 17.5vw, 78px); }
+  .hero-actions { gap: 8px; }
+  .hero-actions .button { min-height: 40px; padding-inline: 8px; font-size: 8px; }
+  .hero-role { display: none; }
+  .hero-meta { margin-top: 14px; }
+  .hero-panther { margin-left: -9%; }
+  .hero-panther img { width: 58vw; }
+
+  .artist {
+    grid-template-columns: 1fr;
+    padding-inline: 22px;
+  }
+
+  .artist-portrait { width: min(74vw, 310px); justify-self: start; }
+  .artist-copy h2 { font-size: clamp(47px, 14vw, 68px); }
+  .artist-facts { grid-template-columns: 1fr; }
+  .artist-facts div + div { padding-left: 0; border-left: 0; border-top: 1px solid rgba(232, 220, 195, .18); }
+
+  .listen-section,
+  .gallery-section { padding-inline: 20px; }
+
+  .listen-heading h2,
+  .gallery-heading h2 { font-size: clamp(52px, 15vw, 75px); }
+
+  .gallery-grid { padding: 10px; }
+
+  .booking-flash { opacity: .55; }
+  .booking-content h2 { font-size: clamp(52px, 16vw, 78px); }
+}
+
+@media (max-width: 390px) {
+  .site-mark span { display: none; }
+  .hero { grid-template-rows: auto 300px; }
+  .hero-title span { font-size: 18.8vw; }
+  .hero-title .hero-title-pista { font-size: 17vw; }
+  .hero-tagline { font-size: 10px; }
+  .hero-actions { flex-direction: column; width: min(270px, 100%); }
+  .hero-actions .button { width: 100%; }
+  .hero-panther { margin-left: -18%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title span:hover { transform: none; }
+}
