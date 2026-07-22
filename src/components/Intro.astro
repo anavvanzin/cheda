@@ -3,9 +3,9 @@
  * CHÊDA — site intro overlay.
  *
  * A single self-contained 18-second film (1280×720) whose wordmark,
- * red/black treatment, portrait and hypnosis are all baked in. We
- * simply present it, uncropped (object-fit:contain) on true black, and
- * dissolve into the landing when it ends. No competing overlay layers.
+ * red/black treatment, portrait and hypnosis are all baked in. First-time
+ * visitors see a concise 9.25-second cut; the persistent reopen control
+ * plays the film in full. It remains uncropped on a true-black stage.
  *
  * Rendered server-side (no client framework, no hydration). Behaviour
  * lives in /scripts/intro.js loaded is:inline as a classic IIFE.
@@ -54,4 +54,4 @@ const posterSrc = `/assets/intro/intro-poster.jpg?v=${assetVersion('assets/intro
 </div>
 
 <!-- Re-open affordance, revealed only after the intro has been dismissed -->
-<button type="button" id="intro-reopen" class="intro-reopen" hidden aria-label="Reabrir a abertura">↺ Abertura</button>
+<button type="button" id="intro-reopen" class="intro-reopen" hidden aria-label="Ver a abertura completa">↺ Abertura</button>

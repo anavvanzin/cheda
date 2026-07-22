@@ -10,7 +10,7 @@ scale, rhythm and VHS language live in `DESIGN_SYSTEM.md`.
 cheda/
 ├── src/
 │   ├── pages/           # Astro routes → static HTML
-│   │   ├── index.astro          # Landing (Ritual → seam → Poster)
+│   │   ├── index.astro          # Landing pública orientada a booking
 │   │   ├── press-kit.astro      # Printable multi-sheet press kit
 │   │   └── print/{ritual,poster,morph}.astro
 │   ├── components/      # Markup fragments ported from the old HTML
@@ -51,22 +51,18 @@ Key routes: `/`, `/press-kit`, `/print/ritual`, `/print/poster`, `/print/morph`.
 
 ## Deploy
 
-GitHub Pages is the only canonical repository deployment target. Pull requests
-to `main` run the static artifact checks; a push to `main` runs
-`.github/workflows/deploy-pages.yml`: `npm ci` → `npm test` → upload `dist/` →
-deploy to Pages.
+GitHub is the source of truth and Vercel is the canonical deployment target.
+The project `cheda` is connected to this repository: pull requests and feature
+branches receive Preview Deployments, while `main` deploys production to
+`https://patriciacheda.com`.
 
-The canonical host is `https://patriciacheda.com`. `public/CNAME` is copied to
-the build artifact and is verified by the workflow. The repository contract
-requires Cloudflare to act only as DNS/proxy in front of GitHub Pages. The
-verified static build contains no Cloudflare Worker runtime or Worker artifacts.
-Vercel (`cheda-six.vercel.app`) is legacy and is not a canonical deployment
-target.
+`.github/workflows/ci.yml` runs `npm test` on pull requests and pushes to
+`main`. It validates the same static `dist/` artifact without publishing a
+second copy through GitHub Pages. Astro remains in static mode; Vercel applies
+the redirects and security headers in `vercel.json`.
 
-Dashboard handoff steps are documented in
-[`docs/deployment-checklist.md`](docs/deployment-checklist.md). They are manual,
-reversible, and are not performed by repository changes; current external DNS,
-proxy, Worker-route, Worker-build, and Vercel states are not presumed here.
+The handoff and rollback checks are documented in
+[`docs/deployment-checklist.md`](docs/deployment-checklist.md).
 
 ---
 

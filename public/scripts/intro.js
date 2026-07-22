@@ -2,6 +2,8 @@
    CHÊDA — intro controller (classic IIFE, is:inline)
 
    The intro is a single baked 18s film. This controller:
+   - Shows a concise 9.25s first-visit cut so booking information is never
+     held behind the full film; the fixed "Abertura" control replays all 18s.
    - Gates it per browser session (sessionStorage) so it never nags on
      internal navigation; a "reopen" affordance clears the gate.
    - Plays muted + playsInline via play() and dissolves into the site
@@ -32,7 +34,9 @@
   var reopenBtn = document.getElementById('intro-reopen');
   var exited = false;
   var endWatchdog = null;
+  var fullPlayback = false;
   var END_EPS = 0.35;      // seconds: treat currentTime within this of end as "ended"
+  var PREVIEW_SECONDS = 9.25;
   var lastOpener = null;   // element to restore focus to on close (reopen path)
   var inerted = [];        // background siblings we marked inert while active
 
@@ -124,8 +128,9 @@
 
   // Bring the intro on screen: used on first visit and on reopen. Never
   // attaches listeners (those are wired once at init).
-  function activateIntro() {
+  function activateIntro(playFull) {
     exited = false;
+    fullPlayback = playFull === true;
     clearWatchdog();
     intro.classList.remove('is-gone', 'is-exiting');
     intro.style.transition = '';
@@ -143,7 +148,7 @@
     if (reopenBtn) reopenBtn.hidden = true;
     hideFallback();
     if (video) { try { video.currentTime = 0; } catch (e) {} }
-    activateIntro();
+    activateIntro(true);
     if (skipBtn) { try { skipBtn.focus(); } catch (e) {} }
   }
 
@@ -230,6 +235,11 @@
         if (!exited && !intro.classList.contains('is-gone')) showFallback();
       });
       video.addEventListener('loadeddata', startPlayback);
+      video.addEventListener('timeupdate', function () {
+        if (!exited && !fullPlayback && video.currentTime >= PREVIEW_SECONDS) {
+          removeIntro(false);
+        }
+      });
       // Keep the watchdog tied to real playback progress: arm/re-arm when the
       // media is actually advancing, and stand down whenever it isn't so a
       // stall or pause can never trip an early dismissal.
@@ -300,6 +310,6 @@
   if (alreadySeen) {
     removeIntro(true);
   } else {
-    activateIntro();
+    activateIntro(false);
   }
 })();

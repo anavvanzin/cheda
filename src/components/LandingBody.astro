@@ -5,152 +5,280 @@ const soundcloudEmbedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComp
 const genreLabel = siteContent.editorial.genres
   .map((genre) => genre.replace(/\b\w/g, (character) => character.toUpperCase()))
   .join(' · ');
-const posterTags = ['DJ', genreLabel, siteContent.location.displayShort].join(' · ');
+const bookingSubject = 'Booking · Chêda';
+const bookingHref = `${siteContent.contact.bookingMailto}?subject=${encodeURIComponent(bookingSubject)}`;
+const whatsappHref = `https://wa.me/${siteContent.contact.whatsappNumber}?text=${encodeURIComponent(siteContent.contact.whatsappMessage)}`;
+
+const gallery = [
+  {
+    src: '/assets/foto-editorial.jpg',
+    alt: `${siteContent.identity.artistName} — retrato editorial em preto e branco`,
+    position: '50% 26%',
+  },
+  {
+    src: '/assets/foto-lattice.jpg',
+    alt: `${siteContent.identity.artistName} — retrato com jaqueta colorida`,
+    position: '50% 34%',
+  },
+  {
+    src: '/assets/foto-steps.jpg',
+    alt: `${siteContent.identity.artistName} — retrato sentada em escadaria`,
+    position: '50% 40%',
+  },
+];
 ---
 
-<!-- Custom cursor layers — hidden on touch/coarse via cursor.css -->
 <div class="cursor-layer cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 <div class="cursor-layer cursor-disc" id="cursor-disc" aria-hidden="true"></div>
-<div class="cursor-layer cursor-dot"  id="cursor-dot"  aria-hidden="true"></div>
+<div class="cursor-layer cursor-dot" id="cursor-dot" aria-hidden="true"></div>
 
-<nav class="switcher" aria-label="Layouts">
-  <a href="/print/ritual">3a</a>
-  <a href="/print/poster">3b</a>
-  <a href="/print/morph">morph</a>
-  <a class="on" href="/" aria-current="page">spread</a>
-</nav>
 <div class="grain" aria-hidden="true"></div>
-
-<!-- Atmospheric silhouette: the artist fades in from the bottom-right as
-     a subtle ambient layer. Fixed, non-interactive, fully contained. -->
 <div class="site-silhouette" aria-hidden="true">
-  <img src="/assets/silhouette-cheda.webp" alt="" width="1080" height="1350"
-       loading="lazy" decoding="async" />
+  <img
+    src="/assets/silhouette-cheda.webp"
+    alt=""
+    width="1080"
+    height="1350"
+    loading="lazy"
+    decoding="async"
+  />
 </div>
 
-<main class="spread">
-  <h1 class="sr-only">{siteContent.site.defaultTitle}</h1>
+<header class="site-header">
+  <a class="site-mark" href="/" aria-current="page" aria-label={`${siteContent.identity.stageName} — início`}>
+    {siteContent.identity.stageName}
+  </a>
+  <nav class="public-nav" aria-label="Navegação principal">
+    <a href="#ouvir">Ouvir</a>
+    <a class="nav-fotos" href="#fotos">Fotos</a>
+    <a class="nav-press-kit" href="/press-kit">Press kit</a>
+    <a class="nav-booking" href="#booking">Booking</a>
+  </nav>
+</header>
 
-  <!-- HERO — heavy hollow wordmark, brutalist caption (the whole first screen) -->
-  <section class="ritual" aria-label={siteContent.identity.stageName}>
-    <div class="r-header will-reveal will-reveal-delay-1">
-      <span class="kicker">[ Digital Press Kit · 2026 ]</span>
+<main class="spread" id="conteudo">
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="hero-kicker will-reveal will-reveal-delay-1">Digital press kit · 2026</p>
+
+    <h1 class="hero-title will-reveal will-reveal-delay-2" id="hero-title">
+      <span>{siteContent.identity.stageName}</span>
+    </h1>
+
+    <div class="hero-meta will-reveal will-reveal-delay-3">
+      <p class="hero-role">{siteContent.identity.rolePt} · {genreLabel}</p>
+      <p class="hero-location">{siteContent.location.displayPt}</p>
     </div>
 
-    <div class="r-title will-reveal will-reveal-delay-2">
-      <span class="r-name">{siteContent.identity.stageName}</span>
+    <div class="hero-actions will-reveal will-reveal-delay-3">
+      <a
+        class="button button-primary booking-whatsapp hero-booking"
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener"
+        aria-label="Consultar disponibilidade pelo WhatsApp"
+      >
+        <span class="whatsapp-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" focusable="false">
+            <path d="M16 3.5A12.5 12.5 0 0 0 5.2 22.3L3.5 28.5l6.4-1.7A12.5 12.5 0 1 0 16 3.5Z"></path>
+            <path d="M11.1 9.7c.3-.7.7-.7 1.1-.7h.8c.2 0 .5.1.6.5l1 2.5c.1.4.1.7-.1 1l-.8 1c-.2.2-.3.5-.1.8.7 1.4 1.7 2.5 3 3.4.4.3.7.3.9 0l1.2-1.4c.3-.3.6-.4 1-.2l2.4 1.1c.4.2.6.4.6.7 0 .5-.2 2.1-1.4 3-.8.6-1.8.9-2.9.7-1.4-.2-3.2-.8-5.4-2.8-2.6-2.3-4.3-5.1-4.5-7.2-.1-1 .2-1.8.6-2.4Z"></path>
+          </svg>
+          <span class="whatsapp-pulse"></span>
+        </span>
+        <span class="booking-label">
+          <span class="booking-label-default">Consultar disponibilidade</span>
+          <span class="booking-label-hover" aria-hidden="true">Conversar no WhatsApp <span aria-hidden="true">→</span></span>
+        </span>
+      </a>
+      <a class="button button-quiet" href="#ouvir">Ouvir agora <span aria-hidden="true">↓</span></a>
     </div>
 
-    <div class="r-sub will-reveal will-reveal-delay-3">
-      <p class="r-flag">// {siteContent.identity.artistName}</p>
-      <p class="r-desc">{siteContent.editorial.tagline}</p>
-    </div>
+    <p class="hero-tagline will-reveal will-reveal-delay-3">{siteContent.editorial.tagline}</p>
   </section>
 
-  <!-- ARTIST — portrait now lives in its own section, below the hero -->
-  <section class="artist" aria-label={siteContent.identity.artistName}>
-    <div class="artist-portrait will-reveal">
-      <img src="/assets/portrait-ritual.jpg"
-           alt={`${siteContent.identity.artistName} — retrato editorial`}
-           width="1080" height="1080" loading="lazy" decoding="async">
-    </div>
+  <section class="artist" aria-labelledby="artist-title">
+    <figure class="artist-portrait will-reveal">
+      <img
+        src="/assets/portrait-ritual.jpg"
+        alt={`${siteContent.identity.artistName} — retrato editorial`}
+        width="1080"
+        height="1080"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption>{siteContent.location.displayShort} · BR</figcaption>
+    </figure>
+
     <div class="artist-copy will-reveal will-reveal-delay-1">
-      <span class="kicker">DJ · {siteContent.location.displayShort}</span>
-      <em class="artist-name">{siteContent.identity.artistName}</em>
-      <p>{siteContent.editorial.officialShortBio}</p>
-      <a class="booking-link" href={`${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`}>booking · {siteContent.contact.bookingEmail}</a>
+      <p class="section-index">01 · Artista</p>
+      <h2 id="artist-title">{siteContent.identity.artistName}</h2>
+      <p class="artist-bio">{siteContent.editorial.officialShortBio}</p>
+
+      <dl class="artist-facts" aria-label="Informações rápidas">
+        <div>
+          <dt>Som</dt>
+          <dd>{genreLabel}</dd>
+        </div>
+        <div>
+          <dt>Base</dt>
+          <dd>{siteContent.location.displayShort}</dd>
+        </div>
+        <div>
+          <dt>Projeto</dt>
+          <dd>Desde 2018</dd>
+        </div>
+      </dl>
+
+      <a class="text-link" href="/press-kit">Ver press kit completo <span aria-hidden="true">↗</span></a>
     </div>
   </section>
 
-  <!-- VHS TRACKING SEAM -->
-  <section class="seam" aria-label="Ritual → Poster tracking transition">
-    <div class="seam-kicker will-reveal">▶ play · vhs · 3a → 3b · tracking</div>
-
+  <section class="seam" aria-label="Transição VHS">
+    <p class="seam-kicker will-reveal">▶ play · vhs · tracking</p>
     <div class="wobble-band wb-1" aria-hidden="true"></div>
     <div class="wobble-band wb-2" aria-hidden="true"></div>
     <div class="wobble-band wb-3" aria-hidden="true"></div>
-
     <div class="dropout d1" aria-hidden="true"></div>
     <div class="dropout d2" aria-hidden="true"></div>
     <div class="dropout d3" aria-hidden="true"></div>
-
     <div class="seam-word will-reveal will-reveal-delay-1" aria-hidden="true">
-      <span class="word" data-word="CHÊDA">CHÊDA</span>
+      <span class="word" data-word={siteContent.identity.stageName}>{siteContent.identity.stageName}</span>
     </div>
-
     <div class="head-hash" aria-hidden="true"></div>
-
-    <div class="seam-kicker bottom will-reveal will-reveal-delay-2">rec · sp · 00:03:42 · tracking</div>
+    <p class="seam-kicker bottom will-reveal will-reveal-delay-2">rec · sp · 00:03:42 · tracking</p>
   </section>
 
-  <!-- 3b POSTER + SOUNDCLOUD SLOT -->
-  <section class="poster" aria-label="3b Poster">
-    <!-- LEFT column: content card + SoundCloud, single flow -->
-    <div class="poster-left">
-      <div class="content-card will-reveal">
-        <div class="poster-logo">
-          {siteContent.identity.stageName}
-          <em class="poster-serif">{siteContent.identity.artistName}</em>
-        </div>
-        <div class="poster-tags">{posterTags}</div>
-        <div class="card-divider"></div>
-        <div class="bio-text">
-          <p>{siteContent.editorial.officialShortBio}</p>
-        </div>
-      </div>
-
-      <div class="sc-slot will-reveal will-reveal-delay-2" id="soundcloud">
-        <div class="sc-meta">
-          <span>SoundCloud · Featured Set</span>
-          <span class="listen">▶ Listen</span>
-        </div>
-        <!-- Decorative live-analysis readout — a warm re-skin of the reference
-             "AUDIO ANALYSIS / LIVE" equalizer. It visualizes nothing real, so the
-             whole band is aria-hidden; the genuine listen affordance stays the
-             untouched "▶ Listen" above and the SoundCloud iframe below. -->
-        <div class="sc-analysis" aria-hidden="true">
-          <div class="wf-cap">
-            <span>Audio Analysis</span>
-            <span class="wf-live"><i class="wf-live-dot"></i>Live</span>
-          </div>
-          <div class="wf">
-            {Array.from({ length: 40 }).map(() => <i class="wf-bar"></i>)}
-          </div>
-        </div>
-        <div class="sc-frame" id="sc-frame">
-          <iframe scrolling="no" frameborder="no" allow="autoplay"
-            title="Chêda — SoundCloud"
-            src={soundcloudEmbedUrl}></iframe>
-        </div>
-      </div>
+  <section class="listen-section" id="ouvir" aria-labelledby="listen-title">
+    <div class="listen-heading will-reveal">
+      <p class="section-index">02 · Escuta</p>
+      <h2 id="listen-title">Ouça<br />CHÊDA</h2>
+      <p>Sets e seleções para conhecer a condução, a pesquisa e a energia de pista da artista.</p>
+      <a class="text-link" href={siteContent.contact.soundcloudUrl} target="_blank" rel="noopener">
+        Abrir no SoundCloud <span aria-hidden="true">↗</span>
+      </a>
     </div>
 
-    <!-- RIGHT column: type wall decoration -->
-    <div class="poster-right">
-      <div class="type-wall will-reveal will-reveal-delay-1" aria-hidden="true">
-        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
-        <div class="tw-row"><span class="tw-word">CHÊDA</span></div>
+    <div class="soundcloud-card will-reveal will-reveal-delay-1">
+      <div class="soundcloud-meta">
+        <span>SoundCloud · Sets recentes</span>
+        <span class="live-indicator"><i aria-hidden="true"></i> Play</span>
+      </div>
+      <div class="waveform" aria-hidden="true">
+        {Array.from({ length: 32 }).map(() => <i></i>)}
+      </div>
+      <div class="soundcloud-frame">
+        <iframe
+          scrolling="no"
+          frameborder="no"
+          allow="autoplay"
+          title={`${siteContent.identity.stageName} — SoundCloud`}
+          src={soundcloudEmbedUrl}
+        ></iframe>
       </div>
     </div>
   </section>
 
+  <section class="gallery-section" id="fotos" aria-labelledby="gallery-title">
+    <div class="gallery-heading will-reveal">
+      <p class="section-index">03 · Cena</p>
+      <h2 id="gallery-title">Presença<br />em cena</h2>
+      <p>Um registro em movimento e retratos selecionados. O material completo está reunido no press kit.</p>
+    </div>
+
+    <div class="gallery-grid">
+      <figure class="ritual-video will-reveal">
+        <video
+          muted
+          loop
+          playsinline
+          controls
+          preload="metadata"
+          poster="/assets/ritual-video-poster.jpg"
+          aria-label={`${siteContent.identity.artistName} tocando em apresentação intimista`}
+        >
+          <source src="/assets/ritual-video.mp4" type="video/mp4" />
+        </video>
+        <figcaption>Ritual · Registro ao vivo</figcaption>
+      </figure>
+      {gallery.map((photo, index) => (
+        <figure class={`gallery-item gallery-item-${index + 1} will-reveal`}>
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            width="1080"
+            height={index === 0 ? 1620 : 1350}
+            loading="lazy"
+            decoding="async"
+            style={`object-position:${photo.position}`}
+          />
+          <figcaption>0{index + 1} · Editorial</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="booking-section" id="booking" aria-labelledby="booking-title">
+    <div class="booking-type" aria-hidden="true">
+      <span>CHÊDA</span><span>CHÊDA</span><span>CHÊDA</span>
+    </div>
+    <div class="booking-flash" aria-hidden="true">
+      <img
+        src="/assets/panther-cutout.webp"
+        alt=""
+        width="1122"
+        height="1402"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="booking-content will-reveal">
+      <p class="section-index">04 · Booking</p>
+      <h2 id="booking-title">Leve esta<br />energia à pista.</h2>
+      <p>Para datas, propostas, line-ups e materiais de divulgação.</p>
+      <div class="booking-contact">
+        <a
+          class="button button-primary booking-whatsapp"
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener"
+          aria-label="Consultar disponibilidade pelo WhatsApp"
+        >
+          <span class="whatsapp-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" focusable="false">
+              <path d="M16 3.5A12.5 12.5 0 0 0 5.2 22.3L3.5 28.5l6.4-1.7A12.5 12.5 0 1 0 16 3.5Z"></path>
+              <path d="M11.1 9.7c.3-.7.7-.7 1.1-.7h.8c.2 0 .5.1.6.5l1 2.5c.1.4.1.7-.1 1l-.8 1c-.2.2-.3.5-.1.8.7 1.4 1.7 2.5 3 3.4.4.3.7.3.9 0l1.2-1.4c.3-.3.6-.4 1-.2l2.4 1.1c.4.2.6.4.6.7 0 .5-.2 2.1-1.4 3-.8.6-1.8.9-2.9.7-1.4-.2-3.2-.8-5.4-2.8-2.6-2.3-4.3-5.1-4.5-7.2-.1-1 .2-1.8.6-2.4Z"></path>
+            </svg>
+            <span class="whatsapp-pulse"></span>
+          </span>
+          <span class="booking-label">
+            <span class="booking-label-default">Consultar disponibilidade</span>
+            <span class="booking-label-hover" aria-hidden="true">Conversar no WhatsApp <span aria-hidden="true">→</span></span>
+          </span>
+        </a>
+        <div class="booking-email-alternative">
+          <span>Ou escreva para</span>
+          <a class="booking-email" href={bookingHref}>{siteContent.contact.bookingEmail}</a>
+        </div>
+      </div>
+      <div class="booking-links">
+        <a href="/press-kit">Press kit <span aria-hidden="true">↗</span></a>
+        <a href={siteContent.contact.instagramUrl} target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
+        <a href={siteContent.contact.soundcloudUrl} target="_blank" rel="noopener">SoundCloud <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
 </main>
 
-<!-- ═══ SITE FOOTER (blackletter signature) ═══ -->
-<footer class="site-footer will-reveal will-reveal-delay-3">
-  <div class="foot-info">
-    <span>Booking · <a href={`${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`}>{siteContent.contact.bookingEmail}</a></span>
-    <span>Instagram · <a href={siteContent.contact.instagramUrl} target="_blank" rel="noopener">{siteContent.contact.instagramHandle}</a></span>
-    <a class="sr-only sr-only-focusable" href={siteContent.contact.soundcloudUrl}>SoundCloud · {siteContent.identity.artistName}</a>
-    <span>{siteContent.location.displayPt} · 2026</span>
-  </div>
-  <div class="foot-signature">
-    <img src="/assets/logo-patricia-blackletter-black.png"
-         alt={siteContent.identity.artistName}
-         width="993" height="224">
-  </div>
+<footer class="site-footer">
+  <img
+    src="/assets/logo-patricia-blackletter-black.png"
+    alt={siteContent.identity.artistName}
+    width="993"
+    height="224"
+    loading="lazy"
+    decoding="async"
+  />
+  <p>{siteContent.location.displayPt} · 2026</p>
+  <a class="sr-only sr-only-focusable" href={siteContent.contact.soundcloudUrl}>
+    SoundCloud · {siteContent.identity.artistName}
+  </a>
 </footer>
