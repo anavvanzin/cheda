@@ -5,6 +5,11 @@
    signature; the navigation and calls-to-action now speak to bookers.
    ============================================================ */
 
+:root {
+  --landing-editorial-font: 'IM Fell English SC', 'Cormorant Garamond', serif;
+  --landing-technical-font: 'Special Elite', 'Space Mono', monospace;
+}
+
 html,
 body {
   margin: 0;
@@ -103,7 +108,7 @@ body {
 }
 
 .public-nav a {
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: .12em;
@@ -138,7 +143,7 @@ body {
 .section-index,
 .hero-kicker {
   margin: 0;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: .22em;
@@ -153,7 +158,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: .1em;
@@ -257,7 +262,7 @@ body {
 .hero-meta p { margin: 0; }
 
 .hero-role {
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: clamp(11px, 1.1vw, 14px);
   font-weight: 700;
   letter-spacing: .1em;
@@ -267,7 +272,7 @@ body {
 
 .hero-location {
   margin-top: 7px !important;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 10px;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -285,9 +290,10 @@ body {
   grid-column: 1 / -1;
   margin: 20px 0 0;
   text-align: right;
-  font-family: var(--serif-font);
+  font-family: var(--landing-technical-font);
   font-size: clamp(18px, 2vw, 27px);
-  font-style: italic;
+  font-style: normal;
+  letter-spacing: .04em;
   color: var(--soft);
 }
 
@@ -327,7 +333,7 @@ body {
 .artist-portrait figcaption,
 .gallery-item figcaption {
   margin-top: 10px;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 9px;
   letter-spacing: .16em;
   text-transform: uppercase;
@@ -339,12 +345,13 @@ body {
 .gallery-heading h2,
 .booking-content h2 {
   margin: 14px 0 24px;
-  font-family: var(--serif-font);
-  font-weight: 500;
-  font-style: italic;
+  font-family: var(--landing-editorial-font);
+  font-weight: 400;
+  font-style: normal;
   font-size: clamp(48px, 7vw, 94px);
   line-height: .87;
   letter-spacing: -.045em;
+  text-transform: uppercase;
   color: var(--paper);
 }
 
@@ -370,7 +377,7 @@ body {
 
 .artist-facts dt {
   margin-bottom: 7px;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .16em;
@@ -517,9 +524,9 @@ body {
 
 .seam-word .word {
   position: relative;
-  font-family: var(--wordmark-font);
+  font-family: var(--landing-editorial-font);
   font-size: clamp(70px, 14vw, 180px);
-  font-weight: 900;
+  font-weight: 400;
   letter-spacing: -.03em;
   line-height: 1;
   color: var(--paper);
@@ -555,7 +562,7 @@ body {
   z-index: 7;
   margin: 0;
   text-align: center;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .42em;
@@ -602,7 +609,7 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 14px;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .16em;
@@ -773,9 +780,9 @@ body {
 }
 
 .booking-type span {
-  font-family: var(--wordmark-font);
+  font-family: var(--landing-editorial-font);
   font-size: clamp(80px, 13vw, 190px);
-  font-weight: 900;
+  font-weight: 400;
   line-height: .82;
   letter-spacing: -.07em;
   color: transparent;
@@ -791,9 +798,29 @@ body {
   width: clamp(360px, 39vw, 650px);
   pointer-events: none;
   transform: rotate(4deg);
+  isolation: isolate;
+}
+
+.booking-flash::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 8%;
+  z-index: 0;
+  width: 78%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(199, 154, 75, .72);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(199, 154, 75, .06) 0 61%, transparent 61.5%);
+  box-shadow:
+    0 0 0 18px rgba(199, 154, 75, .045),
+    0 0 0 19px rgba(181, 34, 26, .14),
+    0 0 0 48px rgba(199, 154, 75, .022);
 }
 
 .booking-flash img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   filter: contrast(1.05) saturate(.98);
   mix-blend-mode: multiply;
@@ -813,7 +840,7 @@ body {
 .booking-email {
   display: inline-block;
   max-width: 100%;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: clamp(14px, 2vw, 25px);
   font-weight: 700;
   letter-spacing: .02em;
@@ -825,7 +852,7 @@ body {
 .booking-email:hover { color: #8e1913; }
 
 .booking-links { margin-top: 42px; display: flex; flex-wrap: wrap; gap: 14px 28px; }
-.booking-links a { font-family: var(--mono-font); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.booking-links a { font-family: var(--landing-technical-font); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .booking-links a:hover { color: var(--blood); }
 
 .site-footer {
@@ -843,7 +870,9 @@ body {
 }
 
 .site-footer img { width: clamp(190px, 25vw, 340px); }
-.site-footer p { margin: 0; font-family: var(--mono-font); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+.site-footer p { margin: 0; font-family: var(--landing-technical-font); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+
+.intro-reopen { font-family: var(--landing-technical-font); }
 
 /* ── Reveal motion ────────────────────────────────────────── */
 .will-reveal {
