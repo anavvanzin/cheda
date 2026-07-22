@@ -5,7 +5,8 @@ const soundcloudEmbedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComp
 const genreLabel = siteContent.editorial.genres
   .map((genre) => genre.replace(/\b\w/g, (character) => character.toUpperCase()))
   .join(' · ');
-const bookingHref = `${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`;
+const bookingSubject = 'Booking · Chêda';
+const bookingHref = `${siteContent.contact.bookingMailto}?subject=${encodeURIComponent(bookingSubject)}`;
 const whatsappHref = `https://wa.me/${siteContent.contact.whatsappNumber}?text=${encodeURIComponent(siteContent.contact.whatsappMessage)}`;
 
 const gallery = [
@@ -49,8 +50,8 @@ const gallery = [
   </a>
   <nav class="public-nav" aria-label="Navegação principal">
     <a href="#ouvir">Ouvir</a>
-    <a href="#fotos">Fotos</a>
-    <a href="/press-kit">Press kit</a>
+    <a class="nav-fotos" href="#fotos">Fotos</a>
+    <a class="nav-press-kit" href="/press-kit">Press kit</a>
     <a class="nav-booking" href="#booking">Booking</a>
   </nav>
 </header>
