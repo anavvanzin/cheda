@@ -6,6 +6,7 @@ const genreLabel = siteContent.editorial.genres
   .map((genre) => genre.replace(/\b\w/g, (character) => character.toUpperCase()))
   .join(' · ');
 const bookingHref = `${siteContent.contact.bookingMailto}?subject=Booking%20·%20Chêda`;
+const whatsappHref = `https://wa.me/${siteContent.contact.whatsappNumber}?text=${encodeURIComponent(siteContent.contact.whatsappMessage)}`;
 
 const gallery = [
   {
@@ -68,7 +69,25 @@ const gallery = [
     </div>
 
     <div class="hero-actions will-reveal will-reveal-delay-3">
-      <a class="button button-primary" href={bookingHref}>Consultar disponibilidade</a>
+      <a
+        class="button button-primary booking-whatsapp hero-booking"
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener"
+        aria-label="Consultar disponibilidade pelo WhatsApp"
+      >
+        <span class="whatsapp-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" focusable="false">
+            <path d="M16 3.5A12.5 12.5 0 0 0 5.2 22.3L3.5 28.5l6.4-1.7A12.5 12.5 0 1 0 16 3.5Z"></path>
+            <path d="M11.1 9.7c.3-.7.7-.7 1.1-.7h.8c.2 0 .5.1.6.5l1 2.5c.1.4.1.7-.1 1l-.8 1c-.2.2-.3.5-.1.8.7 1.4 1.7 2.5 3 3.4.4.3.7.3.9 0l1.2-1.4c.3-.3.6-.4 1-.2l2.4 1.1c.4.2.6.4.6.7 0 .5-.2 2.1-1.4 3-.8.6-1.8.9-2.9.7-1.4-.2-3.2-.8-5.4-2.8-2.6-2.3-4.3-5.1-4.5-7.2-.1-1 .2-1.8.6-2.4Z"></path>
+          </svg>
+          <span class="whatsapp-pulse"></span>
+        </span>
+        <span class="booking-label">
+          <span class="booking-label-default">Consultar disponibilidade</span>
+          <span class="booking-label-hover" aria-hidden="true">Conversar no WhatsApp <span aria-hidden="true">→</span></span>
+        </span>
+      </a>
       <a class="button button-quiet" href="#ouvir">Ouvir agora <span aria-hidden="true">↓</span></a>
     </div>
 
@@ -214,7 +233,31 @@ const gallery = [
       <p class="section-index">04 · Booking</p>
       <h2 id="booking-title">Leve esta<br />energia à pista.</h2>
       <p>Para datas, propostas, line-ups e materiais de divulgação.</p>
-      <a class="booking-email" href={bookingHref}>{siteContent.contact.bookingEmail}</a>
+      <div class="booking-contact">
+        <a
+          class="button button-primary booking-whatsapp"
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener"
+          aria-label="Consultar disponibilidade pelo WhatsApp"
+        >
+          <span class="whatsapp-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" focusable="false">
+              <path d="M16 3.5A12.5 12.5 0 0 0 5.2 22.3L3.5 28.5l6.4-1.7A12.5 12.5 0 1 0 16 3.5Z"></path>
+              <path d="M11.1 9.7c.3-.7.7-.7 1.1-.7h.8c.2 0 .5.1.6.5l1 2.5c.1.4.1.7-.1 1l-.8 1c-.2.2-.3.5-.1.8.7 1.4 1.7 2.5 3 3.4.4.3.7.3.9 0l1.2-1.4c.3-.3.6-.4 1-.2l2.4 1.1c.4.2.6.4.6.7 0 .5-.2 2.1-1.4 3-.8.6-1.8.9-2.9.7-1.4-.2-3.2-.8-5.4-2.8-2.6-2.3-4.3-5.1-4.5-7.2-.1-1 .2-1.8.6-2.4Z"></path>
+            </svg>
+            <span class="whatsapp-pulse"></span>
+          </span>
+          <span class="booking-label">
+            <span class="booking-label-default">Consultar disponibilidade</span>
+            <span class="booking-label-hover" aria-hidden="true">Conversar no WhatsApp <span aria-hidden="true">→</span></span>
+          </span>
+        </a>
+        <div class="booking-email-alternative">
+          <span>Ou escreva para</span>
+          <a class="booking-email" href={bookingHref}>{siteContent.contact.bookingEmail}</a>
+        </div>
+      </div>
       <div class="booking-links">
         <a href="/press-kit">Press kit <span aria-hidden="true">↗</span></a>
         <a href={siteContent.contact.instagramUrl} target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
