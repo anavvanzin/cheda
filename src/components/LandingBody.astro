@@ -110,7 +110,17 @@ const gallery = [
 
     <div class="artist-copy will-reveal will-reveal-delay-1">
       <p class="section-index">01 · Artista</p>
-      <h2 id="artist-title">{siteContent.identity.artistName}</h2>
+      <h2 class="artist-name-lockup" id="artist-title">
+        <span class="sr-only">{siteContent.identity.artistName}</span>
+        <img
+          src="/assets/logo-patricia-blackletter-cream.png"
+          alt=""
+          width="993"
+          height="224"
+          loading="lazy"
+          decoding="async"
+        />
+      </h2>
       <p class="artist-bio">{siteContent.editorial.officialShortBio}</p>
 
       <dl class="artist-facts" aria-label="Informações rápidas">

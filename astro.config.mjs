@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 
-// Canonical host is the Vercel project `cheda`, connected to the GitHub
-// repository. The site remains a pure static build, so no SSR adapter is
-// required: Vercel serves `dist/` and applies redirects/headers from
-// vercel.json while Astro keeps the canonical metadata on the custom domain.
+// Canonical host is the Cloudflare Worker `cheda`, connected to the GitHub
+// repository. The site remains a pure static build, so no SSR adapter or
+// Worker entrypoint is required. Cloudflare serves `dist/`; `_redirects` and
+// `_headers` in `public/` own the edge routing and security contract.
 export default defineConfig({
   site: 'https://patriciacheda.com',
   output: 'static',
@@ -14,8 +14,8 @@ export default defineConfig({
     format: 'file',
   },
 
-  // Keeps a static redirect artifact for portable previews and non-Vercel
-  // hosting. Vercel also enforces this route through vercel.json.
+  // Keeps the Astro redirect page portable. Cloudflare also enforces this
+  // route through the static asset `_redirects` file.
   redirects: {
     '/print/spread': '/',
   },
