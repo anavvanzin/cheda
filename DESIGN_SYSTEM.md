@@ -25,8 +25,8 @@ House Music e Techno, com pesquisa contínua e presença magnética de pista.
 
 **Deploy**:
 - Repo: `github.com/anavvanzin/cheda` (público)
-- Deploy canônico: projeto **`cheda` no Vercel**, conectado à branch `main`
-- Pull requests/branches: Vercel Preview Deployment; `main`: Production Deployment
+- Deploy canônico: **Cloudflare Worker `cheda`**, conectado à branch `main`
+- Pull requests/branches: Worker preview; `main`: deploy ativo de produção
 - Domínio canônico: **`https://patriciacheda.com`**
 - GitHub Actions (`.github/workflows/ci.yml`) valida o build, mas não publica uma segunda produção
 
@@ -175,7 +175,9 @@ cheda/
 │   ├── print.css            ← Skin dos A4
 │   └── press-kit.css        ← Press kit multi-folha
 ├── public/assets/           ← Portraits, logos, favicon/PWA
-├── vercel.json              ← redirects e headers do deploy canônico
+├── wrangler.jsonc           ← Worker Static Assets do deploy canônico
+├── public/_{headers,redirects} ← contrato de edge do Cloudflare
+├── vercel.json              ← desativa deploys Git legados
 ├── .github/workflows/ci.yml ← validação de build/teste (sem deploy)
 └── DESIGN_SYSTEM.md         ← este arquivo
 ```
@@ -318,10 +320,10 @@ Sempre rodar QA visual em **desktop 1440×900** e **mobile 390×844** antes de d
 npm ci
 npm test
 # Após revisão e merge/push em main:
-# Vercel Git integration → Production Deployment
+# Cloudflare Workers Git integration → Active Deployment
 ```
 
-GitHub é a fonte do código; o projeto Vercel `cheda` é o destino canônico. Pull requests e branches recebem previews; `main` publica produção em `patriciacheda.com`. `.github/workflows/ci.yml` executa `npm test` sem deploy concorrente. Redirects e headers de produção vivem em `vercel.json`; `astro.config.mjs` mantém o artefato estático portátil.
+GitHub é a fonte do código; o Worker Cloudflare `cheda` é o destino canônico. Pull requests e branches recebem previews; `main` publica produção em `patriciacheda.com`. `.github/workflows/ci.yml` executa `npm test` sem deploy concorrente. Redirects e headers de produção vivem em `public/_redirects` e `public/_headers`; `vercel.json` desativa deploys Git do projeto legado.
 
 Consultar [`docs/deployment-checklist.md`](docs/deployment-checklist.md) para revisão do preview, promoção e rollback.
 
@@ -329,7 +331,7 @@ Consultar [`docs/deployment-checklist.md`](docs/deployment-checklist.md) para re
 
 ### Regra do `index.html` regenerado a partir de `print/spread.html`
 
-**Descontinuado.** A landing agora é canonicamente `index.html` na raiz. Não existe mais fonte `print/spread.astro`; o redirect é configurado em `astro.config.mjs` e `vercel.json`. Se um agente futuro tentar recriar a página, **não fazer**: quebra o redirect e duplica conteúdo.
+**Descontinuado.** A landing agora é canonicamente `index.html` na raiz. Não existe mais fonte `print/spread.astro`; o redirect é configurado em `astro.config.mjs` e `public/_redirects`. Se um agente futuro tentar recriar a página, **não fazer**: quebra o redirect e duplica conteúdo.
 
 ---
 
@@ -337,7 +339,7 @@ Consultar [`docs/deployment-checklist.md`](docs/deployment-checklist.md) para re
 
 Quando a usuária voltar, esses são os fios soltos:
 
-- **Domínios alternativos** — ela mencionou `cheda.press` ou `cheda.fm` mas não confirmou. O canônico atual é `patriciacheda.com` no Vercel.
+- **Domínios alternativos** — ela mencionou `cheda.press` ou `cheda.fm` mas não confirmou. O canônico atual é `patriciacheda.com` no Worker Cloudflare `cheda`.
 - **Set list real** — placeholders foram removidos. Aguardando títulos/durações/links reais de mixes específicos pra reintroduzir a estrutura `.sets-row` + `.sets-list` (CSS já existe no `print.css`).
 - **Foto adicional** — usuária mencionou upload `photos-1784006617332.jpg` que nunca chegou; se aparecer, provavelmente é candidata a hero portrait.
 - **Instagram embed opcional** — se a usuária quiser mostrar feed dela ao lado do SoundCloud, dá pra plugar um Instagram basic display embed no mesmo padrão do `.sc-slot`.
@@ -349,7 +351,7 @@ Quando a usuária voltar, esses são os fios soltos:
 
 Se você é uma sessão AI nova entrando neste projeto, cole este bloco no início:
 
-> Estou desenvolvendo o site da DJ **Patrícia Chêda** (nome completo, com Ê — nunca CHDX). Repo `github.com/anavvanzin/cheda`, deploy canônico no projeto Vercel `cheda`, domínio `patriciacheda.com`.
+> Estou desenvolvendo o site da DJ **Patrícia Chêda** (nome completo, com Ê — nunca CHDX). Repo `github.com/anavvanzin/cheda`, deploy canônico no Worker Cloudflare `cheda`, domínio `patriciacheda.com`.
 >
 > **Antes de qualquer edição**:
 > 1. Ler `DESIGN_SYSTEM.md` (este arquivo) — contém tokens, arquitetura, regras de linguagem e o registro completo do "VHS Tracking Seam" que é a peça mais idiossincrática.
@@ -372,6 +374,13 @@ Se você é uma sessão AI nova entrando neste projeto, cole este bloco no iníc
 ---
 
 ## Changelog
+
+### 23 jul 2026 — Cloudflare Worker canônico
+
+- O Worker `cheda` passou a ser o deploy canônico do artefato Astro estático.
+- Previews vêm da integração Git do Cloudflare; `main` promove produção.
+- Redirects e headers migraram para `_redirects` e `_headers`.
+- Deploys Git automáticos da Vercel foram desativados.
 
 ### 21 jul 2026 — Landing pública e Vercel canônico
 
@@ -453,6 +462,6 @@ Mudanças substantivas do dia, em ordem cronológica:
 8. **DESIGN_SYSTEM.md criado** — este documento, agora atualizado.
 
 **Anti-padrões catalogados neste ciclo**:
-- Em previews protegidos, usar o acesso autenticado do Vercel para QA; produção em `patriciacheda.com` deve permanecer pública
+- Em previews do Worker, confirmar `X-Robots-Tag: noindex`; produção em `patriciacheda.com` deve permanecer pública
 - Alpha channel invertido em PNG (branco opaco onde deveria ser transparente) — verificar contagem `alpha=0 vs alpha=255` após qualquer conversão
 - Placeholder "profissional-parecendo" (setlists com durações plausíveis) é pior que placeholder óbvio, porque parece verdade e passa pela revisão sem questionamento

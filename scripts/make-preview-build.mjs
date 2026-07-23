@@ -8,7 +8,7 @@
  * preview host that mounts the build under a protected sub-path).
  *
  * This does NOT touch `dist/` and does NOT change `astro build`, so the normal
- * Vercel production build (served from the domain root) is unaffected.
+ * Cloudflare production build (served from the domain root) is unaffected.
  *
  * What it rewrites, per HTML/CSS/JS/webmanifest file, based on that file's
  * depth relative to the output root:

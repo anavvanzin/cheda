@@ -51,15 +51,25 @@ Key routes: `/`, `/press-kit`, `/print/ritual`, `/print/poster`, `/print/morph`.
 
 ## Deploy
 
-GitHub is the source of truth and Vercel is the canonical deployment target.
-The project `cheda` is connected to this repository: pull requests and feature
-branches receive Preview Deployments, while `main` deploys production to
-`https://patriciacheda.com`.
+GitHub is the source of truth and the Cloudflare Worker `cheda` is the
+canonical deployment target. Its Git integration builds the static `dist/`
+artifact: pull requests and feature branches receive Worker preview URLs,
+while `main` deploys production to `https://patriciacheda.com`.
+
+Cloudflare Git Build settings:
+
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Root directory: `/`
 
 `.github/workflows/ci.yml` runs `npm test` on pull requests and pushes to
-`main`. It validates the same static `dist/` artifact without publishing a
-second copy through GitHub Pages. Astro remains in static mode; Vercel applies
-the redirects and security headers in `vercel.json`.
+`main`. It validates the same static artifact without publishing a second
+production. Astro remains in static mode; `wrangler.jsonc` owns the Worker
+assets configuration, and `public/_redirects` plus `public/_headers` preserve
+the public routing and security contract.
+
+Automatic Vercel Git deployments are disabled in `vercel.json`; the legacy
+project remains available only as rollback history during the cutover.
 
 The handoff and rollback checks are documented in
 [`docs/deployment-checklist.md`](docs/deployment-checklist.md).

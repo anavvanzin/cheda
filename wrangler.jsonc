@@ -1,13 +1,12 @@
 {
-  // Static-assets-only Cloudflare deployment for the "Workers Builds: cheda"
-  // GitHub integration. This uploads the SAME pure-static dist/ that GitHub
-  // Pages serves — there is intentionally NO `main` entrypoint, so no Worker
-  // script / SSR bundle is generated. GitHub Pages remains the canonical host;
-  // Cloudflare is DNS/CDN and (via this config) a static mirror only.
+  // Canonical static deployment for the Cloudflare Worker `cheda`.
+  // The Git integration builds Astro's pure-static `dist/`: feature branches
+  // receive version previews and `main` is promoted to production.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cheda",
   "compatibility_date": "2026-07-15",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash"
   }
 }

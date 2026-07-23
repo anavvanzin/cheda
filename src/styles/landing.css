@@ -5,6 +5,11 @@
    signature; the navigation and calls-to-action now speak to bookers.
    ============================================================ */
 
+:root {
+  --landing-sans-font: 'Montserrat', 'Helvetica Neue', sans-serif;
+  --landing-technical-font: 'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
+}
+
 html,
 body {
   margin: 0;
@@ -14,7 +19,7 @@ body {
 }
 
 body {
-  font-family: var(--body-font);
+  font-family: var(--landing-sans-font);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -88,9 +93,9 @@ body {
 
 .site-mark {
   flex: 0 0 auto;
-  font-family: var(--wordmark-font);
+  font-family: var(--landing-sans-font);
   font-size: 15px;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: .06em;
   color: transparent;
   -webkit-text-stroke: 1px var(--paper);
@@ -103,7 +108,7 @@ body {
 }
 
 .public-nav a {
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: .12em;
@@ -138,7 +143,7 @@ body {
 .section-index,
 .hero-kicker {
   margin: 0;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: .22em;
@@ -153,7 +158,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: .1em;
@@ -173,6 +178,81 @@ body {
 }
 
 .button-primary:hover { background: #ca2a20; }
+
+.booking-whatsapp {
+  position: relative;
+  overflow: visible;
+  min-width: 276px;
+  box-shadow: 0 8px 30px rgba(181, 34, 26, .2);
+}
+
+.whatsapp-mark {
+  position: relative;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  color: var(--paper);
+}
+
+.whatsapp-mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.whatsapp-mark svg path:first-child {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.whatsapp-mark svg path:last-child { fill: currentColor; }
+
+.whatsapp-pulse {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--blood);
+  border-radius: 50%;
+  background: #25d366;
+  box-shadow: 0 0 0 0 rgba(37, 211, 102, .62);
+  animation: whatsapp-pulse 2.2s ease-out infinite;
+}
+
+@keyframes whatsapp-pulse {
+  0%, 42% { box-shadow: 0 0 0 0 rgba(37, 211, 102, .62); }
+  72%, 100% { box-shadow: 0 0 0 8px rgba(37, 211, 102, 0); }
+}
+
+.booking-label {
+  display: grid;
+  align-items: center;
+}
+
+.booking-label > span {
+  grid-area: 1 / 1;
+  transition: opacity .22s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.booking-label-hover {
+  opacity: 0;
+  transform: translateY(5px);
+}
+
+.booking-whatsapp:is(:hover, :focus-visible) .booking-label-default {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.booking-whatsapp:is(:hover, :focus-visible) .booking-label-hover {
+  opacity: 1;
+  transform: none;
+}
 
 .button-quiet {
   color: var(--cream);
@@ -202,6 +282,7 @@ body {
 /* ── Hero ─────────────────────────────────────────────────── */
 .hero {
   position: relative;
+  min-height: 100vh;
   min-height: 100svh;
   padding: clamp(104px, 15vh, 156px) clamp(20px, 5vw, 72px) clamp(76px, 10vh, 112px);
   display: grid;
@@ -235,8 +316,8 @@ body {
 .hero-title span {
   display: inline-block;
   white-space: nowrap;
-  font-family: var(--wordmark-font);
-  font-weight: 900;
+  font-family: var(--landing-sans-font);
+  font-weight: 600;
   font-size: clamp(3.7rem, 17vw, 14rem);
   line-height: .82;
   letter-spacing: -.055em;
@@ -257,7 +338,7 @@ body {
 .hero-meta p { margin: 0; }
 
 .hero-role {
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: clamp(11px, 1.1vw, 14px);
   font-weight: 700;
   letter-spacing: .1em;
@@ -267,7 +348,7 @@ body {
 
 .hero-location {
   margin-top: 7px !important;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 10px;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -285,9 +366,10 @@ body {
   grid-column: 1 / -1;
   margin: 20px 0 0;
   text-align: right;
-  font-family: var(--serif-font);
+  font-family: var(--landing-technical-font);
   font-size: clamp(18px, 2vw, 27px);
-  font-style: italic;
+  font-style: normal;
+  letter-spacing: .04em;
   color: var(--soft);
 }
 
@@ -327,25 +409,35 @@ body {
 .artist-portrait figcaption,
 .gallery-item figcaption {
   margin-top: 10px;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 9px;
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--mute);
 }
 
-.artist-copy h2,
 .listen-heading h2,
 .gallery-heading h2,
 .booking-content h2 {
   margin: 14px 0 24px;
-  font-family: var(--serif-font);
+  font-family: var(--landing-sans-font);
   font-weight: 500;
-  font-style: italic;
+  font-style: normal;
   font-size: clamp(48px, 7vw, 94px);
-  line-height: .87;
-  letter-spacing: -.045em;
+  line-height: .92;
+  letter-spacing: -.055em;
+  text-transform: uppercase;
   color: var(--paper);
+}
+
+.artist-name-lockup {
+  width: min(100%, 580px);
+  margin: 20px 0 30px;
+}
+
+.artist-name-lockup img {
+  width: 100%;
+  height: auto;
 }
 
 .artist-bio {
@@ -370,7 +462,7 @@ body {
 
 .artist-facts dt {
   margin-bottom: 7px;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .16em;
@@ -517,10 +609,10 @@ body {
 
 .seam-word .word {
   position: relative;
-  font-family: var(--wordmark-font);
+  font-family: var(--landing-sans-font);
   font-size: clamp(70px, 14vw, 180px);
-  font-weight: 900;
-  letter-spacing: -.03em;
+  font-weight: 600;
+  letter-spacing: -.055em;
   line-height: 1;
   color: var(--paper);
 }
@@ -555,7 +647,7 @@ body {
   z-index: 7;
   margin: 0;
   text-align: center;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .42em;
@@ -602,7 +694,7 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 14px;
-  font-family: var(--mono-font);
+  font-family: var(--landing-technical-font);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .16em;
@@ -747,6 +839,7 @@ body {
 .booking-section {
   position: relative;
   z-index: 2;
+  min-height: 78vh;
   min-height: 78svh;
   padding: clamp(88px, 13vw, 180px) clamp(22px, 7vw, 104px);
   display: flex;
@@ -773,9 +866,9 @@ body {
 }
 
 .booking-type span {
-  font-family: var(--wordmark-font);
+  font-family: var(--landing-sans-font);
   font-size: clamp(80px, 13vw, 190px);
-  font-weight: 900;
+  font-weight: 600;
   line-height: .82;
   letter-spacing: -.07em;
   color: transparent;
@@ -791,9 +884,29 @@ body {
   width: clamp(360px, 39vw, 650px);
   pointer-events: none;
   transform: rotate(4deg);
+  isolation: isolate;
+}
+
+.booking-flash::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 8%;
+  z-index: 0;
+  width: 78%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(199, 154, 75, .72);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(199, 154, 75, .06) 0 61%, transparent 61.5%);
+  box-shadow:
+    0 0 0 18px rgba(199, 154, 75, .045),
+    0 0 0 19px rgba(181, 34, 26, .14),
+    0 0 0 48px rgba(199, 154, 75, .022);
 }
 
 .booking-flash img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   filter: contrast(1.05) saturate(.98);
   mix-blend-mode: multiply;
@@ -810,11 +923,32 @@ body {
   color: #4a423a;
 }
 
+.booking-contact {
+  margin-top: 34px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 24px;
+}
+
+.booking-email-alternative {
+  display: grid;
+  gap: 5px;
+}
+
+.booking-email-alternative > span {
+  font-family: var(--landing-technical-font);
+  font-size: 9px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: rgba(14, 11, 10, .52);
+}
+
 .booking-email {
   display: inline-block;
   max-width: 100%;
-  font-family: var(--mono-font);
-  font-size: clamp(14px, 2vw, 25px);
+  font-family: var(--landing-technical-font);
+  font-size: clamp(12px, 1.4vw, 18px);
   font-weight: 700;
   letter-spacing: .02em;
   overflow-wrap: anywhere;
@@ -825,7 +959,7 @@ body {
 .booking-email:hover { color: #8e1913; }
 
 .booking-links { margin-top: 42px; display: flex; flex-wrap: wrap; gap: 14px 28px; }
-.booking-links a { font-family: var(--mono-font); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.booking-links a { font-family: var(--landing-technical-font); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .booking-links a:hover { color: var(--blood); }
 
 .site-footer {
@@ -843,7 +977,9 @@ body {
 }
 
 .site-footer img { width: clamp(190px, 25vw, 340px); }
-.site-footer p { margin: 0; font-family: var(--mono-font); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+.site-footer p { margin: 0; font-family: var(--landing-technical-font); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+
+.intro-reopen { font-family: var(--landing-technical-font); }
 
 /* ── Reveal motion ────────────────────────────────────────── */
 .will-reveal {
@@ -891,12 +1027,13 @@ body {
   .site-mark { font-size: 13px; }
   .public-nav { gap: 10px; }
   .public-nav a { font-size: 10px; letter-spacing: .07em; }
-  .public-nav a:nth-child(2) { display: none; }
+  .public-nav .nav-fotos { display: none; }
   .public-nav .nav-booking { min-height: 38px; padding: 8px 11px; display: inline-flex; align-items: center; }
 
   .site-silhouette { width: min(90vw, 520px); right: -18vw; opacity: .38; }
 
   .hero {
+    min-height: 100vh;
     min-height: 100svh;
     padding: 92px 20px 72px;
     align-content: center;
@@ -906,6 +1043,9 @@ body {
   .hero-title span { font-size: clamp(3.2rem, 19vw, 7rem); -webkit-text-stroke-width: 1.2px; }
   .hero-actions { width: 100%; flex-direction: column; }
   .hero-actions .button { width: 100%; }
+  .booking-whatsapp { min-width: 0; }
+  .booking-label-hover { display: none; }
+  .booking-whatsapp:is(:hover, :focus-visible) .booking-label-default { opacity: 1; transform: none; }
 
   .artist { grid-template-columns: 1fr; padding-left: 24px; padding-right: 24px; }
   .artist-portrait { width: min(86vw, 420px); }
@@ -953,7 +1093,12 @@ body {
     aspect-ratio: 4 / 5;
   }
 
-  .booking-section { min-height: 70svh; padding-left: 22px; padding-right: 22px; }
+  .booking-section {
+    min-height: 70vh;
+    min-height: 70svh;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
   .booking-type { width: 90%; right: -30%; }
   .booking-flash {
     right: -32vw;
@@ -963,13 +1108,15 @@ body {
     transform: rotate(7deg);
   }
   .booking-content h2 { font-size: clamp(52px, 17vw, 82px); }
+  .booking-contact { align-items: stretch; }
+  .booking-contact .booking-whatsapp { width: 100%; }
   .booking-links { flex-direction: column; align-items: flex-start; }
 
   .site-footer { min-height: 150px; flex-direction: column; align-items: flex-start; justify-content: center; }
 }
 
 @media (max-width: 390px) {
-  .public-nav a:nth-child(3) { display: none; }
+  .public-nav .nav-press-kit { display: none; }
   .hero-title span { font-size: 17.5vw; }
   .hero-role { letter-spacing: .055em; }
   .artist-facts { grid-template-columns: 1fr; }
@@ -993,7 +1140,8 @@ body {
   .dropout,
   .seam-word,
   .live-indicator i,
-  .waveform i { animation: none !important; }
+  .waveform i,
+  .whatsapp-pulse { animation: none !important; }
 
   .waveform i:nth-child(3n) { transform: scaleY(.65); }
   .waveform i:nth-child(4n) { transform: scaleY(.35); }
@@ -1001,6 +1149,7 @@ body {
 
   .hero-title span,
   .button,
+  .booking-label > span,
   .gallery-item img { transition: none !important; }
 
   .hero-title span:hover,

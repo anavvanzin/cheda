@@ -18,6 +18,12 @@ export const siteContent = {
   contact: {
     bookingEmail: 'booking@patriciacheda.com',
     bookingMailto: 'mailto:booking@patriciacheda.com',
+    whatsappNumber: '5548992157396',
+    whatsappMessage:
+      'Olá, Patrícia! Gostaria de consultar sua disponibilidade para um evento.\n\n' +
+      'Data: ___\n' +
+      'Cidade: ___\n' +
+      'Tipo de evento: ___',
     instagramHandle: '@patriciacheda_',
     instagramUrl: 'https://www.instagram.com/patriciacheda_/',
     soundcloudUrl: 'https://soundcloud.com/patriciacheda',
