@@ -56,6 +56,12 @@ canonical deployment target. Its Git integration builds the static `dist/`
 artifact: pull requests and feature branches receive Worker preview URLs,
 while `main` deploys production to `https://patriciacheda.com`.
 
+Cloudflare Git Build settings:
+
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Root directory: `/`
+
 `.github/workflows/ci.yml` runs `npm test` on pull requests and pushes to
 `main`. It validates the same static artifact without publishing a second
 production. Astro remains in static mode; `wrangler.jsonc` owns the Worker

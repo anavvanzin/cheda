@@ -27,13 +27,17 @@ test('disables automatic Vercel Git deployments after the Cloudflare cutover', a
 });
 
 test('documents Cloudflare Workers as the single canonical deployment', async () => {
+  const readme = await readFile('README.md', 'utf8');
   const files = await Promise.all([
-    readFile('README.md', 'utf8'),
+    Promise.resolve(readme),
     readFile('AGENTS.md', 'utf8'),
     readFile('docs/deployment-checklist.md', 'utf8'),
     readFile('astro.config.mjs', 'utf8'),
     readFile('.github/workflows/ci.yml', 'utf8'),
   ]);
+
+  assert.match(readme, /Build command:\s*`npm run build`/);
+  assert.match(readme, /Deploy command:\s*`npx wrangler deploy`/);
 
   for (const contents of files) {
     assert.match(contents, /Cloudflare/i);

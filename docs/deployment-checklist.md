@@ -9,6 +9,8 @@ canonical deployment target for `patriciacheda.com`.
   Cloudflare Worker preview.
 - Pushes to `main` run the same static checks and trigger the active Worker
   production deployment.
+- Cloudflare Git Build uses `npm run build`, then `npx wrangler deploy`, from
+  the repository root.
 - `npm test` builds `dist/`, verifies every public route, metadata, media
   budget, accessibility landmark and script mirror.
 - `wrangler.jsonc` publishes `dist/` as Worker Static Assets.
