@@ -2,11 +2,24 @@
   // Canonical static deployment for the Cloudflare Worker `cheda`.
   // The Git integration builds Astro's pure-static `dist/`: feature branches
   // receive version previews and `main` is promoted to production.
+  //
+  // Custom Domains attach the apex (and www) so production traffic hits this
+  // Worker instead of the legacy GitHub Pages origin.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cheda",
   "compatibility_date": "2026-07-15",
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "patriciacheda.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.patriciacheda.com",
+      "custom_domain": true
+    }
+  ]
 }

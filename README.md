@@ -54,7 +54,8 @@ Key routes: `/`, `/press-kit`, `/print/ritual`, `/print/poster`, `/print/morph`.
 GitHub is the source of truth and the Cloudflare Worker `cheda` is the
 canonical deployment target. Its Git integration builds the static `dist/`
 artifact: pull requests and feature branches receive Worker preview URLs,
-while `main` deploys production to `https://patriciacheda.com`.
+while `main` deploys production to `https://patriciacheda.com` via Worker
+Custom Domains on the apex and `www`.
 
 Cloudflare Git Build settings:
 

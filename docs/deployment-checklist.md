@@ -35,9 +35,19 @@ canonical deployment target for `patriciacheda.com`.
 ## Production and rollback
 
 - [ ] Merge only after preview approval and green CI.
+- [ ] Confirm `wrangler.jsonc` lists Worker Custom Domains for
+  `patriciacheda.com` and `www.patriciacheda.com` (`custom_domain: true`).
 - [ ] Confirm the resulting Worker deployment is active on
-  `patriciacheda.com`, with `www` redirected to the apex.
-- [ ] Confirm the apex no longer resolves to the legacy GitHub Pages origin.
+  `patriciacheda.com` (response has Worker cache headers, no
+  `x-github-request-id` / Fastly `x-served-by`).
+- [ ] Confirm the home page shows the contractor-first CHÊDA hero and the
+  WhatsApp “Consultar disponibilidade” CTA — not the legacy hollow-wordmark
+  ritual layout.
+- [ ] Confirm `www.patriciacheda.com` also serves the Worker. Prefer a
+  Cloudflare Redirect Rule from `www` → apex once both hostnames work.
+- [ ] In GitHub → Settings → Pages, remove the custom domain
+  `patriciacheda.com` (and disable Pages if unused) so it cannot reclaim the
+  apex.
 - [ ] If production regresses, use Cloudflare Workers rollback to restore the
   previous active version, then fix forward through a new branch.
 - [ ] Keep automatic Vercel Git deployments disabled and remove its domain

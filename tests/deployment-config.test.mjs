@@ -14,6 +14,10 @@ test('deploys the static Astro artifact through the Cloudflare Worker', async ()
   assert.equal(config.name, 'cheda');
   assert.equal(config.assets.directory, './dist');
   assert.equal(config.assets.html_handling, 'auto-trailing-slash');
+  assert.deepEqual(config.routes, [
+    { pattern: 'patriciacheda.com', custom_domain: true },
+    { pattern: 'www.patriciacheda.com', custom_domain: true },
+  ]);
   assert.match(headers, /X-Content-Type-Options:\s*nosniff/);
   assert.match(headers, /Referrer-Policy:\s*strict-origin-when-cross-origin/);
   assert.match(redirects, /\/press-kit\.html\s+\/press-kit\s+301/);
