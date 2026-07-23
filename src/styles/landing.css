@@ -6,8 +6,8 @@
    ============================================================ */
 
 :root {
-  --landing-editorial-font: 'IM Fell English SC', 'Cormorant Garamond', serif;
-  --landing-technical-font: 'Special Elite', 'Space Mono', monospace;
+  --landing-sans-font: 'Montserrat', 'Helvetica Neue', sans-serif;
+  --landing-technical-font: 'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
 }
 
 html,
@@ -19,7 +19,7 @@ body {
 }
 
 body {
-  font-family: var(--body-font);
+  font-family: var(--landing-sans-font);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -93,9 +93,9 @@ body {
 
 .site-mark {
   flex: 0 0 auto;
-  font-family: var(--wordmark-font);
+  font-family: var(--landing-sans-font);
   font-size: 15px;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: .06em;
   color: transparent;
   -webkit-text-stroke: 1px var(--paper);
@@ -316,8 +316,8 @@ body {
 .hero-title span {
   display: inline-block;
   white-space: nowrap;
-  font-family: var(--wordmark-font);
-  font-weight: 900;
+  font-family: var(--landing-sans-font);
+  font-weight: 600;
   font-size: clamp(3.7rem, 17vw, 14rem);
   line-height: .82;
   letter-spacing: -.055em;
@@ -416,19 +416,28 @@ body {
   color: var(--mute);
 }
 
-.artist-copy h2,
 .listen-heading h2,
 .gallery-heading h2,
 .booking-content h2 {
   margin: 14px 0 24px;
-  font-family: var(--landing-editorial-font);
-  font-weight: 400;
+  font-family: var(--landing-sans-font);
+  font-weight: 500;
   font-style: normal;
   font-size: clamp(48px, 7vw, 94px);
-  line-height: .87;
-  letter-spacing: -.045em;
+  line-height: .92;
+  letter-spacing: -.055em;
   text-transform: uppercase;
   color: var(--paper);
+}
+
+.artist-name-lockup {
+  width: min(100%, 580px);
+  margin: 20px 0 30px;
+}
+
+.artist-name-lockup img {
+  width: 100%;
+  height: auto;
 }
 
 .artist-bio {
@@ -600,10 +609,10 @@ body {
 
 .seam-word .word {
   position: relative;
-  font-family: var(--landing-editorial-font);
+  font-family: var(--landing-sans-font);
   font-size: clamp(70px, 14vw, 180px);
-  font-weight: 400;
-  letter-spacing: -.03em;
+  font-weight: 600;
+  letter-spacing: -.055em;
   line-height: 1;
   color: var(--paper);
 }
@@ -857,9 +866,9 @@ body {
 }
 
 .booking-type span {
-  font-family: var(--landing-editorial-font);
+  font-family: var(--landing-sans-font);
   font-size: clamp(80px, 13vw, 190px);
-  font-weight: 400;
+  font-weight: 600;
   line-height: .82;
   letter-spacing: -.07em;
   color: transparent;

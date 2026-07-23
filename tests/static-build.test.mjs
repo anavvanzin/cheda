@@ -14,7 +14,6 @@ const requiredPages = [
 const forbiddenWorkerArtifacts = [
   'dist/_worker.js',
   'dist/_routes.json',
-  'dist/_redirects',
 ];
 
 const introAssetBudgets = new Map([
@@ -93,7 +92,8 @@ test('renders approved production metadata and public identity', async () => {
   assert.match(home, /https:\/\/www\.instagram\.com\/patriciacheda_\//);
   assert.match(home, /https:\/\/soundcloud\.com\/patriciacheda/);
   assert.match(home, /\/assets\/logo-patricia-blackletter-black\.png/);
-  assert.doesNotMatch(home, /logo-[^"']*-cream\.png/);
+  assert.match(home, /\/assets\/logo-patricia-blackletter-cream\.png/);
+  assert.doesNotMatch(home, /logo-patricia-blackletter-white\.png/);
 
   assert.match(pressKit, /<title>CHÊDA · Patrícia Chêda · Press Kit A4<\/title>/);
   assert.match(pressKit, /name="description"\s+content="Press kit A4 — CHÊDA \/ Patrícia Chêda/);

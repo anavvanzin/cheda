@@ -29,4 +29,4 @@ npm run build        # writes static HTML to dist/
 - Client scripts are copied to `public/scripts/` and loaded with `is:inline` so they stay classic IIFEs (orbit captions, custom cursor, print helpers).
 - Legacy root `index.html` / `print/*.html` were removed after the Astro migration — do not recreate them at the repo root.
 - External integrations degrade gracefully: Google Fonts CDN, SoundCloud iframe, Instagram link.
-- Deploy path: GitHub repository → Vercel Git integration. Pull requests and feature branches receive Preview Deployments; `main` deploys production to `https://patriciacheda.com` through the Vercel project `cheda`. `.github/workflows/ci.yml` validates the static artifact but does not deploy. Keep Astro in static mode; no `@astrojs/vercel` adapter is needed.
+- Deploy path: GitHub repository → Cloudflare Workers Git integration. Pull requests and feature branches receive Worker previews; `main` deploys production to `https://patriciacheda.com` through the Worker `cheda`. `.github/workflows/ci.yml` validates the static artifact but does not deploy. Keep Astro in static mode; no SSR adapter or Worker entrypoint is needed.

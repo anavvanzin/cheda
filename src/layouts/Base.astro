@@ -9,6 +9,7 @@ interface Props {
   ogImageWidth?: number;
   ogImageHeight?: number;
   withCursor?: boolean;
+  fontProfile?: 'landing' | 'press-kit';
 }
 const {
   title = siteContent.site.defaultTitle,
@@ -18,7 +19,11 @@ const {
   ogImageWidth = siteContent.site.ogImageWidth,
   ogImageHeight = siteContent.site.ogImageHeight,
   withCursor = false,
+  fontProfile = 'landing',
 } = Astro.props;
+const landingFontHref = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap';
+const pressKitFontHref = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap';
+const fontHref = fontProfile === 'press-kit' ? pressKitFontHref : landingFontHref;
 const productionBase = Astro.site ?? new URL(siteContent.site.canonicalUrl);
 const publicPathname = Astro.url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
 const canonicalUrl = new URL(publicPathname, productionBase);
@@ -57,7 +62,7 @@ const socialImageUrl = new URL(ogImage, productionBase);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Special+Elite&family=Montserrat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&family=Unbounded:wght@700;900&family=Space+Mono:wght@400;700&display=swap"
+      href={fontHref}
       rel="stylesheet"
     />
 
