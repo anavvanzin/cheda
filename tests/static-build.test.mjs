@@ -51,8 +51,12 @@ function attributeValue(html, selectorPattern, attribute) {
   return element?.match(new RegExp(`\\b${attribute}=["']([^"']*)["']`, 'i'))?.[1];
 }
 
-test('writes the canonical custom domain to dist/CNAME', async () => {
-  assert.equal(await readFile('dist/CNAME', 'utf8'), 'patriciacheda.com');
+test('does not ship a GitHub Pages CNAME in the Worker artifact', async () => {
+  await assert.rejects(
+    lstat('dist/CNAME'),
+    { code: 'ENOENT' },
+    'dist/CNAME should not exist — the apex is a Worker Custom Domain',
+  );
 });
 
 test('emits every required static HTML page', async () => {
