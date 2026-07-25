@@ -30,6 +30,10 @@ test('disables automatic Vercel Git deployments after the Cloudflare cutover', a
   assert.equal(config.git?.deploymentEnabled, false);
 });
 
+test('keeps accidental GitHub Pages Jekyll builds disabled for Astro sources', async () => {
+  assert.equal(await readFile('.nojekyll', 'utf8'), '');
+});
+
 test('documents Cloudflare Workers as the single canonical deployment', async () => {
   const readme = await readFile('README.md', 'utf8');
   const files = await Promise.all([
