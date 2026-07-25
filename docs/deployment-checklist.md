@@ -52,3 +52,24 @@ canonical deployment target for `patriciacheda.com`.
   previous active version, then fix forward through a new branch.
 - [ ] Keep automatic Vercel Git deployments disabled and remove its domain
   assignment after the Cloudflare cutover is confirmed.
+
+## Live host regression
+
+`.github/workflows/uptime.yml` runs `scripts/check-live-host.mjs` every 30
+minutes against the live hosts and fails if the apex or `www` is served by the
+legacy GitHub Pages (Fastly) origin instead of the Worker. Run it on demand
+with `node scripts/check-live-host.mjs`.
+
+When it fails, a hostname has fallen back to GitHub Pages — typically the apex
+answering `Site not found · GitHub Pages` (HTTP 404). Fix it in Cloudflare:
+
+- [ ] DNS → Records: delete any stale proxied record for the failing hostname
+  that points at GitHub Pages (`*.github.io` or the GitHub Pages IPs). A
+  leftover apex record blocks the Worker Custom Domain from provisioning.
+- [ ] Workers & Pages → `cheda` → Settings → Domains & Routes: confirm the
+  hostname is an **Active** Custom Domain. Re-add it if it is missing or stuck
+  once the conflicting DNS record is gone.
+- [ ] Re-run the monitor (or `curl -I https://patriciacheda.com/`) and confirm
+  `server: cloudflare` with no `x-github-request-id` / Fastly `x-served-by`.
+- [ ] GitHub → Settings → Pages: ensure `patriciacheda.com` is not set as a
+  Pages custom domain so it cannot reclaim the apex.
