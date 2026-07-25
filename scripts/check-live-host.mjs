@@ -90,7 +90,10 @@ async function probe(host) {
       break;
     }
   } catch (error) {
-    return { host, url, ok: false, reasons: [`request failed: ${error.message}`], chain };
+    // Keep whatever the completed hops already proved — a Fastly header found
+    // on hop 1 is still the useful diagnosis when hop 2 times out.
+    reasons.push(`${current} — request failed: ${error.message}`);
+    return { host, url, ok: false, reasons, chain };
   } finally {
     clearTimeout(timer);
   }
