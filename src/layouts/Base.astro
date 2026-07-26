@@ -1,5 +1,7 @@
 ---
 import { siteContent } from '../data/site';
+import MaintenanceNotice from '../components/MaintenanceNotice.astro';
+import { MAINTENANCE_MODE, maintenanceNotice } from '../../maintenance.config.mjs';
 
 interface Props {
   title?: string;
@@ -20,7 +22,12 @@ const {
   ogImageHeight = siteContent.site.ogImageHeight,
   withCursor = false,
   fontProfile = 'landing',
-} = Astro.props;
+  // Offline, every route renders the same notice, so the page props are
+  // dropped: no page-specific title, description or social image reaches the
+  // published document. Everything else falls back to the defaults above.
+} = MAINTENANCE_MODE
+  ? { title: maintenanceNotice.documentTitle, description: maintenanceNotice.description }
+  : Astro.props;
 const landingFontHref = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap';
 const pressKitFontHref = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap';
 const fontHref = fontProfile === 'press-kit' ? pressKitFontHref : landingFontHref;
@@ -36,6 +43,7 @@ const socialImageUrl = new URL(ogImage, productionBase);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {MAINTENANCE_MODE && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
 
     <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
@@ -66,9 +74,9 @@ const socialImageUrl = new URL(ogImage, productionBase);
       rel="stylesheet"
     />
 
-    <slot name="head" />
+    {!MAINTENANCE_MODE && <slot name="head" />}
   </head>
   <body>
-    <slot />
+    {MAINTENANCE_MODE ? <MaintenanceNotice /> : <slot />}
   </body>
 </html>

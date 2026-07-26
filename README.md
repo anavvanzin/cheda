@@ -75,6 +75,33 @@ project remains available only as rollback history during the cutover.
 The handoff and rollback checks are documented in
 [`docs/deployment-checklist.md`](docs/deployment-checklist.md).
 
+## Taking the site offline
+
+`maintenance.config.mjs` holds a single switch:
+
+```js
+export const MAINTENANCE_MODE = true;   // site is down
+export const MAINTENANCE_MODE = false;  // site is published
+```
+
+While it is `true`, `Base.astro` and `Print.astro` drop the page content and
+every route (`/`, `/press-kit`, `/print/*`) serves the same `noindex`
+maintenance notice. No bio, booking contact, social link, portrait, JSON-LD
+or client script reaches the published HTML.
+
+Nothing is deleted: the full site source stays in `src/`. To bring the site
+back, flip the switch to `false`, run `npm test` and merge to `main` — the
+Worker redeploys the complete press kit from that commit.
+
+`npm test` covers both states. `tests/maintenance.test.mjs` asserts the
+offline artifact, and the published-content contracts in
+`tests/static-build.test.mjs` skip while the site is down; when the switch is
+`false` the two swap over.
+
+Note that files under `public/` (portraits, favicons, `/scripts/*.js`) are
+still served at their direct URLs while the site is offline. They are not
+linked from the notice, but they are not withdrawn either.
+
 ---
 
 © 2026 CHÊDA / Patrícia Chêda — Florianópolis, SC

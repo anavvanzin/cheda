@@ -1,0 +1,67 @@
+---
+// The only body content published while `MAINTENANCE_MODE` is on. It is
+// intentionally self-contained: it never imports `tokens.css` or the site
+// data module, so it renders identically on every route — landing, press kit
+// and the three print sheets — without pulling any page content into `dist/`.
+import { maintenanceNotice } from '../../maintenance.config.mjs';
+---
+<main class="offline">
+  <p class="offline__eyebrow">{maintenanceNotice.eyebrow}</p>
+  <h1 class="offline__heading">{maintenanceNotice.heading}</h1>
+  <p class="offline__body">{maintenanceNotice.body}</p>
+</main>
+
+<style>
+  .offline {
+    /* Literal values instead of the design tokens: this notice must not
+       depend on a stylesheet that only the landing page imports. */
+    background: #0e0b0a;
+    color: #f2ead9;
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  .offline__eyebrow {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.42em;
+    text-indent: 0.42em;
+    color: #b5221a;
+  }
+
+  .offline__heading {
+    margin: 0;
+    font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.25rem);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  .offline__body {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: #e9e0ce;
+    opacity: 0.72;
+  }
+</style>
+
+<style is:global>
+  /* The layouts render nothing else, so the notice owns the document
+     background rather than inheriting the landing page's. */
+  html,
+  body {
+    margin: 0;
+    background: #0e0b0a;
+  }
+</style>
