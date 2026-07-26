@@ -2,6 +2,16 @@ import assert from 'node:assert/strict';
 import { lstat, readFile, stat } from 'node:fs/promises';
 import test from 'node:test';
 
+import { MAINTENANCE_MODE } from '../maintenance.config.mjs';
+
+// Contracts about published page *content*. While the site is offline every
+// route serves the maintenance notice instead, and `maintenance.test.mjs`
+// owns the artifact contract. The deployment, routing and asset contracts
+// below stay active in both states.
+const publishedOnly = {
+  skip: MAINTENANCE_MODE ? 'site is offline (MAINTENANCE_MODE)' : false,
+};
+
 const requiredPages = [
   'dist/index.html',
   'dist/press-kit.html',
@@ -84,7 +94,7 @@ test('keeps the cinematic intro inside its web delivery budget', async () => {
   }
 });
 
-test('renders approved production metadata and public identity', async () => {
+test('renders approved production metadata and public identity', publishedOnly, async () => {
   const home = await readFile('dist/index.html', 'utf8');
   const pressKit = await readFile('dist/press-kit.html', 'utf8');
 
@@ -116,7 +126,7 @@ test('renders approved production metadata and public identity', async () => {
   }
 });
 
-test('renders valid approved JSON-LD in the press kit', async () => {
+test('renders valid approved JSON-LD in the press kit', publishedOnly, async () => {
   const html = await readFile('dist/press-kit.html', 'utf8');
   const rawJson = html.match(/<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
   assert.ok(rawJson, 'press kit must render JSON-LD');
@@ -144,7 +154,7 @@ test('public HTML excludes deployment leaks, placeholders, and the legacy host',
   }
 });
 
-test('every real page has one main landmark, one h1, and accessible media', async () => {
+test('every real page has one main landmark, one h1, and accessible media', publishedOnly, async () => {
   for (const [page, { canonical, activeHref }] of realPages) {
     const html = await readFile(page, 'utf8');
     const renderedHtml = html.replace(/<!--[\s\S]*?-->/g, '');
@@ -180,7 +190,7 @@ test('print pages expose canonical only, without social metadata', async () => {
   }
 });
 
-test('landing footer sits outside main', async () => {
+test('landing footer sits outside main', publishedOnly, async () => {
   const html = await readFile('dist/index.html', 'utf8');
   const mainEnd = html.indexOf('</main>');
   const footerStart = html.indexOf('<footer');
@@ -188,7 +198,7 @@ test('landing footer sits outside main', async () => {
   assert.ok(mainEnd > -1 && footerStart > mainEnd, 'landing footer must follow the closed main');
 });
 
-test('hidden focusable content has a visible focus recovery utility', async () => {
+test('hidden focusable content has a visible focus recovery utility', publishedOnly, async () => {
   const html = await readFile('dist/index.html', 'utf8');
   const tokens = await readFile('src/styles/tokens.css', 'utf8');
 
@@ -202,7 +212,7 @@ test('hidden focusable content has a visible focus recovery utility', async () =
   assert.match(tokens, /\.sr-only-focusable:focus\s*,\s*\.sr-only-focusable:active\s*\{/);
 });
 
-test('morph state controls are real buttons with synchronized pressed state', async () => {
+test('morph state controls are real buttons with synchronized pressed state', publishedOnly, async () => {
   const html = await readFile('dist/print/morph.html', 'utf8');
   const sourceScript = await readFile('src/scripts/print-morph.js', 'utf8');
 

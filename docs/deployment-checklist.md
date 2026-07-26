@@ -53,6 +53,29 @@ canonical deployment target for `patriciacheda.com`.
 - [ ] Keep automatic Vercel Git deployments disabled and remove its domain
   assignment after the Cloudflare cutover is confirmed.
 
+## Maintenance mode
+
+`maintenance.config.mjs` takes `patriciacheda.com` offline from the
+repository, without touching Cloudflare, DNS or the Custom Domains. The
+Worker keeps serving the apex and `www` — it just serves a notice.
+
+Take the site down:
+
+- [ ] Set `MAINTENANCE_MODE = true` in `maintenance.config.mjs`.
+- [ ] Run `npm test` — the offline contract in `tests/maintenance.test.mjs`
+  must pass, and it fails if any bio, booking contact, social link, portrait,
+  JSON-LD or client script survives into `dist/`.
+- [ ] Merge to `main` and confirm `https://patriciacheda.com/`,
+  `/press-kit` and the three `/print/*` routes all serve the notice.
+- [ ] Remember that `public/` assets stay reachable at their direct URLs.
+  Move them out of `public/` if the takedown has to cover them too.
+
+Bring the site back:
+
+- [ ] Set `MAINTENANCE_MODE = false`, run `npm test`, merge to `main`.
+- [ ] Walk the **Preview review** list above — the full press kit is live
+  again and every published-content contract is active.
+
 ## Live host regression
 
 `.github/workflows/uptime.yml` runs `scripts/check-live-host.mjs` every 30

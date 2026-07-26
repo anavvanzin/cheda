@@ -1,8 +1,14 @@
 ---
+import MaintenanceNotice from '../components/MaintenanceNotice.astro';
+import { MAINTENANCE_MODE, maintenanceNotice } from '../../maintenance.config.mjs';
+
 interface Props {
   title: string;
 }
-const { title } = Astro.props;
+// Offline, the print sheets serve the same notice as every other route.
+const { title } = MAINTENANCE_MODE
+  ? { title: maintenanceNotice.documentTitle }
+  : Astro.props;
 import '../styles/print.css';
 const publicPathname = Astro.url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
 const canonicalUrl = new URL(publicPathname, Astro.site ?? Astro.url.origin);
@@ -13,6 +19,7 @@ const canonicalUrl = new URL(publicPathname, Astro.site ?? Astro.url.origin);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    {MAINTENANCE_MODE && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/icon-32.png" />
@@ -26,6 +33,6 @@ const canonicalUrl = new URL(publicPathname, Astro.site ?? Astro.url.origin);
     />
   </head>
   <body>
-    <slot />
+    {MAINTENANCE_MODE ? <MaintenanceNotice /> : <slot />}
   </body>
 </html>
