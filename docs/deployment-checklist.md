@@ -61,7 +61,7 @@ Worker keeps serving the apex and `www` — it just serves a notice.
 
 Take the site down:
 
-- [ ] Set `MAINTENANCE_MODE = true` in `maintenance.config.mjs`.
+- [ ] Set `OFFLINE = true` in `maintenance.config.mjs`.
 - [ ] Run `npm test` — the offline contract in `tests/maintenance.test.mjs`
   must pass, and it fails if any bio, booking contact, social link, portrait,
   JSON-LD or client script survives into `dist/`.
@@ -70,9 +70,18 @@ Take the site down:
 - [ ] Remember that `public/` assets stay reachable at their direct URLs.
   Move them out of `public/` if the takedown has to cover them too.
 
+Keep working while it is down:
+
+- [ ] `npm run dev` serves the full site, not the notice.
+- [ ] `npm run test:online` runs the published-content contracts that
+  `npm test` skips during the takedown. CI runs both on every pull request.
+- [ ] `SITE_ONLINE` only reveals the site locally. `npm run build` — the
+  command Cloudflare runs — ignores it, so production stays offline.
+
 Bring the site back:
 
-- [ ] Set `MAINTENANCE_MODE = false`, run `npm test`, merge to `main`.
+- [ ] Set `OFFLINE = false` in `maintenance.config.mjs`, run `npm test`,
+  merge to `main`.
 - [ ] Walk the **Preview review** list above — the full press kit is live
   again and every published-content contract is active.
 

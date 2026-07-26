@@ -80,8 +80,8 @@ The handoff and rollback checks are documented in
 `maintenance.config.mjs` holds a single switch:
 
 ```js
-export const MAINTENANCE_MODE = true;   // site is down
-export const MAINTENANCE_MODE = false;  // site is published
+const OFFLINE = true;   // site is down
+const OFFLINE = false;  // site is published
 ```
 
 While it is `true`, `Base.astro` and `Print.astro` drop the page content and
@@ -93,10 +93,26 @@ Nothing is deleted: the full site source stays in `src/`. To bring the site
 back, flip the switch to `false`, run `npm test` and merge to `main` — the
 Worker redeploys the complete press kit from that commit.
 
-`npm test` covers both states. `tests/maintenance.test.mjs` asserts the
-offline artifact, and the published-content contracts in
-`tests/static-build.test.mjs` skip while the site is down; when the switch is
-`false` the two swap over.
+### Developing while the site is offline
+
+`SITE_ONLINE=1` builds the site as it will be republished, so the press kit
+stays developable during the takedown. It only reveals the site locally —
+nothing in the deploy path sets it:
+
+```bash
+npm run dev           # full site, not the notice
+npm run build:online  # full site into dist/, e.g. to preview it
+npm test              # offline contract — what actually deploys
+npm run test:online   # the site as published — full content contracts
+```
+
+`.github/workflows/ci.yml` runs both, so the landing and press-kit contracts
+stay enforced while production serves the notice. `npm run build` is always
+the deployable artifact and never reads `SITE_ONLINE`.
+
+`tests/maintenance.test.mjs` asserts the offline artifact, and the
+published-content contracts in `tests/static-build.test.mjs` skip while the
+site is down; `npm run test:online` swaps the two over.
 
 Note that files under `public/` (portraits, favicons, `/scripts/*.js`) are
 still served at their direct URLs while the site is offline. They are not
