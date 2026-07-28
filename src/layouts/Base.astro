@@ -1,6 +1,11 @@
 ---
 import { siteContent } from '../data/site';
 import MaintenanceNotice from '../components/MaintenanceNotice.astro';
+// The offline-only `robots` meta rides on the same source line as the tag
+// before it, and the notice carries `is:inline` styles. Both keep the
+// published head byte-identical to the pre-maintenance markup while the site
+// is online — a standalone expression or a scoped style block would leave a
+// blank line and dead CSS on every page.
 import { MAINTENANCE_MODE, maintenanceNotice } from '../../maintenance.config.mjs';
 
 interface Props {
@@ -42,8 +47,7 @@ const socialImageUrl = new URL(ogImage, productionBase);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={description} />
-    {MAINTENANCE_MODE && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="description" content={description} />{MAINTENANCE_MODE && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
 
     <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />

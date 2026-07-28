@@ -11,7 +11,14 @@
 //
 // To bring the site back: flip this to `false`, run `npm test`, and merge to
 // `main`. The Cloudflare Worker `cheda` redeploys from that commit.
-export const MAINTENANCE_MODE = true;
+const OFFLINE = false;
+
+// `SITE_ONLINE=1` builds the full site even while it is offline in
+// production, so the press kit stays developable and testable during the
+// takedown. `npm run dev`, `npm run preview` and `npm run test:online` set
+// it; nothing in the deploy path does. It can only reveal the site locally —
+// once `OFFLINE` is `false` the site is simply published.
+export const MAINTENANCE_MODE = OFFLINE && process.env.SITE_ONLINE !== '1';
 
 // Copy for the offline notice. Deliberately minimal — no booking contact,
 // no social links, no portraits.
