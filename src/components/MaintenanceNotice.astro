@@ -11,7 +11,12 @@ import { maintenanceNotice } from '../../maintenance.config.mjs';
   <p class="offline__body">{maintenanceNotice.body}</p>
 </main>
 
-<style>
+<!-- `is:inline` keeps these styles in the template instead of Astro's CSS
+     bundle. A scoped `<style>` block is hoisted at build time even when the
+     component never renders, so it would ship dead bytes on every published
+     page for as long as the site is online. Inline, the notice costs nothing
+     unless it is actually on the page. -->
+<style is:inline>
   .offline {
     /* Literal values instead of the design tokens: this notice must not
        depend on a stylesheet that only the landing page imports. */
@@ -56,7 +61,7 @@ import { maintenanceNotice } from '../../maintenance.config.mjs';
   }
 </style>
 
-<style is:global>
+<style is:inline>
   /* The layouts render nothing else, so the notice owns the document
      background rather than inheriting the landing page's. */
   html,

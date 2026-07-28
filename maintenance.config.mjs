@@ -11,7 +11,7 @@
 //
 // To bring the site back: flip this to `false`, run `npm test`, and merge to
 // `main`. The Cloudflare Worker `cheda` redeploys from that commit.
-const OFFLINE = true;
+const OFFLINE = false;
 
 // `SITE_ONLINE=1` builds the full site even while it is offline in
 // production, so the press kit stays developable and testable during the
