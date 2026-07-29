@@ -87,10 +87,14 @@ Bring the site back:
 
 ## Live host regression
 
-`.github/workflows/uptime.yml` runs `scripts/check-live-host.mjs` every 30
-minutes against the live hosts and fails if the apex or `www` is served by the
-legacy GitHub Pages (Fastly) origin instead of the Worker. Run it on demand
-with `node scripts/check-live-host.mjs`.
+`scripts/check-live-host.mjs` probes the live hosts and fails if the apex or
+`www` is served by the legacy GitHub Pages (Fastly) origin instead of the
+Worker. Run it on demand with `node scripts/check-live-host.mjs`.
+
+To run it automatically every 30 minutes, copy the workflow template into place
+once — `cp docs/uptime-workflow.yml .github/workflows/uptime.yml`, then commit.
+It is shipped under `docs/` because GitHub rejects workflow writes from a
+credential without the `workflow` scope.
 
 When it fails, a hostname has fallen back to GitHub Pages — typically the apex
 answering `Site not found · GitHub Pages` (HTTP 404). Fix it in Cloudflare:

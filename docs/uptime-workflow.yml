@@ -1,0 +1,47 @@
+# Template for `.github/workflows/uptime.yml` — NOT active at this path.
+#
+# GitHub Actions only runs workflows stored in `.github/workflows/`. This file
+# is a verbatim copy kept under `docs/` because the automation credential that
+# authored it lacks the `workflow` OAuth scope and cannot write to
+# `.github/workflows/`. To activate the scheduled monitor, copy it into place:
+#
+#   cp docs/uptime-workflow.yml .github/workflows/uptime.yml
+#   git add .github/workflows/uptime.yml && git commit && git push
+#
+# Until then the probe still runs on demand:
+#
+#   node scripts/check-live-host.mjs
+#
+# --- copy from here -----------------------------------------------------------
+
+name: Live host monitor
+
+# Guards against the apex/www falling back to the legacy GitHub Pages origin.
+# Runs on a schedule (and on demand) against the live production hosts — this is
+# a runtime health check, not a build gate, so it lives outside ci.yml / npm test.
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "uptime"
+  cancel-in-progress: true
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Probe production hosts
+        run: node scripts/check-live-host.mjs patriciacheda.com www.patriciacheda.com
